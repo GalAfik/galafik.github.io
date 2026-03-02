@@ -1,1 +1,0 @@
-# galafik.github.io
