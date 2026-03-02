@@ -3,20 +3,3772 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hello World</title>
+    <title>Gal Afik &mdash; Game Developer &amp; Software Engineer</title>
+    <meta
+      name="description"
+      content="Gal Afik is a Senior Software Engineer and game developer based in Cary, NC with 8+ years of experience in Unity, Unreal Engine, VR/XR, Java, C++, C#, and full-stack web development."
+    />
+    <meta
+      name="keywords"
+      content="Gal Afik, game developer, Unity, Unreal Engine, VR, software engineer, C++, C#, Java, Mythos Interactive, North Carolina"
+    />
+    <meta name="author" content="Gal Afik" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://galafik.com" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Gal Afik &mdash; Game Developer &amp; Software Engineer"
+    />
+    <meta
+      property="og:description"
+      content="8+ years shipping games and software. Founder of Mythos Interactive. Unity Certified Professional. Steam, VR, full-stack &mdash; all in one portfolio."
+    />
+    <meta property="og:url" content="https://galafik.com" />
+    <meta property="og:image" content="https://galafik.com/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@GalPAfik" />
+    <meta
+      name="twitter:title"
+      content="Gal Afik &mdash; Game Developer &amp; Software Engineer"
+    />
+    <meta name="twitter:image" content="https://galafik.com/og-image.png" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Barlow:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      body {
+      :root {
+        --bg: #0a0a0f;
+        --surface: #12121a;
+        --card: #16161f;
+        --yellow: #f5e642;
+        --cyan: #00f5d4;
+        --magenta: #ff2d78;
+        --orange: #ff6b2b;
+        --violet: #a855f7;
+        --white: #f0eeff;
+        --muted: #6b6b8a;
+        --border: rgba(245, 230, 66, 0.13);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
         margin: 0;
-        font-family: Arial, sans-serif;
-        display: grid;
-        place-items: center;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--white);
+        font-family: "Barlow", sans-serif;
+        font-weight: 300;
+        overflow-x: hidden;
+        cursor: crosshair;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.35;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      }
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9998;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.02) 2px,
+          rgba(0, 0, 0, 0.02) 4px
+        );
+      }
+
+      /* PARALLAX CANVAS */
+      #px-canvas {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+      .px-shape {
+        position: absolute;
+        will-change: transform;
+      }
+      .px-ring {
+        border-radius: 50%;
+        border-style: solid;
+        background: transparent;
+      }
+      .px-diamond {
+        transform-origin: center;
+      }
+      .px-cross {
+        background: transparent;
+      }
+      .px-cross::before,
+      .px-cross::after {
+        content: "";
+        position: absolute;
+        background: currentColor;
+      }
+      .px-cross::before {
+        width: 100%;
+        height: 20%;
+        top: 40%;
+        left: 0;
+      }
+      .px-cross::after {
+        width: 20%;
+        height: 100%;
+        left: 40%;
+        top: 0;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 400;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.1rem clamp(2rem, 12vw, 16rem);
+        background: rgba(10, 10, 15, 0.92);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        transition: padding 0.3s;
+      }
+      nav.scrolled {
+        padding: 0.7rem clamp(2rem, 12vw, 16rem);
+      }
+      .nav-logo {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 0.18em;
+        color: var(--yellow);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .nav-logo span {
+        color: var(--muted);
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        font-family: "DM Mono", monospace;
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.6rem;
+        list-style: none;
+      }
+      .nav-links a {
+        font-family: "DM Mono", monospace;
+        font-size: 0.66rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--yellow);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.25s;
+      }
+      .nav-links a:hover {
+        color: var(--white);
+      }
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        transform: scaleX(1);
+      }
+      .nav-links a.active {
+        color: var(--yellow);
+      }
+      .nav-hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 4px;
+        background: none;
+        border: none;
+      }
+      .nav-hamburger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--white);
+        transition: all 0.3s;
+      }
+
+      /* SECTIONS */
+      section {
+        position: relative;
+        padding: 7rem 5rem;
+        z-index: 1;
+      }
+      section.surface {
+        background: var(--surface);
+        position: relative;
+        z-index: 0;
+      }
+      section.bg {
+        background: var(--bg);
+      }
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 3.5rem;
+      }
+      .eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--muted);
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        border-left: 1px solid var(--border);
+        padding-left: 0.7rem;
+      }
+      .section-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+        letter-spacing: 0.05em;
+        line-height: 1;
+      }
+      .hr-rule {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, var(--border), transparent);
+      }
+      .fade-up {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* HERO */
+      #hero {
         min-height: 100vh;
-        background: #f7f7f7;
-        color: #222;
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        align-items: center;
+        padding: 0 clamp(2rem, 12vw, 16rem);
+        gap: 4rem;
+        overflow: hidden;
+        position: relative;
+      }
+      .hero-grid {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        will-change: transform;
+        background-image:
+          linear-gradient(rgba(245, 230, 66, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(245, 230, 66, 0.035) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+      .hero-orb {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        will-change: transform;
+        animation: orb-breathe 6s ease-in-out infinite;
+      }
+      .hero-orb-a {
+        width: 650px;
+        height: 650px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 245, 212, 0.07) 0%,
+          transparent 70%
+        );
+        right: -120px;
+        top: 30%;
+        animation-delay: 0s;
+      }
+      .hero-orb-b {
+        width: 420px;
+        height: 420px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 45, 120, 0.06) 0%,
+          transparent 70%
+        );
+        left: 20%;
+        bottom: -80px;
+        animation-delay: -3s;
+      }
+      .hero-orb-c {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(168, 85, 247, 0.05) 0%,
+          transparent 70%
+        );
+        left: -60px;
+        top: 20%;
+        animation-delay: -1.5s;
+      }
+      @keyframes orb-breathe {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.55;
+          transform: scale(1.1);
+        }
+      }
+      .hero-text {
+        position: relative;
+        z-index: 2;
+      }
+      .hero-tags {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .tag-pill {
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 0.28rem 0.8rem;
+      }
+      .tag-pill.game {
+        background: rgba(245, 230, 66, 0.12);
+        color: var(--yellow);
+        border: 1px solid rgba(245, 230, 66, 0.3);
+      }
+      .tag-pill.web {
+        background: rgba(0, 245, 212, 0.1);
+        color: var(--cyan);
+        border: 1px solid rgba(0, 245, 212, 0.3);
+      }
+      .tag-pill.vr {
+        background: rgba(168, 85, 247, 0.1);
+        color: var(--violet);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+      }
+      .tag-sep {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+      .hero-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(5rem, 10vw, 10.5rem);
+        line-height: 0.87;
+        letter-spacing: 0.02em;
+        color: var(--white);
+        margin-bottom: 1rem;
+      }
+      .hero-name .outline {
+        display: block;
+        -webkit-text-stroke: 2px var(--yellow);
+        color: transparent;
+      }
+      .hero-subtitle {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--magenta);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 1.4rem;
+      }
+      .hero-bio {
+        font-size: 0.97rem;
+        line-height: 1.88;
+        color: rgba(240, 238, 255, 0.6);
+        max-width: 440px;
+        margin-bottom: 2.5rem;
+      }
+      .hero-ctas {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 0.88rem 1.8rem;
+        text-decoration: none;
+        transition: all 0.22s;
+        white-space: nowrap;
+        border: none;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: var(--yellow);
+        color: #0a0a0f;
+        clip-path: polygon(
+          0 0,
+          calc(100% - 12px) 0,
+          100% 12px,
+          100% 100%,
+          12px 100%,
+          0 calc(100% - 12px)
+        );
+      }
+      .btn-primary:hover {
+        background: var(--cyan);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 35px rgba(0, 245, 212, 0.3);
+      }
+      .btn-secondary {
+        border: 1px solid var(--border);
+        color: var(--white);
+        clip-path: polygon(
+          0 0,
+          calc(100% - 12px) 0,
+          100% 12px,
+          100% 100%,
+          12px 100%,
+          0 calc(100% - 12px)
+        );
+        background: transparent;
+      }
+      .btn-secondary:hover {
+        border-color: var(--yellow);
+        color: var(--yellow);
+        transform: translateY(-3px);
+      }
+      .hero-stats {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+      .stat-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        padding: 1.4rem 1.8rem;
+        position: relative;
+        overflow: hidden;
+        clip-path: polygon(
+          0 0,
+          calc(100% - 14px) 0,
+          100% 14px,
+          100% 100%,
+          0 100%
+        );
+        transition:
+          border-color 0.3s,
+          transform 0.3s;
+      }
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--sc, var(--yellow));
+      }
+      .stat-card:hover {
+        border-color: var(--sc, var(--yellow));
+        transform: translateX(6px);
+      }
+      .stat-num {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2.8rem;
+        line-height: 1;
+        color: var(--sc, var(--yellow));
+      }
+      .stat-lbl {
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 0.2rem;
+      }
+
+      /* TRAILER */
+      #trailer {
+        background: var(--surface);
+      }
+      .trailer-inner {
+        display: grid;
+        grid-template-columns: 1fr 1.6fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .trailer-copy h3 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2.2rem;
+        letter-spacing: 0.05em;
+        color: var(--yellow);
+        margin-bottom: 1rem;
+      }
+      .trailer-copy p {
+        font-size: 0.96rem;
+        line-height: 1.9;
+        color: rgba(240, 238, 255, 0.58);
+        margin-bottom: 1.5rem;
+      }
+      .trailer-embed {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--card);
+      }
+      .trailer-embed iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .trailer-play-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 1rem 2rem;
+        background: var(--magenta);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        clip-path: polygon(
+          0 0,
+          calc(100% - 12px) 0,
+          100% 12px,
+          100% 100%,
+          12px 100%,
+          0 calc(100% - 12px)
+        );
+        transition: all 0.22s;
+      }
+      .trailer-play-btn:hover {
+        background: var(--yellow);
+        color: #0a0a0f;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(245, 230, 66, 0.25);
+      }
+
+      /* VIDEO MODAL */
+      #video-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.92);
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+      }
+      #video-modal.open {
+        display: flex;
+      }
+      .modal-inner {
+        position: relative;
+        width: min(90vw, 1100px);
+      }
+      .modal-video-wrap {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+      }
+      .modal-video-wrap iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .modal-close {
+        position: absolute;
+        top: -2.5rem;
+        right: 0;
+        font-family: "DM Mono", monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .modal-close:hover {
+        color: var(--yellow);
+      }
+      /* ABOUT */
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: start;
+      }
+      .about-copy h3 {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2rem;
+        letter-spacing: 0.05em;
+        color: var(--yellow);
+        margin-bottom: 1rem;
+      }
+      .about-copy p {
+        font-size: 0.96rem;
+        line-height: 1.9;
+        color: rgba(240, 238, 255, 0.58);
+        margin-bottom: 1rem;
+      }
+      .certs-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+        margin-top: 1.5rem;
+      }
+      .cert-badge {
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.5rem 0.8rem;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        background: var(--card);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .cert-badge::before {
+        content: "\2713";
+        color: var(--cyan);
+      }
+      .about-domains {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+      }
+      .domain-row {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        border: 1px solid var(--border);
+        padding: 1rem 1.4rem;
+        background: var(--card);
+        transition:
+          border-color 0.25s,
+          transform 0.25s;
+        cursor: default;
+      }
+      .domain-row:hover {
+        border-color: var(--dc, var(--yellow));
+        transform: translateX(5px);
+      }
+      .domain-icon {
+        font-size: 1.4rem;
+      }
+      .domain-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.05rem;
+        letter-spacing: 0.06em;
+        color: var(--dc, var(--yellow));
+      }
+      .domain-desc {
+        font-family: "DM Mono", monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 0.1rem;
+      }
+
+      /* SKILLS */
+      .skill-tabs {
+        display: flex;
+        margin-bottom: 2.5rem;
+        border: 1px solid var(--border);
+        width: fit-content;
+      }
+      .skill-tab {
+        font-family: "DM Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 0.72rem 1.6rem;
+        cursor: pointer;
+        color: var(--muted);
+        background: transparent;
+        border: none;
+        transition: all 0.2s;
+      }
+      .skill-tab.active {
+        color: #0a0a0f;
+        background: var(--yellow);
+      }
+      .skill-tab:not(.active):hover {
+        color: var(--yellow);
+      }
+      .skill-panel {
+        display: none;
+      }
+      .skill-panel.active {
+        display: block;
+      }
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+        gap: 1.4rem;
+      }
+      .skill-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        padding: 1.8rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+        cursor: default;
+      }
+      .skill-card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--sc, var(--yellow));
+        transform: scaleX(0);
+        transition: transform 0.3s;
+        transform-origin: left;
+      }
+      .skill-card:hover {
+        border-color: var(--sc, var(--yellow));
+        transform: translateY(-5px);
+        box-shadow: 0 14px 45px rgba(0, 0, 0, 0.45);
+      }
+      .skill-card:hover::after {
+        transform: scaleX(1);
+      }
+      .sk-icon {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+        display: block;
+      }
+      .sk-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.35rem;
+        letter-spacing: 0.05em;
+        color: var(--sc, var(--yellow));
+        margin-bottom: 0.4rem;
+      }
+      .sk-desc {
+        font-size: 0.845rem;
+        line-height: 1.7;
+        color: rgba(240, 238, 255, 0.5);
+      }
+      .sk-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-top: 0.9rem;
+      }
+      .sk-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.18rem 0.55rem;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .depth-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+      .depth-card {
+        border: 1px solid var(--border);
+        padding: 2.2rem;
+        transition: all 0.3s;
+      }
+      .depth-card:hover {
+        transform: translateY(-4px);
+      }
+      .depth-card.unity {
+        background: linear-gradient(
+          135deg,
+          rgba(245, 230, 66, 0.05),
+          var(--card) 60%
+        );
+        border-color: rgba(245, 230, 66, 0.2);
+      }
+      .depth-card.unity:hover {
+        border-color: var(--yellow);
+        box-shadow: 0 20px 60px rgba(245, 230, 66, 0.07);
+      }
+      .depth-card.unreal {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 245, 212, 0.05),
+          var(--card) 60%
+        );
+        border-color: rgba(0, 245, 212, 0.2);
+      }
+      .depth-card.unreal:hover {
+        border-color: var(--cyan);
+        box-shadow: 0 20px 60px rgba(0, 245, 212, 0.07);
+      }
+      .depth-card.fullweb {
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.05),
+          var(--card) 60%
+        );
+        border-color: rgba(168, 85, 247, 0.2);
+        grid-column: 1/-1;
+      }
+      .depth-card.fullweb:hover {
+        border-color: var(--violet);
+        box-shadow: 0 20px 60px rgba(168, 85, 247, 0.07);
+      }
+      .depth-logo {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2.2rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.25rem;
+      }
+      .unity .depth-logo {
+        color: var(--yellow);
+      }
+      .unreal .depth-logo {
+        color: var(--cyan);
+      }
+      .fullweb .depth-logo {
+        color: var(--violet);
+      }
+      .depth-sub {
+        font-family: "DM Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1.4rem;
+      }
+      .fullweb .depth-bars {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 3rem;
+      }
+      .bar-row {
+        margin-bottom: 0.75rem;
+      }
+      .bar-lbl {
+        display: flex;
+        justify-content: space-between;
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.28rem;
+      }
+      .bar-track {
+        height: 3px;
+        background: rgba(255, 255, 255, 0.06);
+        overflow: hidden;
+      }
+      .bar-fill {
+        height: 100%;
+        width: var(--pct);
+        animation: bar-grow 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-delay: var(--d, 0s);
+      }
+      @keyframes bar-grow {
+        from {
+          width: 0;
+        }
+        to {
+          width: var(--pct);
+        }
+      }
+      .unity .bar-fill {
+        background: var(--yellow);
+      }
+      .unreal .bar-fill {
+        background: var(--cyan);
+      }
+      .fullweb .bar-fill {
+        background: var(--violet);
+      }
+
+      /* GAMES */
+      .studio-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        background: var(--card);
+        margin-bottom: 2.5rem;
+      }
+      .studio-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2rem;
+        letter-spacing: 0.08em;
+        color: var(--yellow);
+      }
+      .studio-meta {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 0.2rem;
+      }
+      .studio-links {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .studio-link {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 0.5rem 1.1rem;
+        border: 1px solid var(--border);
+        color: var(--white);
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .studio-link:hover {
+        border-color: var(--yellow);
+        color: var(--yellow);
+      }
+      .studio-link.primary {
+        background: var(--yellow);
+        color: #0a0a0f;
+        border-color: var(--yellow);
+      }
+      .studio-link.primary:hover {
+        background: var(--cyan);
+        border-color: var(--cyan);
+      }
+      .games-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+        gap: 1.4rem;
+      }
+      .game-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transition: all 0.3s;
+      }
+      .game-card:hover {
+        border-color: var(--gc, var(--yellow));
+        transform: translateY(-5px);
+        box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
+      }
+      .game-stripe {
+        height: 3px;
+        background: var(--gc, var(--yellow));
+        flex-shrink: 0;
+      }
+      .game-cover-wrap {
+        overflow: hidden;
+        position: relative;
+      }
+      .game-cover {
+        width: 100%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        background: var(--surface);
+        display: block;
+        transition: transform 0.4s;
+      }
+      .game-card:hover .game-cover {
+        transform: scale(1.04);
+      }
+      .game-engine-badge {
+        position: absolute;
+        bottom: 0.6rem;
+        right: 0.6rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.56rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.55rem;
+        background: rgba(10, 10, 15, 0.85);
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .game-jam-badge {
+        position: absolute;
+        top: 0.6rem;
+        left: 0.6rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.54rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.6rem;
+        background: rgba(245, 230, 66, 0.92);
+        color: #0a0a0f;
+      }
+      .game-body {
+        padding: 1.4rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .game-genre {
+        font-family: "DM Mono", monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gc, var(--yellow));
+        margin-bottom: 0.4rem;
+      }
+      .game-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.5rem;
+        letter-spacing: 0.04em;
+        color: var(--white);
+        margin-bottom: 0.5rem;
+        line-height: 1.1;
+      }
+      .game-desc {
+        font-size: 0.83rem;
+        line-height: 1.75;
+        color: rgba(240, 238, 255, 0.5);
+        flex: 1;
+        margin-bottom: 1.2rem;
+      }
+      .game-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .game-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+      }
+      .game-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 0.54rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.15rem 0.5rem;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .game-link {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--gc, var(--yellow));
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+        white-space: nowrap;
+      }
+      .game-link:hover {
+        border-color: var(--gc, var(--yellow));
+      }
+      .games-cta {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      /* PROJECTS */
+      .proj-filters {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+      }
+      .pf-btn {
+        font-family: "DM Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        padding: 0.38rem 0.9rem;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        transition: all 0.2s;
+      }
+      .pf-btn.active,
+      .pf-btn:hover {
+        border-color: var(--yellow);
+        color: var(--yellow);
+        background: rgba(245, 230, 66, 0.06);
+      }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+      }
+      .proj-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        transition: all 0.3s;
+        display: flex;
+        flex-direction: column;
+      }
+      .proj-card:hover {
+        border-color: var(--pc, var(--yellow));
+        transform: translateY(-5px);
+        box-shadow: 0 16px 50px rgba(0, 0, 0, 0.45);
+      }
+      .proj-banner {
+        height: 4px;
+        background: var(--pc, var(--yellow));
+      }
+      .proj-body {
+        padding: 1.8rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .proj-cat {
+        font-family: "DM Mono", monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--pc, var(--yellow));
+        margin-bottom: 0.5rem;
+      }
+      .proj-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.5rem;
+        letter-spacing: 0.04em;
+        color: var(--white);
+        margin-bottom: 0.5rem;
+        line-height: 1.1;
+      }
+      .proj-desc {
+        font-size: 0.845rem;
+        line-height: 1.75;
+        color: rgba(240, 238, 255, 0.52);
+        flex: 1;
+        margin-bottom: 1.2rem;
+      }
+      .proj-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .proj-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+      }
+      .proj-tag {
+        font-family: "DM Mono", monospace;
+        font-size: 0.54rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.15rem 0.5rem;
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      .proj-link {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--pc, var(--yellow));
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+        white-space: nowrap;
+      }
+      .proj-link:hover {
+        border-color: var(--pc, var(--yellow));
+      }
+      .proj-link.na {
+        cursor: default;
+        opacity: 0.4;
+      }
+
+      /* STACK */
+      .lang-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.2rem;
+      }
+      .lang-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        padding: 1.6rem;
+        text-align: center;
+        clip-path: polygon(
+          14px 0,
+          100% 0,
+          100% calc(100% - 14px),
+          calc(100% - 14px) 100%,
+          0 100%,
+          0 14px
+        );
+        transition: all 0.3s;
+        cursor: default;
+      }
+      .lang-card:hover {
+        border-color: var(--lc, var(--orange));
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      }
+      .lang-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.7rem;
+        letter-spacing: 0.05em;
+        color: var(--lc, var(--orange));
+        margin-bottom: 0.2rem;
+      }
+      .lang-type {
+        font-family: "DM Mono", monospace;
+        font-size: 0.57rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.9rem;
+      }
+      .lang-dots {
+        display: flex;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .ld {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--lc, var(--orange));
+        opacity: 0.18;
+      }
+      .ld.on {
+        opacity: 1;
+      }
+
+      /* EXPERIENCE */
+      .timeline {
+        position: relative;
+        padding-left: 3rem;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: linear-gradient(
+          180deg,
+          var(--yellow),
+          var(--cyan),
+          var(--magenta),
+          var(--violet)
+        );
+      }
+      .tl-item {
+        position: relative;
+        padding-bottom: 3.5rem;
+      }
+      .tl-dot {
+        position: absolute;
+        left: -3.35rem;
+        top: 0.3rem;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--dc, var(--yellow));
+        box-shadow: 0 0 12px var(--dc, var(--yellow));
+      }
+      .tl-period {
+        font-family: "DM Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.4rem;
+      }
+      .tl-role {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 1.75rem;
+        letter-spacing: 0.04em;
+        color: var(--white);
+        margin-bottom: 0.1rem;
+      }
+      .tl-company {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--dc, var(--yellow));
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0.9rem;
+      }
+      .tl-bullets {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+      }
+      .tl-bullets li {
+        font-size: 0.87rem;
+        line-height: 1.75;
+        color: rgba(240, 238, 255, 0.58);
+        padding-left: 1.1rem;
+        position: relative;
+      }
+      .tl-bullets li::before {
+        content: "\25B8";
+        position: absolute;
+        left: 0;
+        color: var(--dc, var(--yellow));
+      }
+
+      /* CONTACT */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5rem;
+        align-items: start;
+      }
+      .contact-headline {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: clamp(2rem, 4.5vw, 4.2rem);
+        line-height: 1;
+        letter-spacing: 0.03em;
+        margin-bottom: 1.2rem;
+      }
+      .contact-headline em {
+        font-style: normal;
+        color: var(--yellow);
+      }
+      .contact-sub {
+        font-size: 0.93rem;
+        line-height: 1.85;
+        color: rgba(240, 238, 255, 0.52);
+        margin-bottom: 2rem;
+      }
+      .contact-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        padding: 0.9rem 1.3rem;
+        border: 1px solid var(--border);
+        color: var(--white);
+        transition: all 0.2s;
+        font-family: "DM Mono", monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+      }
+      .contact-link:hover {
+        border-color: var(--yellow);
+        color: var(--yellow);
+        transform: translateX(6px);
+      }
+      .cl-icon {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--surface);
+        font-size: 0.85rem;
+        flex-shrink: 0;
+      }
+      .callout-box {
+        background: var(--yellow);
+        color: #0a0a0f;
+        padding: 2.8rem;
+        clip-path: polygon(
+          0 0,
+          calc(100% - 22px) 0,
+          100% 22px,
+          100% 100%,
+          22px 100%,
+          0 calc(100% - 22px)
+        );
+      }
+      .callout-box p {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2.3rem;
+        line-height: 1.1;
+        letter-spacing: 0.03em;
+        margin-bottom: 1.4rem;
+      }
+      .callout-email {
+        font-family: "DM Mono", monospace;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+        color: #0a0a0f;
+        border-bottom: 2px solid #0a0a0f;
+        padding-bottom: 2px;
+        display: inline-block;
+        word-break: break-all;
+      }
+      .callout-roles {
+        margin-top: 1.4rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .callout-role {
+        font-family: "DM Mono", monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 0.25rem 0.7rem;
+        border: 1.5px solid rgba(10, 10, 15, 0.3);
+        color: #0a0a0f;
+      }
+
+      /* FOOTER */
+      footer {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        padding: 1.8rem clamp(2rem, 12vw, 16rem);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: "DM Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      footer a:hover {
+        color: var(--yellow);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 960px) {
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: rgba(10, 10, 15, 0.97);
+          padding: 1.5rem 3rem;
+          border-bottom: 1px solid var(--border);
+          gap: 1.2rem;
+        }
+        .nav-links.open {
+          display: flex;
+        }
+        .nav-hamburger {
+          display: flex;
+        }
+        #hero {
+          grid-template-columns: 1fr;
+          padding: 6rem clamp(1rem, 4vw, 2rem) 4rem;
+        }
+        .hero-stats {
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+        .stat-card {
+          flex: 1;
+          min-width: 130px;
+        }
+        section {
+          padding: 4.5rem clamp(1rem, 4vw, 2rem);
+        }
+        .about-grid,
+        .contact-grid,
+        .trailer-inner {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+        .depth-cards {
+          grid-template-columns: 1fr;
+        }
+        .depth-card.fullweb {
+          grid-column: auto;
+        }
+        .fullweb .depth-bars {
+          grid-template-columns: 1fr;
+        }
+        .lang-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        nav {
+          padding: 1rem clamp(1rem, 4vw, 2rem);
+        }
+        footer {
+          flex-direction: column;
+          gap: 0.6rem;
+          text-align: center;
+          padding: 1.5rem clamp(1rem, 4vw, 2rem);
+        }
+        .studio-banner {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: flex-start;
+        }
+      }
+      @media (max-width: 600px) {
+        .hero-name {
+          font-size: 4rem;
+        }
+        .certs-grid {
+          grid-template-columns: 1fr;
+        }
+        .lang-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
     </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Gal Afik",
+        "url": "https://galafik.com",
+        "email": "gal.p.afik@gmail.com",
+        "telephone": "240-388-3510",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Cary",
+          "addressRegion": "NC"
+        },
+        "jobTitle": "Senior Software Engineer & Game Developer",
+        "sameAs": [
+          "https://www.linkedin.com/in/galafik/",
+          "https://github.com/GalAfik",
+          "https://mythosinteractive.itch.io/",
+          "https://store.steampowered.com/app/3197330/Mythos_Interactive_Game_Collection/"
+        ]
+      }
+    </script>
   </head>
   <body>
-    <h1>Hello, World!</h1>
+    <!-- VIDEO MODAL -->
+    <div
+      id="video-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Mythos Interactive Trailer"
+    >
+      <div class="modal-inner">
+        <button class="modal-close" id="modal-close-btn">&#10005; Close</button>
+        <div class="modal-video-wrap">
+          <iframe
+            id="modal-iframe"
+            src=""
+            title="Mythos Interactive Game Trailer"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="main-nav" role="navigation" aria-label="Main navigation">
+      <a href="#hero" class="nav-logo">GA <span>// galafik.com</span></a>
+      <button
+        class="nav-hamburger"
+        id="hamburger"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#trailer">Trailer</a></li>
+        <li><a href="#games">Games</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#languages">Stack</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="bg" aria-label="Introduction">
+      <div class="hero-grid" id="hero-grid"></div>
+      <div id="px-canvas" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-a" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-b" aria-hidden="true"></div>
+      <div class="hero-orb hero-orb-c" aria-hidden="true"></div>
+      <div class="hero-text">
+        <div class="hero-tags">
+          <span class="tag-pill game">Game Dev</span>
+          <span class="tag-sep">&times;</span>
+          <span class="tag-pill web">Full-Stack</span>
+          <span class="tag-sep">&times;</span>
+          <span class="tag-pill vr">VR / XR</span>
+        </div>
+        <h1 class="hero-name">Gal<span class="outline">Afik</span></h1>
+        <p class="hero-subtitle">Senior Software Engineer &middot; Cary, NC</p>
+        <p class="hero-bio">
+          8+ years engineering software that people play, use, and rely on
+          &mdash; from Steam-shipped games and VR military training simulations
+          to Smithsonian museum systems and global banking infrastructure.
+          Founder of
+          <strong style="color: var(--yellow)">Mythos Interactive</strong>.
+          Unity Certified Professional. Programming since 2008.
+        </p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary">&#9654; Hire Me</a>
+          <button class="btn btn-secondary" data-open-trailer>
+            &#9654; Watch Trailer
+          </button>
+          <a
+            href="assets/Gal_Phillip_Afik_Resume.pdf"
+            download
+            class="btn btn-secondary"
+            >&#8595; Resume</a
+          >
+        </div>
+      </div>
+      <div class="hero-stats" aria-label="Key statistics">
+        <div class="stat-card" style="--sc: var(--yellow)">
+          <div class="stat-num">17+</div>
+          <div class="stat-lbl">Years Programming</div>
+        </div>
+        <div class="stat-card" style="--sc: var(--cyan)">
+          <div class="stat-num">15+</div>
+          <div class="stat-lbl">Games Shipped</div>
+        </div>
+        <div class="stat-card" style="--sc: var(--magenta)">
+          <div class="stat-num">4</div>
+          <div class="stat-lbl">VR Simulations</div>
+        </div>
+        <div class="stat-card" style="--sc: var(--violet)">
+          <div class="stat-num">8+</div>
+          <div class="stat-lbl">Certifications</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="surface" aria-label="About Gal Afik">
+      <div class="section-header">
+        <div class="eyebrow">Who I Am</div>
+        <h2 class="section-title">
+          The <span style="color: var(--cyan)">Full Picture</span>
+        </h2>
+        <div class="hr-rule"></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-copy fade-up">
+          <h3>Engineer, game-maker, problem solver.</h3>
+          <p>
+            I have been writing code since 2008, turned professional in 2016,
+            and have not stopped shipping since. My background spans game
+            engines, enterprise Java, VR/XR simulations, database systems, and
+            front-end web &mdash; giving me the ability to move fluently across
+            the full stack.
+          </p>
+          <p>
+            As founder of
+            <strong style="color: var(--white)">Mythos Interactive</strong>, I
+            have led a team of 6 through complete game development cycles and
+            published a collection of 9 original titles on Steam. By day I have
+            built VR training simulations for military and healthcare clients,
+            Smithsonian museum installations, and financial systems at Deutsche
+            Bank.
+          </p>
+          <p>
+            I hold a B.Sc. in Information Systems from UMBC and have accumulated
+            8+ industry certifications including Unity Certified Professional,
+            AWS Cloud Practitioner, and Azure Fundamentals.
+          </p>
+          <div class="certs-grid" aria-label="Certifications">
+            <div class="cert-badge">Unity Certified Professional</div>
+            <div class="cert-badge">Unity Certified Associate</div>
+            <div class="cert-badge">AWS Cloud Practitioner</div>
+            <div class="cert-badge">Azure Fundamentals</div>
+            <div class="cert-badge">C++ Certified Associate</div>
+            <div class="cert-badge">Oracle Java SE 7 OCA</div>
+            <div class="cert-badge">Google AI Essentials</div>
+            <div class="cert-badge">CompTIA A+ Core 1</div>
+          </div>
+        </div>
+        <div class="about-domains fade-up" style="transition-delay: 0.1s">
+          <div class="domain-row" style="--dc: var(--yellow)">
+            <span class="domain-icon">&#127918;</span>
+            <div>
+              <div class="domain-name">Game Development</div>
+              <div class="domain-desc">
+                Unity &middot; Unreal Engine &middot; Gameplay &middot; VR/XR
+                &middot; Steam
+              </div>
+            </div>
+          </div>
+          <div class="domain-row" style="--dc: var(--cyan)">
+            <span class="domain-icon">&#127760;</span>
+            <div>
+              <div class="domain-name">Web / Full-Stack</div>
+              <div class="domain-desc">
+                Java &middot; Angular &middot; Spring Boot &middot; MySQL
+                &middot; REST APIs
+              </div>
+            </div>
+          </div>
+          <div class="domain-row" style="--dc: var(--magenta)">
+            <span class="domain-icon">&#129509;</span>
+            <div>
+              <div class="domain-name">VR / XR Simulations</div>
+              <div class="domain-desc">
+                Meta Quest &middot; OpenXR &middot; SteamVR &middot; MetaXR
+                &middot; UE5
+              </div>
+            </div>
+          </div>
+          <div class="domain-row" style="--dc: var(--orange)">
+            <span class="domain-icon">&#128451;</span>
+            <div>
+              <div class="domain-name">Data &amp; Cloud</div>
+              <div class="domain-desc">
+                PostgreSQL &middot; Oracle PL/SQL &middot; AWS &middot; Azure
+                &middot; ETL
+              </div>
+            </div>
+          </div>
+          <div class="domain-row" style="--dc: var(--violet)">
+            <span class="domain-icon">&#9881;</span>
+            <div>
+              <div class="domain-name">Systems &amp; DevOps</div>
+              <div class="domain-desc">
+                C++ &middot; Docker &middot; Jenkins &middot; Git &middot; Nginx
+                &middot; Linux
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="bg" aria-label="Skills">
+      <div class="section-header">
+        <div class="eyebrow">Expertise</div>
+        <h2 class="section-title">
+          What I <span style="color: var(--yellow)">Build</span>
+        </h2>
+        <div class="hr-rule"></div>
+      </div>
+      <div class="skill-tabs" role="tablist">
+        <button
+          class="skill-tab active"
+          data-tab="gamedev"
+          role="tab"
+          aria-selected="true"
+        >
+          &#127918; Game Dev
+        </button>
+        <button
+          class="skill-tab"
+          data-tab="webdev"
+          role="tab"
+          aria-selected="false"
+        >
+          &#127760; Web &amp; Systems
+        </button>
+      </div>
+
+      <!-- GAME DEV TAB -->
+      <div class="skill-panel active" id="tab-gamedev" role="tabpanel">
+        <div class="skills-grid">
+          <div class="skill-card fade-up" style="--sc: var(--yellow)">
+            <span class="sk-icon">&#9881;</span>
+            <div class="sk-name">Gameplay Systems</div>
+            <p class="sk-desc">
+              Combat mechanics, AI behavior trees, character systems,
+              navigation, and state machines from concept to shipped product.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">State Machines</span
+              ><span class="sk-tag">AI / BT</span
+              ><span class="sk-tag">Character Systems</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--cyan); transition-delay: 0.05s"
+          >
+            <span class="sk-icon">&#129509;</span>
+            <div class="sk-name">VR / XR Development</div>
+            <p class="sk-desc">
+              4 shipped VR/MR training simulations for military, healthcare, and
+              commercial clients on Meta Quest 2/Pro/3 and SteamVR using OpenXR
+              and MetaXR standards.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">OpenXR</span
+              ><span class="sk-tag">MetaXR</span
+              ><span class="sk-tag">SteamVR</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--magenta); transition-delay: 0.1s"
+          >
+            <span class="sk-icon">&#128295;</span>
+            <div class="sk-name">Performance Optimization</div>
+            <p class="sk-desc">
+              Doubled VR framerate from 45 to 90 FPS through Unreal Insights
+              profiling and targeted refactoring. Expert in LOD, draw calls, and
+              shader optimization.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">Unreal Insights</span
+              ><span class="sk-tag">Unity Profiler</span
+              ><span class="sk-tag">LOD</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--orange); transition-delay: 0.15s"
+          >
+            <span class="sk-icon">&#128736;</span>
+            <div class="sk-name">Editor Tooling &amp; Plugins</div>
+            <p class="sk-desc">
+              Custom Unity editor extensions, a Unity plugin integrating OpenAI
+              API for dynamic NPC dialogue, and streamlined artist workflow
+              tools.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">Unity Editor</span
+              ><span class="sk-tag">OpenAI API</span
+              ><span class="sk-tag">Pipeline</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--violet); transition-delay: 0.2s"
+          >
+            <span class="sk-icon">&#127912;</span>
+            <div class="sk-name">UI/UX for Games</div>
+            <p class="sk-desc">
+              Full UI/UX design and implementation across 12+ titles including
+              accessibility-focused VR interaction patterns, prototyping, and
+              usability testing.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">Figma</span
+              ><span class="sk-tag">Unity UI</span
+              ><span class="sk-tag">VR UX</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--yellow); transition-delay: 0.25s"
+          >
+            <span class="sk-icon">&#128266;</span>
+            <div class="sk-name">Audio &amp; MetaSounds</div>
+            <p class="sk-desc">
+              Full audio integration including MetaSound in Unreal, spatial
+              audio for VR, voice acting on multiple titles, and
+              knowledge-sharing sessions for cross-functional teams.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">MetaSound</span
+              ><span class="sk-tag">Spatial Audio</span
+              ><span class="sk-tag">Voice Acting</span>
+            </div>
+          </div>
+        </div>
+        <div class="depth-cards">
+          <div class="depth-card unity fade-up">
+            <div class="depth-logo">Unity</div>
+            <div class="depth-sub">
+              7+ Years &middot; Certified Professional &amp; Associate
+            </div>
+            <div class="bar-row">
+              <div class="bar-lbl">
+                <span>Gameplay &amp; Architecture</span><span>97%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="--pct: 97%; --d: 0.3s"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-lbl">
+                <span>Editor Tooling &amp; Plugins</span><span>92%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="--pct: 92%; --d: 0.4s"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-lbl">
+                <span>URP / HDRP Rendering</span><span>88%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="--pct: 88%; --d: 0.5s"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-lbl"><span>DOTS / ECS</span><span>80%</span></div>
+              <div class="bar-track">
+                <div class="bar-fill" style="--pct: 80%; --d: 0.6s"></div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="depth-card unreal fade-up"
+            style="transition-delay: 0.07s"
+          >
+            <div class="depth-logo">Unreal Engine</div>
+            <div class="depth-sub">
+              UE4 / UE5 / UDK &middot; C++ &amp; Blueprints
+            </div>
+            <div class="bar-row">
+              <div class="bar-lbl">
+                <span>Blueprints &amp; C++ Gameplay</span><span>93%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="--pct: 93%; --d: 0.3s"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-lbl">
+                <span>VR / XR (OpenXR / MetaXR)</span><span>90%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="--pct: 90%; --d: 0.4s"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-lbl">
+                <span>Performance &amp; Profiling</span><span>88%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="--pct: 88%; --d: 0.5s"></div>
+              </div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-lbl">
+                <span>Gameplay Framework / GAS</span><span>82%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="--pct: 82%; --d: 0.6s"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEB & SYSTEMS TAB -->
+      <div class="skill-panel" id="tab-webdev" role="tabpanel">
+        <div class="skills-grid">
+          <div class="skill-card fade-up" style="--sc: var(--cyan)">
+            <span class="sk-icon">&#9749;</span>
+            <div class="sk-name">Java / Spring Boot</div>
+            <p class="sk-desc">
+              7 years of Java 7/8 professional experience including RESTful
+              APIs, Spring Boot microservices, Maven builds, and enterprise
+              backend architecture.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">Java 7/8</span
+              ><span class="sk-tag">Spring Boot</span
+              ><span class="sk-tag">Maven</span><span class="sk-tag">REST</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--violet); transition-delay: 0.05s"
+          >
+            <span class="sk-icon">&#127760;</span>
+            <div class="sk-name">Front-End Web</div>
+            <p class="sk-desc">
+              HTML5, CSS3/SASS, Angular, AngularJS, jQuery, Bootstrap,
+              TypeScript &mdash; production UI/UX across museum, banking, and
+              game analytics platforms.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">Angular</span
+              ><span class="sk-tag">TypeScript</span
+              ><span class="sk-tag">HTML5/CSS3</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--orange); transition-delay: 0.1s"
+          >
+            <span class="sk-icon">&#128451;</span>
+            <div class="sk-name">Databases</div>
+            <p class="sk-desc">
+              MySQL, Oracle PL/SQL, PostgreSQL, MongoDB. Designed and maintained
+              a NoSQL system managing 5M+ Smithsonian artifact records. SSIS and
+              ETL pipelines.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">PostgreSQL</span
+              ><span class="sk-tag">Oracle PL/SQL</span
+              ><span class="sk-tag">MongoDB</span
+              ><span class="sk-tag">SSIS/ETL</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--magenta); transition-delay: 0.15s"
+          >
+            <span class="sk-icon">&#9928;</span>
+            <div class="sk-name">Cloud &amp; Infrastructure</div>
+            <p class="sk-desc">
+              AWS (EC2, S3, Lambda) &mdash; certified Cloud Practitioner. Azure
+              IaaS/PaaS &mdash; certified Azure Fundamentals. Docker, nginx,
+              Linux/Unix administration.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">AWS</span><span class="sk-tag">Azure</span
+              ><span class="sk-tag">Docker</span
+              ><span class="sk-tag">nginx</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--yellow); transition-delay: 0.2s"
+          >
+            <span class="sk-icon">&#128274;</span>
+            <div class="sk-name">Security &amp; DevOps</div>
+            <p class="sk-desc">
+              Technical Information Security Officer at Deutsche Bank. OAuth,
+              SSL/TLS, firewall configuration, Jenkins CI/CD. Scrum Master
+              across global teams.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">OAuth</span
+              ><span class="sk-tag">SSL/TLS</span
+              ><span class="sk-tag">Jenkins</span
+              ><span class="sk-tag">Scrum Master</span>
+            </div>
+          </div>
+          <div
+            class="skill-card fade-up"
+            style="--sc: var(--cyan); transition-delay: 0.25s"
+          >
+            <span class="sk-icon">&#129514;</span>
+            <div class="sk-name">Testing &amp; QA</div>
+            <p class="sk-desc">
+              TDD practitioner using JUnit and PyTest. Led QA processes on
+              multi-platform VR titles. Automated testing pipelines integrated
+              into CI/CD workflows.
+            </p>
+            <div class="sk-tags">
+              <span class="sk-tag">JUnit</span><span class="sk-tag">PyTest</span
+              ><span class="sk-tag">TDD</span
+              ><span class="sk-tag">QA Automation</span>
+            </div>
+          </div>
+        </div>
+        <div class="depth-cards" style="grid-template-columns: 1fr">
+          <div class="depth-card fullweb fade-up">
+            <div class="depth-logo">Web &amp; Systems Stack</div>
+            <div class="depth-sub">
+              Java &middot; Angular &middot; Spring Boot &middot; PostgreSQL
+              &middot; AWS
+            </div>
+            <div class="depth-bars">
+              <div>
+                <div class="bar-row">
+                  <div class="bar-lbl">
+                    <span>Java / Spring Boot</span><span>95%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" style="--pct: 95%; --d: 0.2s"></div>
+                  </div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-lbl">
+                    <span>Angular / TypeScript</span><span>85%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" style="--pct: 85%; --d: 0.3s"></div>
+                  </div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-lbl">
+                    <span>SQL / Database Design</span><span>88%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" style="--pct: 88%; --d: 0.4s"></div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="bar-row">
+                  <div class="bar-lbl">
+                    <span>AWS / Azure Cloud</span><span>80%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" style="--pct: 80%; --d: 0.2s"></div>
+                  </div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-lbl">
+                    <span>REST APIs / Microservices</span><span>90%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" style="--pct: 90%; --d: 0.3s"></div>
+                  </div>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-lbl">
+                    <span>Docker / DevOps</span><span>82%</span>
+                  </div>
+                  <div class="bar-track">
+                    <div class="bar-fill" style="--pct: 82%; --d: 0.4s"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRAILER -->
+    <section id="trailer" class="surface" aria-label="Game Trailer">
+      <div class="section-header">
+        <div class="eyebrow">Mythos Interactive</div>
+        <h2 class="section-title">
+          Watch the <span style="color: var(--magenta)">Trailer</span>
+        </h2>
+        <div class="hr-rule"></div>
+      </div>
+      <div class="trailer-inner">
+        <div class="trailer-copy fade-up">
+          <h3>9 Games. One Studio.</h3>
+          <p>
+            This official compilation trailer showcases the full range of titles
+            released under Mythos Interactive &mdash; from first-person shooters
+            and real-time strategy to puzzle games and narrative experiences.
+            Every line of code, every level, every voice-acted line: built by
+            Gal Afik.
+          </p>
+          <button
+            class="trailer-play-btn"
+            data-open-trailer
+            aria-label="Open trailer in fullscreen"
+          >
+            <span class="play-icon">&#9654;</span> Watch Full Trailer
+          </button>
+        </div>
+        <div class="trailer-embed fade-up" style="transition-delay: 0.1s">
+          <iframe
+            src="https://www.youtube.com/embed/lC331DLOe4I?rel=0&modestbranding=1"
+            title="Mythos Interactive Game Compilation Trailer"
+            allow="
+              accelerometer;
+              autoplay;
+              clipboard-write;
+              encrypted-media;
+              gyroscope;
+              picture-in-picture;
+            "
+            allowfullscreen
+            loading="lazy"
+          >
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- GAMES -->
+    <section id="games" class="bg" aria-label="Games by Mythos Interactive">
+      <div class="section-header">
+        <div class="eyebrow">Mythos Interactive</div>
+        <h2 class="section-title">
+          My <span style="color: var(--magenta)">Games</span>
+        </h2>
+        <div class="hr-rule"></div>
+      </div>
+      <div class="studio-banner fade-up">
+        <div>
+          <div class="studio-name">Mythos Interactive</div>
+          <div class="studio-meta">
+            Founder &amp; Gameplay Engineer &middot; Est. 2019 &middot; Editor's
+            Choice &mdash; Simmer.io &middot; 15 titles on itch.io
+          </div>
+        </div>
+        <div class="studio-links">
+          <a
+            href="https://store.steampowered.com/app/3197330/Mythos_Interactive_Game_Collection/"
+            target="_blank"
+            rel="noopener"
+            class="studio-link primary"
+            >&#127918; Steam</a
+          >
+          <button class="studio-link" data-open-trailer>&#9654; Trailer</button>
+          <a
+            href="https://mythosinteractive.itch.io/"
+            target="_blank"
+            rel="noopener"
+            class="studio-link"
+            >itch.io &#8599;</a
+          >
+        </div>
+      </div>
+      <div class="games-grid">
+        <div class="game-card fade-up" style="--gc: var(--yellow)">
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/SwordvsSquash/cover.png"
+              alt="Sword vs Squash"
+              loading="lazy"
+            /><span class="game-engine-badge">Unity &middot; 3D</span
+            ><span class="game-jam-badge">Pirate Jam 16</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Action / Arcade</div>
+            <div class="game-title">Sword vs Squash</div>
+            <p class="game-desc">
+              Soar through a medieval village as a mysteriously animated sword
+              with a grudge against magical pumpkins. Built solo in under 4 days
+              for Pirate Software Game Jam 16 &mdash; physics-driven flight,
+              double-jump combat, and a hidden secret in the icy mountains.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">HTML5</span
+                ><span class="game-tag">Windows</span
+                ><span class="game-tag">Physics</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/sword-vs-squash"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--magenta); transition-delay: 0.05s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/ToTheLast/cover.png"
+              alt="To The Last"
+              loading="lazy"
+            /><span class="game-engine-badge">Unreal Engine &middot; FPS</span
+            ><span class="game-jam-badge">GMTK Jam 2022</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">First-Person Shooter</div>
+            <div class="game-title">To The Last</div>
+            <p class="game-desc">
+              Fight demonic hordes as the Diceslinger &mdash; a fearsome cowboy
+              whose dice are both ammo and health. Built in Unreal Engine in 48
+              hours for GMTK Game Jam 2022, with a full quality-of-life update
+              post-jam.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Windows</span
+                ><span class="game-tag">Fast-Paced</span
+                ><span class="game-tag">GMTK</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/to-the-last"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Download &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--cyan); transition-delay: 0.1s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/25Vikings/cover.png"
+              alt="25 Vikings"
+              loading="lazy"
+            /><span class="game-engine-badge">Unity &middot; Top-Down</span
+            ><span class="game-jam-badge">Ludum Dare 50</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Action / Real-Time Strategy</div>
+            <div class="game-title">25 Vikings</div>
+            <p class="game-desc">
+              Command a clan of Vikings captured by the hordes of Helheim in
+              this top-down survival RTS made in 72 hours for Ludum Dare 50.
+              Post-jam update adds auto-upgrade and a lightning smite ability.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Windows</span
+                ><span class="game-tag">Ludum Dare</span
+                ><span class="game-tag">3D</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/25-vikings"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Download &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--orange); transition-delay: 0.05s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/InternalMedicine/cover.png"
+              alt="Internal Medicine"
+              loading="lazy"
+            /><span class="game-engine-badge"
+              >Unity &middot; Cross-Platform</span
+            >
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Action / Narrative</div>
+            <div class="game-title">Internal Medicine</div>
+            <p class="game-desc">
+              Play as a young doctor juggling patient care and mental health
+              under pressure. Extra Credits Game Jam 2020 submission released on
+              Windows, Mac, Linux, and HTML5. Earned a perfect 5-star rating on
+              itch.io.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">HTML5</span
+                ><span class="game-tag">Win/Mac/Linux</span
+                ><span class="game-tag">&#11088; 5/5</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/internal-medicine"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--violet); transition-delay: 0.1s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/DeviantDetective/cover.png"
+              alt="The Deviant Detective"
+              loading="lazy"
+            /><span class="game-engine-badge">Unity &middot; Puzzle</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Puzzle / Adventure</div>
+            <div class="game-title">The Case of the Deviant Detective</div>
+            <p class="game-desc">
+              Uncle Frankie needs a job done. A quirky noir-flavored mystery
+              puzzle game playable in the browser &mdash; voice acted, written,
+              designed, and developed entirely by Gal Afik.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Browser</span
+                ><span class="game-tag">Puzzle</span
+                ><span class="game-tag">Noir</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/the-deviant-detective"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--yellow); transition-delay: 0.15s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/RunawayRobot/cover.png"
+              alt="Runaway Robot"
+              loading="lazy"
+            /><span class="game-engine-badge">Unity &middot; Puzzle</span
+            ><span class="game-jam-badge">GMTK 2020</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Puzzle</div>
+            <div class="game-title">Runaway Robot</div>
+            <p class="game-desc">
+              Help little robots find their way in the world. A browser puzzle
+              game built for GMTK Game Jam 2020 with classic jam-style level
+              design and a charming robot aesthetic.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Browser</span
+                ><span class="game-tag">GMTK 2020</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/runaway-robot"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--cyan); transition-delay: 0.05s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/HeftyHeights/cover.png"
+              alt="Hefty Heights"
+              loading="lazy"
+              onerror="
+                this.style.background = 'var(--surface)';
+                this.style.minHeight = '160px';
+              "
+            /><span class="game-engine-badge">Unity &middot; Browser</span
+            ><span class="game-jam-badge">GMTK 2024</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Puzzle / Strategy</div>
+            <div class="game-title">Hefty Heights</div>
+            <p class="game-desc">
+              Test your stacking skills and precision as you carefully balance
+              everyday objects to hit the perfect weight. Every move counts in
+              this thrilling challenge of balance and strategy. Built for GMTK
+              Game Jam 2024.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Browser</span
+                ><span class="game-tag">Windows</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/hefty-heights"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--yellow); transition-delay: 0.1s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/TheWorldThatLiesBelow/cover.png"
+              alt="The World That Lies Below"
+              loading="lazy"
+              onerror="
+                this.style.background = 'var(--surface)';
+                this.style.minHeight = '160px';
+              "
+            /><span class="game-engine-badge">Unity &middot; Educational</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Educational / Simulation</div>
+            <div class="game-title">The World That Lies Below</div>
+            <p class="game-desc">
+              Come spend some time with the juvenile green sea turtle. An
+              educational experience exploring ocean life and the challenges
+              faced by sea turtles in their natural habitat.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Educational</span
+                ><span class="game-tag">Browser</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/the-world-that-lies-below"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--magenta); transition-delay: 0.05s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/HaroldsHarrowingHeroics/cover.png"
+              alt="Harold's Harrowing Heroics"
+              loading="lazy"
+              onerror="
+                this.style.background = 'var(--surface)';
+                this.style.minHeight = '160px';
+              "
+            /><span class="game-engine-badge">Unreal &middot; Action</span
+            ><span class="game-jam-badge">Epic MegaJam 2021</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Action / Platformer</div>
+            <div class="game-title">Harold's Harrowing Heroics</div>
+            <p class="game-desc">
+              Slime slashing, heroic dashing, and harrowing hair gel!? A
+              collaborative action game built for the 2021 Epic MegaJam with
+              Plus2Studios. Dodge, dash, and slash through chaotic enemies as
+              the unlikely hero Harold.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Windows</span
+                ><span class="game-tag">Collab</span
+                ><span class="game-tag">Epic MegaJam</span>
+              </div>
+              <a
+                href="https://plus2studios.itch.io/harolds-harrowing-heroics"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Download &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--orange); transition-delay: 0.1s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/TerminalCharge/cover.png"
+              alt="Terminal Charge"
+              loading="lazy"
+              onerror="
+                this.style.background = 'var(--surface)';
+                this.style.minHeight = '160px';
+              "
+            /><span class="game-engine-badge">Unity &middot; Mobile</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Arcade / Runner</div>
+            <div class="game-title">Terminal Charge</div>
+            <p class="game-desc">
+              Get to your gate before you miss your flight, but make sure to
+              keep your phone charged or you won't make it! A frantic airport
+              dash where time, battery life, and your gate number are all
+              working against you.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Browser</span
+                ><span class="game-tag">Arcade</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/terminal-charge"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--violet); transition-delay: 0.05s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/KinokoDash/cover.png"
+              alt="Kinoko Dash"
+              loading="lazy"
+              onerror="
+                this.style.background = 'var(--surface)';
+                this.style.minHeight = '160px';
+              "
+            /><span class="game-engine-badge">Unity &middot; Browser</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Action / Casual</div>
+            <div class="game-title">Kinoko Dash</div>
+            <p class="game-desc">
+              A short, fast-paced casual game about clicking and dashing around
+              while chopping angry mushroom enemies into tiny bits. Keep enemies
+              at a distance while timing your clicks just right to execute a
+              SUPER DASH!
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Browser</span
+                ><span class="game-tag">Fast-Paced</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/kinoko-dash"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--cyan); transition-delay: 0.1s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/published-games/PrepareToRePair/cover.png"
+              alt="Prepare to Re-Pair!"
+              loading="lazy"
+              onerror="
+                this.style.background = 'var(--surface)';
+                this.style.minHeight = '160px';
+              "
+            /><span class="game-engine-badge">Unity &middot; Puzzle</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Puzzle / Action</div>
+            <div class="game-title">Prepare to Re-Pair!</div>
+            <p class="game-desc">
+              Bring these two magnet buddies back together before loneliness
+              overwhelms them. A charming and hectic puzzle action game where
+              you guide cute robot friends through increasingly tricky obstacles
+              to reunite them.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Browser</span
+                ><span class="game-tag">Co-op</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/prepare-to-re-pair"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--yellow); transition-delay: 0.05s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/unpublished-games/ChickenGame/1.png"
+              alt="Unnamed Chicken Game"
+              loading="lazy"
+              onerror="
+                this.style.background = 'var(--surface)';
+                this.style.minHeight = '160px';
+              "
+            /><span class="game-engine-badge">Unity</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Action / Arcade</div>
+            <div class="game-title">Unnamed Chicken Game</div>
+            <p class="game-desc">
+              A scrappy jam game starring a very determined chicken. What it
+              lacks in a name it makes up for in chaotic energy. Sometimes the
+              best games come from the least expected premises.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Browser</span
+                ><span class="game-tag">Jam</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/unnamed-chicken-game"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--magenta); transition-delay: 0.1s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/unpublished-games/Stars/1.png"
+              alt="Stars: Transmission"
+              loading="lazy"
+              onerror="
+                this.style.background = 'var(--surface)';
+                this.style.minHeight = '160px';
+              "
+            /><span class="game-engine-badge">Unity</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Narrative / Puzzle</div>
+            <div class="game-title">Stars: Transmission</div>
+            <p class="game-desc">
+              A narrative-driven experience centered around stars and the
+              transmissions they carry across the cosmos. An atmospheric,
+              story-focused jam game exploring themes of distance,
+              communication, and connection.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Browser</span
+                ><span class="game-tag">Narrative</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/stars-transmission"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="game-card fade-up"
+          style="--gc: var(--orange); transition-delay: 0.05s"
+        >
+          <div class="game-stripe"></div>
+          <div class="game-cover-wrap">
+            <img
+              class="game-cover"
+              src="img/unpublished-games/Ingenuity/1.png"
+              alt="Ingenuity"
+              loading="lazy"
+              onerror="
+                this.style.background = 'var(--surface)';
+                this.style.minHeight = '160px';
+              "
+            /><span class="game-engine-badge">Unity</span>
+          </div>
+          <div class="game-body">
+            <div class="game-genre">Puzzle / Strategy</div>
+            <div class="game-title">Ingenuity</div>
+            <p class="game-desc">
+              A puzzle and strategy game demanding creative thinking and clever
+              problem-solving. Named after NASA's Mars helicopter, Ingenuity
+              challenges players to engineer solutions under pressure.
+            </p>
+            <div class="game-footer">
+              <div class="game-tags">
+                <span class="game-tag">Browser</span
+                ><span class="game-tag">Puzzle</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/ingenuity"
+                target="_blank"
+                rel="noopener"
+                class="game-link"
+                >Play &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="games-cta fade-up">
+        <a
+          href="https://store.steampowered.com/app/3197330/Mythos_Interactive_Game_Collection/"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-primary"
+          >&#127918; Full Collection on Steam</a
+        >
+        <a
+          href="https://mythosinteractive.itch.io/"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-secondary"
+          >All Games on itch.io &#8599;</a
+        >
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="surface" aria-label="Professional projects">
+      <div class="section-header">
+        <div class="eyebrow">Portfolio</div>
+        <h2 class="section-title">
+          Professional <span style="color: var(--violet)">Projects</span>
+        </h2>
+        <div class="hr-rule"></div>
+      </div>
+      <div class="proj-filters" role="group" aria-label="Filter projects">
+        <button class="pf-btn active" data-filter="all">All</button>
+        <button class="pf-btn" data-filter="vr">&#129509; VR / XR</button>
+        <button class="pf-btn" data-filter="web">&#127760; Web / Data</button>
+        <button class="pf-btn" data-filter="systems">&#9881; Systems</button>
+      </div>
+      <div class="projects-grid">
+        <div class="proj-card fade-up" data-cat="vr" style="--pc: var(--cyan)">
+          <div class="proj-banner"></div>
+          <div class="proj-body">
+            <div class="proj-cat">
+              &#129509; VR / XR &mdash; Applied Research Associates
+            </div>
+            <div class="proj-title">
+              Military &amp; Healthcare VR Simulations
+            </div>
+            <p class="proj-desc">
+              Staff Serious Games Developer on 4 VR/MR training simulations for
+              military, healthcare, and commercial clients. Led technical
+              efforts on 2 Unreal Engine projects. Optimized performance from 45
+              to 90 FPS. Presented at ITSEC and ECGC conferences.
+            </p>
+            <div class="proj-footer">
+              <div class="proj-tags">
+                <span class="proj-tag">UE4/5</span
+                ><span class="proj-tag">OpenXR</span
+                ><span class="proj-tag">Meta Quest</span
+                ><span class="proj-tag">SteamVR</span>
+              </div>
+              <span class="proj-link na">Confidential</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="proj-card fade-up"
+          data-cat="web"
+          style="--pc: var(--orange); transition-delay: 0.05s"
+        >
+          <div class="proj-banner"></div>
+          <div class="proj-body">
+            <div class="proj-cat">
+              &#127760; Web Platform &mdash; Smithsonian
+            </div>
+            <div class="proj-title">
+              eMammal &mdash; Wildlife Camera Trap Platform
+            </div>
+            <p class="proj-desc">
+              Contributed to emammal.si.edu, a Smithsonian Institution
+              camera-trap data platform used by wildlife researchers worldwide
+              to catalog millions of animal images. Full-stack development using
+              Java, Spring Boot, and database tooling.
+            </p>
+            <div class="proj-footer">
+              <div class="proj-tags">
+                <span class="proj-tag">Java</span
+                ><span class="proj-tag">Spring Boot</span
+                ><span class="proj-tag">Smithsonian</span>
+              </div>
+              <a
+                href="https://emammal.si.edu"
+                target="_blank"
+                rel="noopener"
+                class="proj-link"
+                >Visit &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="proj-card fade-up"
+          data-cat="systems"
+          style="--pc: var(--magenta); transition-delay: 0.1s"
+        >
+          <div class="proj-banner"></div>
+          <div class="proj-body">
+            <div class="proj-cat">
+              &#9881; Museum Systems &mdash; Smithsonian / Quotient
+            </div>
+            <div class="proj-title">
+              NMAAHC Interactive Exhibits &amp; Digital Archive
+            </div>
+            <p class="proj-desc">
+              Built interactive exhibit software and digital archiving
+              infrastructure for the National Museum of African American History
+              and Culture. NoSQL database system handling 5M+ artifact records
+              (Drupal 7 + Spring Boot).
+            </p>
+            <div class="proj-footer">
+              <div class="proj-tags">
+                <span class="proj-tag">MongoDB</span
+                ><span class="proj-tag">Spring Boot</span
+                ><span class="proj-tag">Drupal 7</span>
+              </div>
+              <a
+                href="https://nmaahc.si.edu"
+                target="_blank"
+                rel="noopener"
+                class="proj-link"
+                >Museum &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="proj-card fade-up"
+          data-cat="systems"
+          style="--pc: var(--yellow); transition-delay: 0.05s"
+        >
+          <div class="proj-banner"></div>
+          <div class="proj-body">
+            <div class="proj-cat">&#9881; FinTech &mdash; Deutsche Bank</div>
+            <div class="proj-title">
+              Internal Auditing &amp; SSIS Pipeline Systems
+            </div>
+            <p class="proj-desc">
+              Software Engineer and Scrum Master on Deutsche Bank's internal
+              auditing infrastructure. SSIS pipelines for Oracle financial
+              databases. Technical Information Security Officer. Organized
+              global hackathon with 200+ participants, producing 2
+              production-shipped projects.
+            </p>
+            <div class="proj-footer">
+              <div class="proj-tags">
+                <span class="proj-tag">Oracle PL/SQL</span
+                ><span class="proj-tag">SSIS</span
+                ><span class="proj-tag">ETL</span>
+              </div>
+              <span class="proj-link na">Internal</span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="proj-card fade-up"
+          data-cat="web"
+          style="--pc: var(--violet); transition-delay: 0.1s"
+        >
+          <div class="proj-banner"></div>
+          <div class="proj-body">
+            <div class="proj-cat">
+              &#127760; Dashboard &mdash; UNC Chapel Hill
+            </div>
+            <div class="proj-title">
+              OpenPark &mdash; Vehicle Occupancy Dashboard
+            </div>
+            <p class="proj-desc">
+              Built a real-time vehicle occupancy and parking management
+              dashboard for UNC Chapel Hill's Parking &amp; Transportation
+              department. Aggregates sensor data to give administrators live
+              facility utilization across campus.
+            </p>
+            <div class="proj-footer">
+              <div class="proj-tags">
+                <span class="proj-tag">Dashboard</span
+                ><span class="proj-tag">Real-time</span
+                ><span class="proj-tag">UNC</span>
+              </div>
+              <a
+                href="https://openpark.dev.fo.unc.edu"
+                target="_blank"
+                rel="noopener"
+                class="proj-link"
+                >Dashboard &#8599; (VPN)</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="proj-card fade-up"
+          data-cat="systems"
+          style="--pc: var(--yellow); transition-delay: 0.15s"
+        >
+          <div class="proj-banner"></div>
+          <div class="proj-body">
+            <div class="proj-cat">
+              &#9881; Game Dev Tool &mdash; Mythos Interactive
+            </div>
+            <div class="proj-title">Unity OpenAI NPC Dialogue Plugin</div>
+            <p class="proj-desc">
+              Custom Unity plugin integrating OpenAI's API to generate dynamic,
+              contextually-aware NPC dialogue at runtime. Designers define
+              character personalities; AI handles infinite conversation
+              variation without pre-scripting every branch.
+            </p>
+            <div class="proj-footer">
+              <div class="proj-tags">
+                <span class="proj-tag">C#</span
+                ><span class="proj-tag">Unity</span
+                ><span class="proj-tag">OpenAI API</span>
+              </div>
+              <a
+                href="https://mythosinteractive.itch.io/"
+                target="_blank"
+                rel="noopener"
+                class="proj-link"
+                >Studio &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section id="languages" class="bg" aria-label="Technology stack">
+      <div class="section-header">
+        <div class="eyebrow">Tech Stack</div>
+        <h2 class="section-title">
+          Languages &amp; <span style="color: var(--cyan)">Tools</span>
+        </h2>
+        <div class="hr-rule"></div>
+      </div>
+      <div class="lang-grid">
+        <div class="lang-card fade-up" style="--lc: var(--orange)">
+          <div class="lang-name">Java</div>
+          <div class="lang-type">7 Years &middot; Enterprise</div>
+          <div class="lang-dots">
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+          </div>
+        </div>
+        <div
+          class="lang-card fade-up"
+          style="--lc: var(--yellow); transition-delay: 0.04s"
+        >
+          <div class="lang-name">C#</div>
+          <div class="lang-type">Unity &middot; .NET</div>
+          <div class="lang-dots">
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+          </div>
+        </div>
+        <div
+          class="lang-card fade-up"
+          style="--lc: var(--magenta); transition-delay: 0.08s"
+        >
+          <div class="lang-name">C++</div>
+          <div class="lang-type">Unreal &middot; Systems</div>
+          <div class="lang-dots">
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld"></div>
+          </div>
+        </div>
+        <div
+          class="lang-card fade-up"
+          style="--lc: var(--cyan); transition-delay: 0.12s"
+        >
+          <div class="lang-name">Python</div>
+          <div class="lang-type">4 Years &middot; Scripting</div>
+          <div class="lang-dots">
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld"></div>
+          </div>
+        </div>
+        <div
+          class="lang-card fade-up"
+          style="--lc: var(--violet); transition-delay: 0.16s"
+        >
+          <div class="lang-name">TypeScript</div>
+          <div class="lang-type">Angular &middot; Web</div>
+          <div class="lang-dots">
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld"></div>
+          </div>
+        </div>
+        <div
+          class="lang-card fade-up"
+          style="--lc: var(--orange); transition-delay: 0.2s"
+        >
+          <div class="lang-name">JavaScript</div>
+          <div class="lang-type">jQuery &middot; Angular</div>
+          <div class="lang-dots">
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld"></div>
+          </div>
+        </div>
+        <div
+          class="lang-card fade-up"
+          style="--lc: var(--yellow); transition-delay: 0.24s"
+        >
+          <div class="lang-name">SQL</div>
+          <div class="lang-type">Oracle &middot; PostgreSQL</div>
+          <div class="lang-dots">
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld"></div>
+          </div>
+        </div>
+        <div
+          class="lang-card fade-up"
+          style="--lc: var(--cyan); transition-delay: 0.28s"
+        >
+          <div class="lang-name">PHP</div>
+          <div class="lang-type">Drupal &middot; CMS</div>
+          <div class="lang-dots">
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld on"></div>
+            <div class="ld"></div>
+            <div class="ld"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="surface" aria-label="Work experience">
+      <div class="section-header">
+        <div class="eyebrow">Career</div>
+        <h2 class="section-title">
+          Experience <span style="color: var(--magenta)">Timeline</span>
+        </h2>
+        <div class="hr-rule"></div>
+      </div>
+      <div class="timeline">
+        <div class="tl-item fade-up" style="--dc: var(--yellow)">
+          <div class="tl-dot"></div>
+          <div class="tl-period">Apr 2019 &mdash; Present</div>
+          <div class="tl-role">Founder &amp; Gameplay Engineer</div>
+          <div class="tl-company">Mythos Interactive</div>
+          <ul class="tl-bullets">
+            <li>
+              Founded and operate a 2D/3D game studio &mdash; 9 titles released
+              on Steam as the Mythos Interactive Game Collection; received
+              Editor's Choice on Simmer.io.
+            </li>
+            <li>
+              Led a team of 6 through full game development cycles using Agile
+              methodology across Unity and Unreal Engine projects.
+            </li>
+            <li>
+              Handled all development, voice acting, level design, UI/UX, audio
+              integration, and post-release marketing campaigns.
+            </li>
+            <li>
+              Developed a Unity plugin integrating OpenAI's API for dynamic,
+              AI-generated NPC dialogue at runtime.
+            </li>
+            <li>
+              Built custom editor tooling in Unity and Unreal Engine to
+              streamline artist and designer workflows.
+            </li>
+          </ul>
+        </div>
+        <div class="tl-item fade-up" style="--dc: var(--cyan)">
+          <div class="tl-dot"></div>
+          <div class="tl-period">Nov 2020 &mdash; Jul 2024</div>
+          <div class="tl-role">Staff Serious Games Developer</div>
+          <div class="tl-company">Applied Research Associates</div>
+          <ul class="tl-bullets">
+            <li>
+              Developed 4 VR/MR training simulations for Meta Quest 2/Pro/3 and
+              SteamVR for military, healthcare, and commercial clients using
+              OpenXR/MetaXR.
+            </li>
+            <li>
+              Led technical efforts on 2 Unreal Engine projects in Blueprints
+              and native C++; optimized VR performance from 45 to 90 FPS using
+              Unreal Insights.
+            </li>
+            <li>
+              Designed and implemented accessible VR UI/UX systems through
+              iterative prototyping and usability testing.
+            </li>
+            <li>
+              Led peer code reviews, MetaSound knowledge-sharing sessions, and
+              mentored a 14-member cross-functional team (4 artists, 1 designer,
+              7 engineers, 2 QA).
+            </li>
+            <li>
+              Facilitated client meetings, product demos, and presented at ITSEC
+              and ECGC industry conferences.
+            </li>
+          </ul>
+        </div>
+        <div class="tl-item fade-up" style="--dc: var(--magenta)">
+          <div class="tl-dot"></div>
+          <div class="tl-period">Feb 2019 &mdash; Nov 2020</div>
+          <div class="tl-role">Software Engineer</div>
+          <div class="tl-company">Deutsche Bank</div>
+          <ul class="tl-bullets">
+            <li>
+              Developed and maintained SQL Server Integration Services for
+              financial Oracle databases using PL/SQL.
+            </li>
+            <li>
+              Served as Scrum Master, leading sprint rituals and facilitating
+              cross-timezone Agile coordination for a global team across 4 time
+              zones.
+            </li>
+            <li>
+              Established security protocols and compliance measures as
+              Technical Information Security Officer.
+            </li>
+            <li>
+              Organized and led a global hackathon with 200+ participants; 2
+              resulting projects were implemented in production.
+            </li>
+          </ul>
+        </div>
+        <div class="tl-item fade-up" style="--dc: var(--violet)">
+          <div class="tl-dot"></div>
+          <div class="tl-period">May 2016 &mdash; May 2018</div>
+          <div class="tl-role">Associate Developer</div>
+          <div class="tl-company">Quotient, Inc.</div>
+          <ul class="tl-bullets">
+            <li>
+              Built a NoSQL database management system for the Smithsonian
+              Institution handling 5M+ artifact records using Drupal 7 and
+              Spring Boot.
+            </li>
+            <li>
+              Architected RESTful APIs supporting concurrent multi-client access
+              with multi-threaded request handling and messaging queues.
+            </li>
+            <li>
+              Built interactive exhibit software and digital archiving systems
+              for the NMAAHC (National Museum of African American History and
+              Culture).
+            </li>
+            <li>
+              Created a configurable CMS enabling multimedia content management
+              for non-technical museum staff.
+            </li>
+          </ul>
+        </div>
+        <div class="tl-item fade-up" style="--dc: var(--orange)">
+          <div class="tl-dot"></div>
+          <div class="tl-period">Sep 2010 &mdash; May 2016</div>
+          <div class="tl-role">B.Sc. Information Systems</div>
+          <div class="tl-company">
+            University of Maryland, Baltimore County (UMBC)
+          </div>
+          <ul class="tl-bullets">
+            <li>
+              Degree in Information Systems with focus on software engineering,
+              database systems, and systems architecture.
+            </li>
+            <li>
+              Programming independently since 2008 &mdash; 8 years of personal
+              projects and game development prior to professional entry.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="bg" aria-label="Contact">
+      <div class="section-header">
+        <div class="eyebrow">Reach Out</div>
+        <h2 class="section-title">
+          Let's <span style="color: var(--yellow)">Work</span>
+        </h2>
+        <div class="hr-rule"></div>
+      </div>
+      <div class="contact-grid">
+        <div>
+          <h3 class="contact-headline">
+            Ready to build something <em>remarkable?</em>
+          </h3>
+          <p class="contact-sub">
+            Open to senior and lead roles in game development, VR/XR, or
+            full-stack engineering &mdash; especially where deep technical skill
+            and creative vision intersect. Available for full-time positions,
+            contract work, and consulting engagements.
+          </p>
+          <div class="contact-links">
+            <a href="mailto:gal.p.afik@gmail.com" class="contact-link"
+              ><span class="cl-icon">&#9993;</span>gal.p.afik@gmail.com</a
+            >
+            <a
+              href="https://galafik.com"
+              target="_blank"
+              rel="noopener"
+              class="contact-link"
+              ><span class="cl-icon">&#127760;</span>galafik.com</a
+            >
+            <a
+              href="https://www.linkedin.com/in/galafik/"
+              target="_blank"
+              rel="noopener"
+              class="contact-link"
+              ><span class="cl-icon">in</span>linkedin.com/in/galafik</a
+            >
+            <a
+              href="https://github.com/GalAfik"
+              target="_blank"
+              rel="noopener"
+              class="contact-link"
+              ><span class="cl-icon">&#9095;</span>github.com/GalAfik</a
+            >
+            <a
+              href="https://mythosinteractive.itch.io/"
+              target="_blank"
+              rel="noopener"
+              class="contact-link"
+              ><span class="cl-icon">&#127918;</span
+              >mythosinteractive.itch.io</a
+            >
+            <a
+              href="https://store.steampowered.com/app/3197330/Mythos_Interactive_Game_Collection/"
+              target="_blank"
+              rel="noopener"
+              class="contact-link"
+              ><span class="cl-icon">&#128250;</span>Steam Collection</a
+            >
+            <a
+              href="assets/Gal_Phillip_Afik_Resume.pdf"
+              download
+              class="contact-link"
+              ><span class="cl-icon">&#8595;</span>Download Resume (PDF)</a
+            >
+          </div>
+        </div>
+        <div class="callout-box fade-up">
+          <p>Let's build something nobody else could.</p>
+          <a href="mailto:gal.p.afik@gmail.com" class="callout-email"
+            >gal.p.afik@gmail.com</a
+          >
+          <div class="callout-roles">
+            <span class="callout-role">Game Dev</span>
+            <span class="callout-role">VR / XR</span>
+            <span class="callout-role">Full-Stack</span>
+            <span class="callout-role">Lead / Senior</span>
+            <span class="callout-role">Contract</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer role="contentinfo">
+      <span
+        >Gal Afik &middot; Game Developer &amp; Software Engineer &middot; Cary,
+        NC</span
+      >
+      <a href="https://galafik.com">galafik.com</a>
+      <span>&copy; 2025 Gal Afik. All rights reserved.</span>
+    </footer>
+
+    <script>
+      "use strict";
+
+      /* ── 1. PARALLAX SHAPES ─────────────────────────────────────────
+   12 geometric shapes pinned to a fixed canvas behind the page.
+   Each animates independently via requestAnimationFrame —
+   no libraries, pure CSS transforms on the GPU compositor.
+   ─────────────────────────────────────────────────────────────── */
+      (function initShapes() {
+        var canvas = document.getElementById("px-canvas");
+        if (!canvas) return;
+
+        var defs = [
+          {
+            c: "#f5e642",
+            s: 200,
+            l: 5,
+            top: 12,
+            rot: 0.3,
+            bw: 2,
+            type: "ring",
+          },
+          {
+            c: "#00f5d4",
+            s: 280,
+            l: 80,
+            top: 18,
+            rot: -0.2,
+            bw: 1.5,
+            type: "ring",
+          },
+          {
+            c: "#a855f7",
+            s: 120,
+            l: 50,
+            top: 60,
+            rot: -0.4,
+            bw: 0,
+            type: "diamond",
+          },
+          {
+            c: "#ff2d78",
+            s: 90,
+            l: 25,
+            top: 75,
+            rot: 0.35,
+            bw: 2,
+            type: "ring",
+          },
+          {
+            c: "#f5e642",
+            s: 55,
+            l: 65,
+            top: 40,
+            rot: 0.5,
+            bw: 0,
+            type: "cross",
+          },
+        ];
+
+        var items = defs.map(function (d, i) {
+          var el = document.createElement("div");
+          var size = d.s + "px";
+          el.style.position = "absolute";
+          el.style.width = size;
+          el.style.height = size;
+          el.style.left = d.l + "vw";
+          el.style.top = d.top + "vh";
+          el.style.opacity = "0.14";
+          el.style.willChange = "transform";
+          el.style.pointerEvents = "none";
+
+          if (d.type === "ring") {
+            el.style.borderRadius = "50%";
+            el.style.border = d.bw + "px solid " + d.c;
+            el.style.background = "transparent";
+          } else if (d.type === "diamond") {
+            el.style.background = d.c;
+            el.style.transform = "rotate(45deg)";
+          } else if (d.type === "cross") {
+            el.style.position = "absolute";
+            var h1 = document.createElement("div");
+            h1.style.cssText =
+              "position:absolute;width:100%;height:20%;top:40%;left:0;background:" +
+              d.c;
+            var v1 = document.createElement("div");
+            v1.style.cssText =
+              "position:absolute;width:20%;height:100%;left:40%;top:0;background:" +
+              d.c;
+            el.appendChild(h1);
+            el.appendChild(v1);
+          }
+
+          canvas.appendChild(el);
+          return { el: el, d: d, angle: i * 30, phase: i * 0.5, t: i * 0.1 };
+        });
+
+        function tick() {
+          for (var i = 0; i < items.length; i++) {
+            var o = items[i];
+            o.t += 0.002;
+            o.angle += o.d.rot * 0.25;
+            var tx = Math.sin(o.phase + o.t * 0.7) * 18;
+            var rot = o.d.type === "diamond" ? 45 + o.angle : o.angle;
+            o.el.style.transform =
+              "translateX(" + tx + "px) rotate(" + rot + "deg)";
+          }
+          requestAnimationFrame(tick);
+        }
+        tick();
+      })();
+
+      (function initHeroParallax() {
+        var grid = document.getElementById("hero-grid");
+        var orbs = document.querySelectorAll(".hero-orb");
+        var rates = [0.15, 0.25, 0.1];
+        window.addEventListener(
+          "scroll",
+          function () {
+            var sy = window.scrollY;
+            if (grid) grid.style.transform = "translateY(" + sy * 0.3 + "px)";
+            orbs.forEach(function (orb, i) {
+              orb.style.transform =
+                "translateY(" + sy * (rates[i] || 0.2) + "px)";
+            });
+          },
+          { passive: true },
+        );
+      })();
+
+      /* ── 3. FADE-UP OBSERVER ────────────────────────────────────────
+   Elements with .fade-up animate in once when entering viewport.
+   ─────────────────────────────────────────────────────────────── */
+      (function initFadeUps() {
+        var obs = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                obs.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+        document.querySelectorAll(".fade-up").forEach(function (el) {
+          obs.observe(el);
+        });
+      })();
+
+      /* ── 4. ACTIVE NAV LINK ─────────────────────────────────────────
+   Highlights the nav link for whichever section is scrolled into.
+   ─────────────────────────────────────────────────────────────── */
+      (function initNavActive() {
+        var sections = Array.from(document.querySelectorAll("section[id]"));
+        var links = Array.from(document.querySelectorAll(".nav-links a"));
+        function update() {
+          var cur = "";
+          sections.forEach(function (s) {
+            if (window.scrollY >= s.offsetTop - 160) cur = s.id;
+          });
+          links.forEach(function (a) {
+            a.classList.toggle("active", a.getAttribute("href") === "#" + cur);
+          });
+        }
+        window.addEventListener("scroll", update, { passive: true });
+        update();
+      })();
+
+      /* ── 5. NAV SHRINK ──────────────────────────────────────────────
+   Tightens nav padding once user scrolls past 60px.
+   ─────────────────────────────────────────────────────────────── */
+      (function initNavShrink() {
+        var nav = document.getElementById("main-nav");
+        window.addEventListener(
+          "scroll",
+          function () {
+            nav.classList.toggle("scrolled", window.scrollY > 60);
+          },
+          { passive: true },
+        );
+      })();
+
+      /* ── 6. MOBILE HAMBURGER ────────────────────────────────────────
+   Toggles mobile nav drawer.
+   ─────────────────────────────────────────────────────────────── */
+      (function initHamburger() {
+        var btn = document.getElementById("hamburger");
+        var links = document.getElementById("nav-links");
+        btn.addEventListener("click", function () {
+          var open = links.classList.toggle("open");
+          btn.setAttribute("aria-expanded", String(open));
+        });
+        links.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            links.classList.remove("open");
+            btn.setAttribute("aria-expanded", "false");
+          });
+        });
+      })();
+
+      /* ── 7. SKILL TABS ──────────────────────────────────────────────
+   Switches between Game Dev and Web & Systems panels.
+   Re-observes hidden fade-ups when a panel becomes visible.
+   ─────────────────────────────────────────────────────────────── */
+      (function initSkillTabs() {
+        var tabs = document.querySelectorAll(".skill-tab");
+        var panels = document.querySelectorAll(".skill-panel");
+        var revObs = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                revObs.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+
+        tabs.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            tabs.forEach(function (b) {
+              b.classList.remove("active");
+            });
+            btn.classList.add("active");
+            panels.forEach(function (p) {
+              p.classList.remove("active");
+            });
+            var target = document.getElementById("tab-" + btn.dataset.tab);
+            if (target) {
+              target.classList.add("active");
+              target
+                .querySelectorAll(".fade-up:not(.visible)")
+                .forEach(function (el) {
+                  revObs.observe(el);
+                });
+            }
+          });
+        });
+      })();
+
+      /* ── 8. PROJECT FILTER ──────────────────────────────────────────
+   Shows / hides project cards by category.
+   ─────────────────────────────────────────────────────────────── */
+      (function initProjectFilter() {
+        var btns = document.querySelectorAll(".pf-btn");
+        var cards = document.querySelectorAll(".proj-card");
+        btns.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            btns.forEach(function (b) {
+              b.classList.remove("active");
+            });
+            btn.classList.add("active");
+            var f = btn.dataset.filter;
+            cards.forEach(function (card) {
+              card.style.display =
+                f === "all" || card.dataset.cat === f ? "" : "none";
+            });
+          });
+        });
+      })();
+
+      /* ── 9. VIDEO MODAL ─────────────────────────────────────────────
+   Opens YouTube trailer in a lightbox overlay.
+   Pauses video on close by replacing the iframe src.
+   ─────────────────────────────────────────────────────────────── */
+      (function initVideoModal() {
+        var modal = document.getElementById("video-modal");
+        var iframe = document.getElementById("modal-iframe");
+        var openBtns = document.querySelectorAll("[data-open-trailer]");
+        var closeBtn = document.getElementById("modal-close-btn");
+        var YT_SRC =
+          "https://www.youtube.com/embed/lC331DLOe4I?autoplay=1&rel=0&modestbranding=1";
+
+        function openModal() {
+          iframe.src = YT_SRC;
+          modal.classList.add("open");
+          document.body.style.overflow = "hidden";
+        }
+        function closeModal() {
+          iframe.src = "";
+          modal.classList.remove("open");
+          document.body.style.overflow = "";
+        }
+
+        openBtns.forEach(function (btn) {
+          btn.addEventListener("click", openModal);
+        });
+        if (closeBtn) closeBtn.addEventListener("click", closeModal);
+
+        // Close on backdrop click
+        modal.addEventListener("click", function (e) {
+          if (e.target === modal) closeModal();
+        });
+
+        // Close on Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && modal.classList.contains("open"))
+            closeModal();
+        });
+      })();
+    </script>
   </body>
 </html>
