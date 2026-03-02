@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Michal Afik-Shifman – Certified Accounting & Tax Services in Rockville, MD. 20+ years of expert tax preparation, bookkeeping, business formation, and financial planning."/>
+<title>Michal Afik-Shifman | Accounting & Tax Services | Rockville, MD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font:inherit}
+
+:root{
+  --navy:      #0b1d2e;
+  --navy-2:    #112538;
+  --navy-3:    #163047;
+  --gold:      #c8a45a;
+  --gold-lt:   #dfc07e;
+  --gold-pale: #f5edd8;
+  --cream:     #f8f5ef;
+  --white:     #ffffff;
+  --slate:     #4b5e70;
+  --slate-lt:  #7a8f9f;
+  --border:    rgba(200,164,90,.18);
+  --ff-display:'Playfair Display',Georgia,serif;
+  --ff-body:   'DM Sans',sans-serif;
+  --ease-out:  cubic-bezier(.22,.68,0,1.2);
+}
+
+body{font-family:var(--ff-body);background:var(--cream);color:var(--navy);overflow-x:hidden;line-height:1.6}
+.container{max-width:1180px;margin:0 auto;padding:0 40px}
+.gold-line{display:inline-flex;align-items:center;gap:10px;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.gold-line::before{content:'';width:28px;height:1.5px;background:var(--gold);flex-shrink:0}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s var(--ease-out),transform .65s var(--ease-out)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-l{opacity:0;transform:translateX(-30px);transition:opacity .65s var(--ease-out),transform .65s var(--ease-out)}
+.reveal-l.visible{opacity:1;transform:none}
+.reveal-r{opacity:0;transform:translateX(30px);transition:opacity .65s var(--ease-out),transform .65s var(--ease-out)}
+.reveal-r.visible{opacity:1;transform:none}
+
+/* ── NAV ─────────────────────────────── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;height:68px;
+  background:rgba(11,29,46,.97);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);transition:box-shadow .3s}
+#nav.scrolled{box-shadow:0 4px 32px rgba(0,0,0,.4)}
+.nav-inner{height:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:11px}
+.nav-brand-text{display:flex;flex-direction:column;line-height:1.2}
+.nav-name{font-family:var(--ff-display);font-size:1rem;font-weight:500;color:var(--white);letter-spacing:.01em}
+.nav-tag{font-size:.58rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+.nav-links a{padding:6px 13px;font-size:.77rem;font-weight:500;letter-spacing:.03em;
+  color:rgba(255,255,255,.65);border-radius:3px;transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--gold-lt);background:rgba(200,164,90,.08)}
+.nav-cta{background:var(--gold)!important;color:var(--navy)!important;font-weight:600!important;border-radius:3px!important}
+.nav-cta:hover{background:var(--gold-lt)!important;transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--white);transition:.3s}
+
+/* ── HERO ─────────────────────────────── */
+#hero{min-height:100svh;background:var(--navy);display:grid;
+  grid-template-columns:1fr 400px;align-items:center;position:relative;overflow:hidden;padding-top:68px}
+.hero-bg{position:absolute;inset:0;
+  background:radial-gradient(ellipse 85% 65% at 75% 50%,rgba(200,164,90,.07) 0%,transparent 55%),
+    linear-gradient(160deg,var(--navy) 30%,var(--navy-3) 100%)}
+.hero-grid-lines{position:absolute;inset:0;
+  background-image:repeating-linear-gradient(90deg,rgba(200,164,90,.03) 0 1px,transparent 1px 80px),
+    repeating-linear-gradient(0deg,rgba(200,164,90,.03) 0 1px,transparent 1px 80px);
+  mask-image:linear-gradient(to right,transparent,black 15%,black 85%,transparent)}
+.hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,164,90,.07) 0%,transparent 70%);
+  top:50%;right:8%;transform:translate(50%,-50%);pointer-events:none}
+.hero-content{position:relative;z-index:2;padding:80px 56px 80px 80px}
+.hero-eyebrow{opacity:0;animation:fadeUp .7s .1s forwards}
+.hero-h1{font-family:var(--ff-display);font-size:clamp(2.6rem,5.2vw,4.8rem);font-weight:400;
+  color:var(--white);line-height:1.08;letter-spacing:-.02em;margin:18px 0 10px;
+  opacity:0;animation:fadeUp .7s .25s forwards}
+.hero-h1 em{font-style:italic;color:var(--gold-lt)}
+.hero-rule{width:52px;height:1.5px;background:linear-gradient(to right,var(--gold),transparent);
+  margin:18px 0;opacity:0;animation:fadeUp .7s .38s forwards}
+.hero-p{font-size:1rem;font-weight:300;line-height:1.85;color:rgba(255,255,255,.6);
+  max-width:510px;margin-bottom:42px;opacity:0;animation:fadeUp .7s .5s forwards}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:fadeUp .7s .65s forwards}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:13px 28px;
+  font-size:.79rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border-radius:3px;transition:all .22s}
+.btn svg{width:13px;height:13px;stroke-width:2.5}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-gold:hover{background:var(--gold-lt);transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,164,90,.28)}
+.btn-ghost{border:1.5px solid rgba(200,164,90,.35);color:var(--gold-lt)}
+.btn-ghost:hover{border-color:var(--gold);background:rgba(200,164,90,.05);transform:translateY(-1px)}
+.hero-panel{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;
+  justify-content:center;border-left:1px solid var(--border);padding:80px 40px;
+  opacity:0;animation:fadeIn .9s .75s forwards}
+.award-box{border:1px solid rgba(200,164,90,.28);border-radius:4px;padding:26px 22px;
+  text-align:center;margin-bottom:24px;background:rgba(200,164,90,.03)}
+.award-stars{color:var(--gold);font-size:.85rem;letter-spacing:2px;margin-bottom:9px}
+.award-title{font-family:var(--ff-display);font-size:1.4rem;font-weight:700;color:var(--gold-lt);line-height:1.1;margin-bottom:5px}
+.award-desc{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);line-height:1.6}
+.panel-stat{display:flex;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.panel-stat:last-child{border-bottom:none}
+.stat-n{font-family:var(--ff-display);font-size:2.2rem;font-weight:400;color:var(--gold);line-height:1;flex-shrink:0;min-width:64px}
+.stat-l{font-size:.77rem;font-weight:400;color:rgba(255,255,255,.5);line-height:1.5}
+.scroll-hint{position:absolute;bottom:28px;left:80px;display:flex;align-items:center;gap:9px;
+  font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.28);
+  opacity:0;animation:fadeIn 1s 1.2s forwards}
+.scroll-track{width:34px;height:1px;background:rgba(255,255,255,.12);position:relative;overflow:hidden}
+.scroll-fill{position:absolute;top:0;left:-100%;width:100%;height:100%;background:var(--gold);animation:scrollPulse 2s 1.5s infinite}
+
+/* ── TRUST BAR ───────────────────────── */
+#trust{background:var(--navy-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:28px 0}
+.trust-inner{display:flex;align-items:center;justify-content:center;gap:44px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:9px;font-size:.77rem;font-weight:500;letter-spacing:.03em;color:rgba(255,255,255,.5)}
+.trust-item svg{color:var(--gold);width:15px;height:15px;flex-shrink:0;stroke-width:2}
+.trust-sep{width:1px;height:18px;background:var(--border)}
+
+/* ── ABOUT ───────────────────────────── */
+#about{padding:120px 0;background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-visual{position:relative}
+.about-card{background:var(--navy);border-radius:4px;aspect-ratio:4/5;
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.about-card::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(145deg,rgba(200,164,90,.09) 0%,transparent 50%),
+    radial-gradient(ellipse at 20% 80%,rgba(200,164,90,.06),transparent 55%)}
+.about-mono{font-family:var(--ff-display);font-size:10rem;font-weight:700;font-style:italic;
+  color:rgba(200,164,90,.09);position:absolute;user-select:none;letter-spacing:-.05em}
+.about-logo-big{position:relative;z-index:1}
+.corner-tl{position:absolute;top:-7px;left:-7px;width:44px;height:44px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.corner-br{position:absolute;bottom:-7px;right:-7px;width:44px;height:44px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+.about-chip{position:absolute;bottom:-16px;right:-16px;background:var(--gold);color:var(--navy);
+  padding:14px 20px;border-radius:3px;text-align:center}
+.chip-n{font-family:var(--ff-display);font-size:2rem;font-weight:700;line-height:1}
+.chip-t{font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-top:3px;opacity:.8}
+.about-text .gold-line{margin-bottom:14px}
+.about-text h2{font-family:var(--ff-display);font-size:clamp(1.9rem,3.2vw,2.9rem);font-weight:400;
+  line-height:1.15;margin-bottom:18px;letter-spacing:-.015em}
+.about-text h2 em{font-style:italic;color:var(--gold)}
+.about-text p{font-size:.95rem;line-height:1.9;color:var(--slate);font-weight:300;margin-bottom:16px}
+.creds{display:flex;flex-direction:column;gap:9px;margin-top:26px}
+.cred{display:flex;align-items:center;gap:11px;font-size:.83rem;font-weight:400;color:var(--navy)}
+.cred-dot{width:26px;height:26px;background:var(--gold-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cred-dot svg{color:var(--gold);width:12px;height:12px;stroke-width:2.8}
+
+/* ── SERVICES ────────────────────────── */
+#services{padding:120px 0;background:var(--navy)}
+.section-head{text-align:center;margin-bottom:68px}
+.section-head .gold-line{justify-content:center;margin-bottom:14px}
+.section-head h2{font-family:var(--ff-display);font-size:clamp(2rem,3.8vw,3.1rem);font-weight:400;
+  line-height:1.15;color:var(--white);letter-spacing:-.02em}
+.section-head h2 em{font-style:italic;color:var(--gold-lt)}
+.section-head p{max-width:500px;margin:14px auto 0;font-size:.95rem;font-weight:300;line-height:1.8;color:rgba(255,255,255,.48)}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;
+  background:rgba(200,164,90,.1);border-radius:4px;overflow:hidden}
+.svc{background:var(--navy-2);padding:42px 34px;position:relative;overflow:hidden;transition:background .3s}
+.svc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--gold),var(--gold-lt));
+  transform:scaleX(0);transform-origin:left;transition:transform .38s var(--ease-out)}
+.svc:hover{background:var(--navy-3)}
+.svc:hover::after{transform:scaleX(1)}
+.svc-n{font-family:var(--ff-display);font-size:3.8rem;font-weight:700;font-style:italic;
+  color:rgba(200,164,90,.07);position:absolute;top:14px;right:20px;line-height:1;transition:color .3s}
+.svc:hover .svc-n{color:rgba(200,164,90,.13)}
+.svc-icon{width:44px;height:44px;border:1px solid rgba(200,164,90,.22);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--gold);
+  transition:border-color .3s,background .3s}
+.svc:hover .svc-icon{border-color:var(--gold);background:rgba(200,164,90,.06)}
+.svc-icon svg{width:19px;height:19px;stroke-width:1.75}
+.svc h3{font-family:var(--ff-display);font-size:1.15rem;font-weight:500;color:var(--white);margin-bottom:9px}
+.svc p{font-size:.81rem;font-weight:300;line-height:1.8;color:rgba(255,255,255,.44)}
+
+/* ── PROCESS ─────────────────────────── */
+#process{padding:120px 0;background:var(--cream)}
+#process .section-head h2{color:var(--navy)}
+#process .section-head p{color:var(--slate)}
+.process-row{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:68px;position:relative}
+.process-row::before{content:'';position:absolute;top:35px;
+  left:calc(12.5% + 16px);right:calc(12.5% + 16px);height:1px;
+  background:linear-gradient(to right,var(--gold) 0%,rgba(200,164,90,.2) 100%)}
+.step{text-align:center;position:relative}
+.step-circle{width:70px;height:70px;border-radius:50%;background:var(--cream);
+  border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;
+  margin:0 auto 22px;position:relative;z-index:1;transition:background .3s,box-shadow .3s}
+.step-circle:hover{background:var(--gold);box-shadow:0 0 0 8px rgba(200,164,90,.1)}
+.step-circle svg{color:var(--gold);width:22px;height:22px;stroke-width:1.8;transition:color .3s}
+.step-circle:hover svg{color:var(--navy)}
+.step h4{font-family:var(--ff-display);font-size:1.05rem;font-weight:500;color:var(--navy);margin-bottom:9px}
+.step p{font-size:.79rem;font-weight:300;color:var(--slate-lt);line-height:1.75}
+
+/* ── TESTIMONIALS ────────────────────── */
+#testimonials{padding:120px 0;background:var(--navy);position:relative;overflow:hidden}
+.testi-deco{position:absolute;top:-60px;left:10px;font-family:var(--ff-display);font-size:26rem;
+  font-weight:700;color:rgba(200,164,90,.03);line-height:1;pointer-events:none;user-select:none}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:60px}
+.tcard{background:rgba(255,255,255,.035);border:1px solid rgba(200,164,90,.13);border-radius:4px;
+  padding:38px 32px;transition:border-color .3s,background .3s}
+.tcard:hover{border-color:rgba(200,164,90,.3);background:rgba(255,255,255,.05)}
+.tcard-q{font-family:var(--ff-display);font-size:2.6rem;font-weight:700;color:var(--gold);
+  line-height:.8;margin-bottom:14px;display:block}
+.tcard p{font-size:.88rem;font-weight:300;line-height:1.85;color:rgba(255,255,255,.65);
+  font-style:italic;margin-bottom:26px}
+.tcard-author{display:flex;align-items:center;gap:13px}
+.author-av{width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;
+  align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--navy);flex-shrink:0}
+.author-name{font-size:.82rem;font-weight:600;color:var(--white)}
+.author-meta{font-size:.68rem;color:rgba(255,255,255,.35);margin-top:2px}
+.tcard-stars{color:var(--gold);font-size:.7rem;letter-spacing:2px;margin-top:5px}
+
+/* ── CONTACT ─────────────────────────── */
+#contact{padding:120px 0;background:var(--cream)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-info .gold-line{margin-bottom:14px}
+.contact-info h2{font-family:var(--ff-display);font-size:clamp(1.8rem,3vw,2.7rem);font-weight:400;
+  line-height:1.2;margin-bottom:16px}
+.contact-info h2 em{font-style:italic;color:var(--gold)}
+.contact-info .lead{font-size:.95rem;font-weight:300;line-height:1.85;color:var(--slate);margin-bottom:38px;max-width:430px}
+.cinfo{display:flex;gap:15px;align-items:flex-start;margin-bottom:22px}
+.cinfo-icon{width:42px;height:42px;flex-shrink:0;background:var(--navy);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.cinfo-icon svg{width:17px;height:17px;stroke-width:1.8}
+.cinfo-text strong{display:block;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--navy);margin-bottom:3px}
+.cinfo-text span,.cinfo-text a{font-size:.87rem;font-weight:300;color:var(--slate);transition:color .2s}
+.cinfo-text a:hover{color:var(--gold)}
+.form-wrap{background:var(--navy);border-radius:4px;padding:50px 44px}
+.form-wrap h3{font-family:var(--ff-display);font-size:1.65rem;font-weight:400;color:var(--white);margin-bottom:6px}
+.form-wrap .sub{font-size:.81rem;font-weight:300;color:rgba(255,255,255,.38);margin-bottom:30px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.42);font-weight:500;margin-bottom:6px}
+.fg input,.fg select,.fg textarea{width:100%;background:rgba(255,255,255,.055);
+  border:1.5px solid rgba(200,164,90,.15);border-radius:3px;color:var(--white);
+  padding:11px 14px;font-family:var(--ff-body);font-size:.87rem;outline:none;
+  transition:border-color .2s,background .2s}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(255,255,255,.2)}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--gold);background:rgba(200,164,90,.04)}
+.fg select option{background:var(--navy-2)}
+.fg textarea{resize:vertical;min-height:92px}
+.btn-submit{width:100%;background:var(--gold);color:var(--navy);padding:14px;
+  font-family:var(--ff-body);font-size:.77rem;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;border-radius:3px;transition:background .22s,transform .15s,box-shadow .22s;margin-top:4px}
+.btn-submit:hover{background:var(--gold-lt);transform:translateY(-1px);box-shadow:0 8px 22px rgba(200,164,90,.25)}
+.form-note{font-size:.67rem;font-weight:300;color:rgba(255,255,255,.28);text-align:center;margin-top:10px}
+
+/* ── FOOTER ──────────────────────────── */
+footer{background:var(--navy);border-top:1px solid var(--border);padding:48px 0 30px}
+.footer-inner{display:flex;align-items:flex-start;justify-content:space-between;gap:36px;flex-wrap:wrap}
+.footer-brand p{font-size:.77rem;font-weight:300;color:rgba(255,255,255,.32);max-width:250px;line-height:1.7;margin-top:8px}
+.footer-col h4{font-size:.64rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:12px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.footer-col a{font-size:.8rem;font-weight:300;color:rgba(255,255,255,.4);transition:color .2s}
+.footer-col a:hover{color:var(--gold-lt)}
+.footer-bottom{margin-top:36px;padding-top:22px;border-top:1px solid rgba(255,255,255,.05);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.footer-copy{font-size:.7rem;color:rgba(255,255,255,.25);font-weight:300}
+.footer-cert{display:flex;align-items:center;gap:7px;font-size:.68rem;color:rgba(255,255,255,.28)}
+.footer-cert svg{color:var(--gold);width:13px;height:13px;stroke-width:2}
+
+/* ── KEYFRAMES ───────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%{left:-100%}60%{left:0}100%{left:100%}}
+
+/* ── MOBILE MENU ─────────────────────── */
+.mmenu{display:none;position:fixed;inset:0;z-index:890;background:rgba(11,29,46,.98);
+  flex-direction:column;align-items:center;justify-content:center;gap:26px}
+.mmenu.open{display:flex}
+.mmenu a{font-family:var(--ff-display);font-size:2rem;font-weight:400;color:rgba(255,255,255,.7);transition:color .2s}
+.mmenu a:hover{color:var(--gold-lt)}
+.mmenu-close{position:absolute;top:18px;right:22px;color:rgba(255,255,255,.45);font-size:1.5rem;cursor:pointer;padding:8px}
+
+/* ── RESPONSIVE ──────────────────────── */
+@media(max-width:920px){
+  #hero{grid-template-columns:1fr;padding-top:68px}
+  .hero-content{padding:56px 28px 48px}
+  .hero-panel{display:none}
+  .scroll-hint{left:28px}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:44px}
+  .about-visual{display:none}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .process-row{grid-template-columns:1fr 1fr}
+  .process-row::before{display:none}
+  .testi-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .container{padding:0 22px}
+  #about,#services,#process,#testimonials,#contact{padding:80px 0}
+  .footer-inner{flex-direction:column;gap:28px}
+  .trust-sep{display:none}
+  .trust-inner{gap:20px}
+  .form-row{grid-template-columns:1fr}
+}
+@media(max-width:540px){
+  .services-grid,.process-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mmenu" id="mmenu" role="dialog" aria-label="Mobile navigation">
+  <span class="mmenu-close" id="mmClose" aria-label="Close">&times;</span>
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#process">Process</a>
+  <a href="#testimonials">Testimonials</a>
+  <a href="#contact">Contact</a>
+  <a href="#contact" class="btn btn-gold" style="font-size:1rem;margin-top:6px">Schedule Consult</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav" aria-label="Main navigation">
+  <div class="container nav-inner">
+
+    <!-- ════════════ LOGO MARK ════════════
+         Concept: The letter "M" is drawn so
+         its right descending leg flows
+         seamlessly into a checkmark (✓),
+         echoing the original "R + checkmark"
+         mark. Enclosed in a slim hexagon to
+         evoke a seal of authority.
+    ════════════════════════════════════ -->
+    <a href="#" class="nav-brand" aria-label="Michal Afik-Shifman Accounting">
+      <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Outer hexagon seal -->
+        <path d="M23 2.5 L40 12 L40 34 L23 43.5 L6 34 L6 12 Z"
+              stroke="#c8a45a" stroke-width="1.1" fill="none" opacity=".45"/>
+        <!-- Inner hexagon echo -->
+        <path d="M23 7 L37 15 L37 31 L23 39 L9 31 L9 15 Z"
+              stroke="#c8a45a" stroke-width=".45" fill="none" opacity=".18"/>
+        <!--
+          M glyph: two peaks pointing up with a valley
+          Left leg: (11,31)→(11,16)
+          Up to left peak: stays at x=11 top
+          Valley: diagonal down to center (23,24)
+          Up to right peak: diagonal up to (35,16)
+          Right leg descends to (35,23) then
+          BECOMES the checkmark: short drop + upswing
+        -->
+        <path d="M11 31 L11 16 L23 25 L35 16 L35 23"
+              stroke="#c8a45a" stroke-width="2.15"
+              stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Checkmark extending from bottom of right M-leg -->
+        <path d="M31 27 L34 33 L42 19.5"
+              stroke="#c8a45a" stroke-width="2.15"
+              stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Accent dot at valley vertex -->
+        <circle cx="23" cy="25" r="1.5" fill="#c8a45a" opacity=".65"/>
+      </svg>
+      <div class="nav-brand-text">
+        <span class="nav-name">Michal Afik-Shifman</span>
+        <span class="nav-tag">Accounting &amp; Tax Services</span>
+      </div>
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-cta">Schedule Consult</a></li>
+    </ul>
+    <button class="hamburger" id="mmOpen" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" aria-label="Introduction">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid-lines" aria-hidden="true"></div>
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="gold-line hero-eyebrow">Rockville, MD · Serving Clients Since 2003</div>
+    <h1 class="hero-h1">
+      Expert Accounting<br>&amp; Tax Services,<br><em>Personalized for You.</em>
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-p">
+      Michal Afik-Shifman brings 20+ years of certified expertise to individuals,
+      small businesses, traders, and expatriates — maximizing your financial outcomes
+      with integrity and care.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-gold">
+        Schedule a Free Consultation
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#services" class="btn btn-ghost">View Services</a>
+    </div>
+  </div>
+
+  <div class="hero-panel" aria-label="Awards and statistics">
+    <div class="award-box">
+      <div class="award-stars">★★★★★</div>
+      <div class="award-title">2023 Best Rated<br>Tax Preparer</div>
+      <div class="award-desc">Rockville, Maryland<br>Excellence in Tax Services</div>
+    </div>
+    <div class="panel-stat">
+      <div class="stat-n">20+</div>
+      <div class="stat-l">Years of certified accounting &amp; tax experience</div>
+    </div>
+    <div class="panel-stat">
+      <div class="stat-n">9</div>
+      <div class="stat-l">Specialized service areas for individuals &amp; businesses</div>
+    </div>
+    <div class="panel-stat">
+      <div class="stat-n">IRS</div>
+      <div class="stat-l">Certified PTIN holder · AFSP program participant</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <span class="scroll-track"><span class="scroll-fill"></span></span>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div id="trust" aria-label="Trust indicators">
+  <div class="container trust-inner">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      IRS PTIN Certified
+    </div>
+    <div class="trust-sep" aria-hidden="true"></div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      20+ Years Experience
+    </div>
+    <div class="trust-sep" aria-hidden="true"></div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72 12.05 12.05 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.05 12.05 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      301-366-7011
+    </div>
+    <div class="trust-sep" aria-hidden="true"></div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Secure &amp; Confidential
+    </div>
+    <div class="trust-sep" aria-hidden="true"></div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Rockville, MD
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" aria-label="About Michal">
+  <div class="container about-grid">
+    <div class="about-visual reveal-l">
+      <div class="about-card">
+        <div class="about-mono" aria-hidden="true">MA</div>
+        <div class="about-logo-big" aria-label="Michal Afik-Shifman logo mark">
+          <svg width="130" height="130" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M23 2.5 L40 12 L40 34 L23 43.5 L6 34 L6 12 Z" stroke="#c8a45a" stroke-width="1.1" fill="none" opacity=".55"/>
+            <path d="M23 7 L37 15 L37 31 L23 39 L9 31 L9 15 Z" stroke="#c8a45a" stroke-width=".45" fill="none" opacity=".25"/>
+            <path d="M11 31 L11 16 L23 25 L35 16 L35 23" stroke="#c8a45a" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M31 27 L34 33 L42 19.5" stroke="#c8a45a" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="23" cy="25" r="1.5" fill="#c8a45a" opacity=".75"/>
+          </svg>
+        </div>
+        <div class="corner-tl" aria-hidden="true"></div>
+        <div class="corner-br" aria-hidden="true"></div>
+      </div>
+      <div class="about-chip" aria-label="20 plus years of experience">
+        <div class="chip-n">20+</div>
+        <div class="chip-t">Years<br>Experience</div>
+      </div>
+    </div>
+
+    <div class="about-text">
+      <div class="gold-line reveal">About Michal</div>
+      <h2 class="reveal">Your Trusted Partner<br>in <em>Financial Success</em></h2>
+      <p class="reveal">
+        Michal Afik-Shifman is a seasoned accounting and tax professional with over 
+        20 years of hands-on experience helping individuals, families, and businesses 
+        navigate the complexities of the U.S. tax code.
+      </p>
+      <p class="reveal">
+        Based in Rockville, MD, Michal was recognized as the <strong>2023 Best Rated 
+        Tax Preparer in Rockville</strong>. As an IRS Annual Filing Season Program 
+        participant and certified PTIN holder, she brings rigorous professional standards 
+        to every engagement — from simple individual returns to complex business filings, 
+        expatriate situations, and cryptocurrency portfolios.
+      </p>
+      <p class="reveal">
+        She founded Rosenthal Accounting on the belief that great accounting is built 
+        on relationships, not just numbers — and that every client deserves expert, 
+        personalized attention.
+      </p>
+      <div class="creds">
+        <div class="cred reveal">
+          <div class="cred-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></div>
+          IRS Annual Filing Season Program (AFSP) Certified
+        </div>
+        <div class="cred reveal">
+          <div class="cred-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></div>
+          Active Preparer Tax Identification Number (PTIN)
+        </div>
+        <div class="cred reveal">
+          <div class="cred-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></div>
+          2023 Best Rated Tax Preparer — Rockville, MD
+        </div>
+        <div class="cred reveal">
+          <div class="cred-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></div>
+          Virtual &amp; in-person appointments available year-round
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" aria-label="Services offered">
+  <div class="container">
+    <div class="section-head">
+      <div class="gold-line reveal">What We Offer</div>
+      <h2 class="reveal">Comprehensive <em>Financial Services</em></h2>
+      <p class="reveal">Everything you need — taxes, bookkeeping, planning, and more — under one roof.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="svc reveal">
+        <div class="svc-n" aria-hidden="true">01</div>
+        <div class="svc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Individual Tax Preparation</h3>
+        <p>Accurate, thorough personal returns for all situations — W-2, self-employed, investments, rental income. Maximize your refund every year.</p>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-n" aria-hidden="true">02</div>
+        <div class="svc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>Business Tax Preparation</h3>
+        <p>Corporate, partnership, and S-corp returns prepared with precision. Strategic planning to reduce your business tax liability year over year.</p>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-n" aria-hidden="true">03</div>
+        <div class="svc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <h3>Business Formation</h3>
+        <p>LLC, S-Corp, or C-Corp — expert guidance on entity selection, registration, and the accounting infrastructure to launch with confidence.</p>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-n" aria-hidden="true">04</div>
+        <div class="svc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <h3>Financial Planning</h3>
+        <p>Forward-looking strategies aligned with your life and business goals — retirement, education savings, and wealth-building guidance.</p>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-n" aria-hidden="true">05</div>
+        <div class="svc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+        </div>
+        <h3>Bookkeeping</h3>
+        <p>Clean, organized books that keep you in control. Monthly or quarterly services — audit-ready records and meaningful financial reports.</p>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-n" aria-hidden="true">06</div>
+        <div class="svc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <h3>U.S. Expatriate Taxes</h3>
+        <p>FBAR, Form 8938, foreign income exclusion — expert navigation of international tax obligations for Americans living or working abroad.</p>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-n" aria-hidden="true">07</div>
+        <div class="svc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Crypto &amp; Trader Filing</h3>
+        <p>Specialized tax preparation for stock and cryptocurrency investors. Capital gains, wash sales, and complex portfolio reporting handled accurately.</p>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-n" aria-hidden="true">08</div>
+        <div class="svc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h3>Outsourced Payroll</h3>
+        <p>Reliable payroll processing, tax filings, and compliance management — so you can focus on your business, not the paperwork.</p>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-n" aria-hidden="true">09</div>
+        <div class="svc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <h3>Tax Relief &amp; IRS Debt</h3>
+        <p>Owe more than you can pay? We help apply for Offers in Compromise and explore all available IRS relief options to settle your debt for less.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" aria-label="Our process">
+  <div class="container">
+    <div class="section-head">
+      <div class="gold-line reveal">How It Works</div>
+      <h2 class="reveal" style="color:var(--navy)">A <em style="color:var(--gold)">Simple Process</em><br>Built Around You</h2>
+      <p class="reveal" style="color:var(--slate)">Getting started is easy. Here's what to expect when you work with Michal.</p>
+    </div>
+    <div class="process-row">
+      <div class="step reveal">
+        <div class="step-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h4>1. Schedule</h4>
+        <p>Book a free consultation online or by phone. Virtual and in-person appointments both available.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </div>
+        <h4>2. Submit Documents</h4>
+        <p>Securely share your financial documents through our encrypted portal or drop them off in person.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h4>3. Prepare &amp; Review</h4>
+        <p>Michal prepares your return with meticulous care and reviews everything with you before submission.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h4>4. File &amp; Done</h4>
+        <p>Once approved we file on your behalf and remain available year-round for any questions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" aria-label="Client testimonials">
+  <div class="container">
+    <div class="testi-deco" aria-hidden="true">"</div>
+    <div class="section-head">
+      <div class="gold-line reveal">Client Stories</div>
+      <h2 class="reveal">Trusted by <em>Hundreds of Clients</em></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="tcard reveal">
+        <span class="tcard-q" aria-hidden="true">"</span>
+        <p>Miki is a lifesaver! She fixed the taxes for my business in no time. I will recommend her to everyone who needs accounting services in the Rockville area. Thank you, Miki!</p>
+        <div class="tcard-author">
+          <div class="author-av" aria-hidden="true">UM</div>
+          <div>
+            <div class="author-name">Udi M.</div>
+            <div class="author-meta">Business Owner, Rockville</div>
+            <div class="tcard-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal">
+        <span class="tcard-q" aria-hidden="true">"</span>
+        <p>I've been a customer of Rosenthal Accounting three times for my taxes and I'm always happy with their quick service. Great work and fair prices. Thank you and I appreciate it!</p>
+        <div class="tcard-author">
+          <div class="author-av" aria-hidden="true">IA</div>
+          <div>
+            <div class="author-name">Ido A.</div>
+            <div class="author-meta">Returning Client</div>
+            <div class="tcard-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal">
+        <span class="tcard-q" aria-hidden="true">"</span>
+        <p>As a trader with stocks and crypto, my taxes were always a nightmare. Michal handled everything professionally and explained every deduction clearly. Absolutely outstanding service.</p>
+        <div class="tcard-author">
+          <div class="author-av" aria-hidden="true">DK</div>
+          <div>
+            <div class="author-name">David K.</div>
+            <div class="author-meta">Crypto &amp; Stock Trader</div>
+            <div class="tcard-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" aria-label="Contact us">
+  <div class="container contact-grid">
+    <div class="contact-info">
+      <div class="gold-line reveal">Get In Touch</div>
+      <h2 class="reveal">Let's Work <em>Together</em></h2>
+      <p class="lead reveal">Ready to simplify your taxes and strengthen your finances? Reach out to schedule your free consultation — in person or virtually.</p>
+
+      <div class="cinfo reveal">
+        <div class="cinfo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="cinfo-text">
+          <strong>Phone</strong>
+          <a href="tel:3013667011">301-366-7011</a>
+        </div>
+      </div>
+
+      <div class="cinfo reveal">
+        <div class="cinfo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="cinfo-text">
+          <strong>Email</strong>
+          <a href="mailto:Miki@RosenthalAccounting.com">Miki@RosenthalAccounting.com</a>
+        </div>
+      </div>
+
+      <div class="cinfo reveal">
+        <div class="cinfo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="cinfo-text">
+          <strong>Address</strong>
+          <span>14011 Parkland Dr, Rockville, MD 20853</span>
+        </div>
+      </div>
+
+      <div class="cinfo reveal">
+        <div class="cinfo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="cinfo-text">
+          <strong>Office Hours</strong>
+          <span>Mon–Fri: 9am–6pm · Sat: 10am–3pm<br>Virtual appointments available anytime</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-wrap reveal-r">
+      <h3>Schedule a Free Consultation</h3>
+      <p class="sub">We respond within one business day.</p>
+      <form action="#" method="post" novalidate aria-label="Contact form">
+        <div class="form-row">
+          <div class="fg">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="fname" placeholder="Jane" autocomplete="given-name" required/>
+          </div>
+          <div class="fg">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lname" placeholder="Smith" autocomplete="family-name" required/>
+          </div>
+        </div>
+        <div class="fg">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" required/>
+        </div>
+        <div class="fg">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(301) 555-0100" autocomplete="tel"/>
+        </div>
+        <div class="fg">
+          <label for="service">Service Needed</label>
+          <select id="service" name="service">
+            <option value="" disabled selected>Select a service…</option>
+            <option>Individual Tax Preparation</option>
+            <option>Business Tax Preparation</option>
+            <option>Business Formation</option>
+            <option>Bookkeeping</option>
+            <option>Crypto / Trader Filing</option>
+            <option>Expatriate Tax</option>
+            <option>Outsourced Payroll</option>
+            <option>Tax Relief / IRS Debt</option>
+            <option>Financial Planning</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label for="msg">Message (Optional)</label>
+          <textarea id="msg" name="msg" placeholder="Tell us a little about your situation…"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Request Consultation</button>
+        <p class="form-note">Your information is kept strictly confidential.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer aria-label="Site footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nav-brand" style="margin-bottom:0">
+          <svg width="38" height="38" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M23 2.5 L40 12 L40 34 L23 43.5 L6 34 L6 12 Z" stroke="#c8a45a" stroke-width="1.1" fill="none" opacity=".45"/>
+            <path d="M11 31 L11 16 L23 25 L35 16 L35 23" stroke="#c8a45a" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M31 27 L34 33 L42 19.5" stroke="#c8a45a" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <circle cx="23" cy="25" r="1.5" fill="#c8a45a" opacity=".65"/>
+          </svg>
+          <div class="nav-brand-text">
+            <span class="nav-name">Michal Afik-Shifman</span>
+            <span class="nav-tag">Accounting &amp; Tax Services</span>
+          </div>
+        </div>
+        <p>Trusted accounting and tax expertise for individuals and businesses in Rockville, MD and surrounding areas since 2003.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Individual Tax Prep</a></li>
+          <li><a href="#services">Business Tax Prep</a></li>
+          <li><a href="#services">Bookkeeping</a></li>
+          <li><a href="#services">Crypto Filing</a></li>
+          <li><a href="#services">Expatriate Taxes</a></li>
+          <li><a href="#services">Tax Relief</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About Michal</a></li>
+          <li><a href="#process">How It Works</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:3013667011">301-366-7011</a></li>
+          <li><a href="mailto:Miki@RosenthalAccounting.com">Miki@RosenthalAccounting.com</a></li>
+          <li><a href="#contact">14011 Parkland Dr<br>Rockville, MD 20853</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 Michal Afik-Shifman · Rosenthal Accounting. All rights reserved.</p>
+      <div class="footer-cert" aria-label="Certifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        IRS Certified · PTIN Registered · AFSP Participant
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll-triggered reveal
+(function(){
+  var els = document.querySelectorAll('.reveal,.reveal-l,.reveal-r');
+  if(!els.length) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var siblings = Array.from(
+        (e.target.parentElement || document.body)
+          .querySelectorAll('.reveal,.reveal-l,.reveal-r')
+      );
+      var idx = siblings.indexOf(e.target);
+      e.target.style.transitionDelay = (idx * 0.075) + 's';
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(el){ io.observe(el); });
+})();
+
+// Nav shadow on scroll
+(function(){
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll',function(){
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  },{passive:true});
+})();
+
+// Mobile menu
+(function(){
+  var open  = document.getElementById('mmOpen');
+  var close = document.getElementById('mmClose');
+  var menu  = document.getElementById('mmenu');
+  function openM(){menu.classList.add('open');open.setAttribute('aria-expanded','true');document.body.style.overflow='hidden'}
+  function closeM(){menu.classList.remove('open');open.setAttribute('aria-expanded','false');document.body.style.overflow=''}
+  open.addEventListener('click',openM);
+  close.addEventListener('click',closeM);
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',closeM)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM()});
+})();
+
+// Active nav highlight
+(function(){
+  var secs  = document.querySelectorAll('section[id]');
+  var links = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll',function(){
+    var y = window.scrollY + 100;
+    secs.forEach(function(s){
+      if(y >= s.offsetTop && y < s.offsetTop + s.offsetHeight){
+        links.forEach(function(a){
+          a.style.color = (a.getAttribute('href')==='#'+s.id) ? 'var(--gold-lt)' : '';
+        });
+      }
+    });
+  },{passive:true});
+})();
+
+// Form submit feedback
+(function(){
+  var form = document.querySelector('form');
+  if(!form) return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn = form.querySelector('.btn-submit');
+    var orig = btn.textContent;
+    btn.textContent = '✓ Message Sent — We\'ll be in touch!';
+    btn.style.cssText += 'background:#1d6940;color:#fff;cursor:default';
+    btn.disabled = true;
+    setTimeout(function(){
+      btn.textContent = orig;
+      btn.style.cssText = '';
+      btn.disabled = false;
+      form.reset();
+    },3500);
+  });
+})();
+</script>
+</body>
+</html>
