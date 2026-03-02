@@ -1,0 +1,251 @@
+#social-header {
+  margin-bottom: 1em;
+}
+
+.masthead, .callout {
+  color: #fff;
+  text-shadow: 2px 2px black;
+}
+
+.parallax {
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.certification-badge {
+  max-width: 8em;
+  margin: 1em;
+}
+
+.box{
+  padding:60px 0px;
+}
+
+.box-part{
+  background:#FFF;
+  border-radius:0;
+  padding:40px 10px;
+}
+
+.text{
+  margin:20px 0px;
+}
+
+.skills-images {
+  max-height: 10em;
+  max-width: 100%;
+  padding: 1em;
+}
+
+.shader-images {
+  max-height: 20em;
+  max-width: 100%;
+}
+
+.game-screenshots {
+  margin: 0 0 0 0;
+  padding: 2em 10em 1em;
+}
+
+.project-showcase .game-screenshots {
+  background-color: #DBDBDB;
+}
+
+.project-showcase-dark .game-screenshots {
+  background-color: #202326;
+}
+
+.game-capture {
+  max-width: 100%;
+  padding-bottom: 1em;
+}
+
+.btn {
+  margin: .5em;
+}
+
+.project-showcase {
+  padding-top: 5em;
+  max-width: 100%;
+  text-align: center;
+}
+
+.project-showcase-dark {
+  padding-top: 5em;
+  max-width: 100%;
+  text-align: center;
+  background-color: #343A40;
+  color: #fff;
+}
+
+.project-showcase-text {
+  padding-bottom: 2em;
+  margin-left: 20%;
+  margin-right: 20%;
+  max-width: 60%;
+}
+
+.project-showcase-text iframe {
+  max-width: 100%;
+}
+
+.project-showcase-dark .btn {
+  background-color: #A41567;
+  color: #fff;
+}
+
+.content-section-heading {
+  text-align: center;
+}
+
+p {
+  font-size: 20px;
+}
+
+.company-logo {
+  max-width: 200px;
+  margin-top: 5em;
+}
+
+#quotient-logo {
+  background-color: #22205F;
+  padding: 1em;
+}
+
+#experience .row {
+  margin: 2em 0 2em 0;
+}
+
+#experience li {
+  font-size: 1.1em;
+}
+
+.position-title {
+  color: #818181;
+  display: inline;
+}
+
+.position-dates {
+  color: #b6b6b6;
+  float: right;
+}
+
+.bg-black {
+  background-color: #000;
+}
+
+#video {
+  padding: 0em;
+  margin: 0em;
+}
+
+.shout-out h4{
+  color: white;
+}
+
+
+/*pulsing text*/
+@keyframes pulse {
+    from {
+        transform: scale(0.85);
+        opacity: 0.5;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }   
+}
+.pulse-text {
+    animation: pulse 1s infinite alternate;
+}
+
+/*scroll text*/
+@keyframes scroll-anim {
+    0% {
+        content: "Scroll down for more!";
+    }
+    1% {
+        content: "You're scrolling for more. Good job!";
+    }   
+}
+.scroll-text:after {
+    animation-name: scroll-anim;
+    animation-duration: 1ms;
+    animation-direction: alternate;
+    animation-timeline: scroll(block nearest);
+    content: "";
+}
+
+/*insane text*/
+@keyframes why-would-anyone-do-this {
+    0% {
+        transform: rotate(0deg) scale(1.0);
+        opacity: 1;
+    }
+    8% {
+        transform: rotate(0deg) scale(1.0);
+        opacity: 1;
+    }
+    13% {
+        transform: rotate(-140deg) scale(0);
+        opacity: 0;
+    }   
+}
+.insane-text {
+    animation-name: why-would-anyone-do-this;
+    animation-duration: 1ms;
+    animation-direction: alternate;
+    animation-timeline: scroll(block nearest);
+}
+
+.service-icon {
+  transition: all 0.3s;
+}
+
+.service-icon:hover {
+  transform: scale(1.2);
+}
+
+.shrink:hover {
+  transform: scale(0.8);
+}
+
+
+/*runoff animation*/
+@keyframes run-off-the-screen {
+    0% {
+        transform: translateX(0px);
+    }
+    20% {
+        transform: translateX(0px);
+    }
+    22% {
+        transform: translateX(10000px);
+    }
+}
+.run-off-the-screen {
+    animation-name: run-off-the-screen;
+    animation-duration: 1ms;
+    animation-direction: alternate;
+    animation-timeline: scroll(block nearest);
+}
+
+
+@keyframes broken-anim {
+  0% {
+    transform: scale(1.0);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+.you-broke-it {
+    animation: broken-anim 2s ease-in-out forwards;
+}
+
+.mythos-link {
+  background-color: black;
+}
