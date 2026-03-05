@@ -115,7 +115,7 @@
             <i class="icon-game-controller"></i>
           </span>
           <h4><strong>Game Design</strong></h4>
-          <p class="text-faded mb-0">I started making games in high school and have now founded <b><a href="http://mythosinteractive.itch.io" target="_blank" style="color: black;">Mythos Interactive</a></b>, an indie studio specializing in GameMaker Studio, Unity, and Unreal. Check out our <b><a class="js-scroll-trigger" href="https://mythosinteractive.itch.io/to-the-last" target="_blank" style="color: black;">latest game</a></b> below!</p>
+          <p class="text-faded mb-0">I started making games in high school and have now founded <b><a href="https://mythosinteractive.itch.io" target="_blank" style="color: black;">Mythos Interactive</a></b>, an indie studio specializing in GameMaker Studio, Unity, and Unreal. Check out our <b><a class="js-scroll-trigger" href="https://mythosinteractive.itch.io/to-the-last" target="_blank" style="color: black;">latest game</a></b> below!</p>
         </div>
 
         <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
