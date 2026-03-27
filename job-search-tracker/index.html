@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Job Search Tracker &mdash; Free AI-Powered Job Application Organizer
+    </title>
+    <meta
+      name="description"
+      content="Free, open-source desktop app for Windows that helps job seekers organize and manage their entire job search journey. Track applications, interviews, contacts, and analytics—all with AI automation."
+    />
+    <meta
+      name="keywords"
+      content="job search tracker, job application organizer, AI job search, free job tracker, job hunt app, interview tracker, resume tracker, job search analytics"
+    />
+    <meta name="author" content="Gal Afik" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://galafik.com/job-search-tracker/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Job Search Tracker &mdash; Free AI-Powered Job Application Organizer"
+    />
+    <meta
+      property="og:description"
+      content="Built by a job seeker, for job seekers. 100% free desktop app with AI-powered automation, comprehensive analytics, and complete privacy. Transform chaos into clarity."
+    />
+    <meta property="og:url" content="https://galafik.com/job-search-tracker/" />
+    <meta property="og:image" content="https://galafik.com/og-jst.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Barlow:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="px-canvas"></div>
+
+    <nav>
+      <a href="../index.html" class="nav-logo">
+        <span>GAL AFIK</span>
+      </a>
+      <a href="../index.html" class="nav-back">Back to Portfolio</a>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-badge">🆓 100% Free & Open Source</div>
+      <div
+        class="hero-badge"
+        style="
+          background: rgba(255, 107, 43, 0.15);
+          border-color: var(--orange);
+          margin-top: 0.5rem;
+        "
+      >
+        ⚠️ Pre-1.0 Development Release – Personal Use Only
+      </div>
+      <h1>Job Search Tracker</h1>
+      <p>
+        Transform chaos into clarity with AI-powered job search management.
+        Built by a job seeker, for job seekers—because finding work shouldn't
+        feel like another job.
+      </p>
+      <div class="hero-cta">
+        <a
+          href="JobSearchTracker-v0.1.0-Windows-x64.zip"
+          class="btn btn-primary"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
+            />
+          </svg>
+          Download for Windows
+        </a>
+        <a
+          href="https://github.com/sponsors/GalAfik"
+          class="btn btn-sponsor"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+            />
+          </svg>
+          Support Development
+        </a>
+      </div>
+      <div class="hero-meta">
+        <span>Windows 10/11</span>
+        <span>No Subscriptions</span>
+        <span>Your Data Stays Private</span>
+        <span>AI-Powered Automation</span>
+      </div>
+    </section>
+
+    <section class="section-alt">
+      <div class="section-header">
+        <div class="section-label">Why Job Search Tracker?</div>
+        <h2 class="section-title">Everything You Need in One Place</h2>
+        <p class="section-desc">
+          Stop juggling spreadsheets, browser tabs, and sticky notes. One
+          powerful app to organize your entire job search journey.
+        </p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">📊</span>
+          <h3 class="feature-title">Unlimited Job Tracking</h3>
+          <p class="feature-text">
+            Manage applications with company names, job titles, locations,
+            statuses, dates, salary ranges, and detailed notes—all in one
+            beautiful interface.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🤖</span>
+          <h3 class="feature-title">AI-Powered Scraping</h3>
+          <p class="feature-text">
+            Paste any job URL and let AI automatically extract company info, job
+            title, location, and full description. Works with Claude, OpenAI,
+            and Gemini.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📅</span>
+          <h3 class="feature-title">Interview Management</h3>
+          <p class="feature-text">
+            Track interview rounds, types (phone, video, in-person, technical),
+            dates, and interviewer contacts—never miss another opportunity.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">👥</span>
+          <h3 class="feature-title">Contact Organization</h3>
+          <p class="feature-text">
+            Keep detailed records of recruiters, hiring managers, and networking
+            connections with emails, phone numbers, and LinkedIn profiles.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📈</span>
+          <h3 class="feature-title">Analytics Dashboard</h3>
+          <p class="feature-text">
+            View 15+ metrics including total applications, interview rates,
+            offer conversion, and platform performance. Know what's working and
+            what's not.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🎨</span>
+          <h3 class="feature-title">Beautiful Themes</h3>
+          <p class="feature-text">
+            Switch between modern light and dark themes. Compact view options
+            and motivational messages keep you encouraged through the journey.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🔒</span>
+          <h3 class="feature-title">Privacy First</h3>
+          <p class="feature-text">
+            All data stored locally in JSON files on your computer. No cloud
+            services, no accounts, no tracking. Your job search stays completely
+            private.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📤</span>
+          <h3 class="feature-title">Import/Export</h3>
+          <p class="feature-text">
+            Import existing spreadsheets or export to CSV and Excel. Create
+            multiple projects for different job search campaigns or time
+            periods.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <div class="section-label">See It In Action</div>
+        <h2 class="section-title">Screenshots</h2>
+        <p class="section-desc">
+          Clean, modern interface designed to reduce stress and increase
+          productivity during your job search.
+        </p>
+      </div>
+      <div class="screenshots">
+        <div class="screenshot-main">
+          <img src="img/Main.png" alt="Job Search Tracker Main Window" />
+        </div>
+        <div class="screenshot-thumbs">
+          <div class="screenshot-thumb">
+            <img src="img/Analytics.png" alt="Analytics Dashboard" />
+          </div>
+          <div class="screenshot-thumb">
+            <img src="img/Interview.png" alt="Interview Tracking" />
+          </div>
+          <div class="screenshot-thumb">
+            <img src="img/AI.png" alt="AI Job Scraping" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-alt">
+      <div class="section-header">
+        <div class="section-label">Get Started in Minutes</div>
+        <h2 class="section-title">How It Works</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Download & Install</h3>
+            <p>
+              Download the latest version for Windows 10/11. Simple installer,
+              no complicated setup. Runs on your computer—no internet required
+              for core features.
+            </p>
+            <p
+              style="
+                margin-top: 0.75rem;
+                padding: 0.75rem;
+                background: rgba(255, 107, 43, 0.1);
+                border-left: 3px solid var(--orange);
+                border-radius: 4px;
+                font-size: 0.9rem;
+              "
+            >
+              <strong>⚠️ Development Notice:</strong> This is a pre-1.0 release
+              under active development. Intended for personal use only. Features
+              may change, and bugs may occur.
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Create Your Project</h3>
+            <p>
+              Launch the app and create a new job search project. You can create
+              multiple projects for different job campaigns or separate them by
+              time period.
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Add Jobs & Contacts</h3>
+            <p>
+              Start adding jobs manually or paste URLs to let AI extract the
+              details automatically. Add interview schedules and recruiter
+              contacts as you go.
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Track Progress & Analyze</h3>
+            <p>
+              Update application statuses, track interview outcomes, and review
+              analytics to optimize your job search strategy. Export reports
+              whenever you need them.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header">
+        <div class="section-label">Questions?</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-question">
+            Is this software production-ready?
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              This is a <strong>pre-1.0 development release</strong> and is
+              still under active development. While fully functional, it's
+              intended for <strong>personal use only</strong>. You may encounter
+              bugs, and features may change between releases. The software is
+              provided as-is without warranties. Please report any issues on
+              GitHub to help improve the app!
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Is this really free?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Yes! Job Search Tracker is 100% free and open source. There are no
+              subscriptions, no hidden costs, no premium tiers. It's completely
+              free forever. If you find it helpful, consider
+              <a
+                href="https://github.com/sponsors/GalAfik"
+                target="_blank"
+                rel="noopener"
+                >sponsoring development</a
+              >
+              to support continued updates and keep it free for everyone.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How do I set up the AI features?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              The AI features are optional but powerful. You'll need a free API
+              key from Claude (Anthropic), OpenAI, or Google Gemini. Check out
+              the
+              <a
+                href="https://github.com/GalAfik/AIJobSearchTracker/blob/master/AI_FEATURE_GUIDE.md"
+                target="_blank"
+                rel="noopener"
+                >AI Setup Guide</a
+              >
+              for step-by-step instructions. Most providers offer free tiers
+              that are more than sufficient for job searching.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Is my data private?</button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Absolutely. All your job search data is stored locally on your
+              computer in JSON files. No data is sent to any servers (except
+              when using optional AI features, which only send job URLs to your
+              chosen AI provider). No accounts, no cloud sync, no tracking. Your
+              data is completely under your control.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            What are the system requirements?
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              <p><strong>Minimum Requirements:</strong></p>
+              <ul>
+                <li>Operating System: Windows 10 or later (64-bit)</li>
+                <li>RAM: 4 GB</li>
+                <li>Disk Space: 200 MB</li>
+                <li>Display: 1280x720 or higher</li>
+              </ul>
+              <p><strong>Recommended:</strong></p>
+              <ul>
+                <li>Operating System: Windows 11 (64-bit)</li>
+                <li>RAM: 8 GB or more</li>
+                <li>Disk Space: 500 MB</li>
+                <li>Display: 1920x1080 or higher</li>
+              </ul>
+              <p><strong>For AI Features:</strong></p>
+              <ul>
+                <li>Active internet connection</li>
+                <li>API keys from AI providers (free tier available)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I import my existing spreadsheet?
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Yes! The app supports CSV import so you can bring in your existing
+              job tracking data. You can also export to CSV or Excel at any time
+              to create backups or share with others.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            I found a bug. How do I report it?
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">
+              Please report bugs and issues on the
+              <a
+                href="https://github.com/GalAfik/AIJobSearchTracker/issues"
+                target="_blank"
+                rel="noopener"
+                >GitHub Issues page</a
+              >. For feature requests or general discussion, visit the
+              <a
+                href="https://github.com/GalAfik/AIJobSearchTracker/discussions"
+                target="_blank"
+                rel="noopener"
+                >Discussions section</a
+              >. Your feedback helps make the app better for everyone!
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <h2>Ready to Organize Your Job Search?</h2>
+      <p>
+        Download now and take control of your job hunting journey. 100% free,
+        always will be.
+      </p>
+      <p
+        style="
+          max-width: 600px;
+          margin: 0.5rem auto 0;
+          font-size: 0.9rem;
+          color: var(--muted);
+        "
+      >
+        Pre-1.0 development release – personal use only
+      </p>
+      <div class="hero-cta">
+        <a
+          href="JobSearchTracker-v0.1.0-Windows-x64.zip"
+          class="btn btn-primary"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
+            />
+          </svg>
+          Download for Windows
+        </a>
+        <a
+          href="https://github.com/GalAfik/AIJobSearchTracker"
+          class="btn btn-secondary"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+            />
+          </svg>
+          View on GitHub
+        </a>
+      </div>
+      <div class="cta-version">Current Version: 0.1.0</div>
+    </section>
+
+    <footer>
+      <div class="footer-links">
+        <a
+          href="https://github.com/GalAfik/AIJobSearchTracker#readme"
+          target="_blank"
+          rel="noopener"
+          >Documentation</a
+        >
+        <a
+          href="https://github.com/GalAfik/AIJobSearchTracker/issues"
+          target="_blank"
+          rel="noopener"
+          >Bug Reports</a
+        >
+        <a
+          href="https://github.com/GalAfik/AIJobSearchTracker/discussions"
+          target="_blank"
+          rel="noopener"
+          >Discussions</a
+        >
+        <a
+          href="https://github.com/sponsors/GalAfik"
+          target="_blank"
+          rel="noopener"
+          >Sponsor</a
+        >
+        <a href="../index.html">Back to Portfolio</a>
+      </div>
+      <p class="footer-text">
+        Built with ❤️ by a job seeker, for job seekers. © 2026 Gal Afik
+      </p>
+    </footer>
+
+    <script>
+      // Parallax Shapes
+      (function initShapes() {
+        var canvas = document.getElementById("px-canvas");
+        var defs = [
+          {
+            t: "ring",
+            c: "#f5e642",
+            s: 180,
+            l: 8,
+            top: 15,
+            r: 0.12,
+            rot: 0.04,
+            osc: 15,
+            freq: 0.7,
+            bw: 1.5,
+            op: 0.55,
+          },
+          {
+            t: "ring",
+            c: "#00f5d4",
+            s: 300,
+            l: 88,
+            top: 25,
+            r: 0.06,
+            rot: -0.03,
+            osc: 20,
+            freq: 0.5,
+            bw: 1,
+            op: 0.45,
+          },
+          {
+            t: "diamond",
+            c: "#ff2d78",
+            s: 60,
+            l: 15,
+            top: 55,
+            r: 0.18,
+            rot: 0.08,
+            osc: 10,
+            freq: 1.1,
+            bw: 0,
+            op: 0.6,
+          },
+          {
+            t: "diamond",
+            c: "#a855f7",
+            s: 90,
+            l: 75,
+            top: 70,
+            r: 0.08,
+            rot: -0.05,
+            osc: 18,
+            freq: 0.6,
+            bw: 0,
+            op: 0.55,
+          },
+          {
+            t: "ring",
+            c: "#ff6b2b",
+            s: 120,
+            l: 55,
+            top: 40,
+            r: 0.14,
+            rot: 0.06,
+            osc: 8,
+            freq: 1.3,
+            bw: 1.5,
+            op: 0.5,
+          },
+          {
+            t: "cross",
+            c: "#f5e642",
+            s: 50,
+            l: 92,
+            top: 60,
+            r: 0.22,
+            rot: 0.1,
+            osc: 12,
+            freq: 0.9,
+            bw: 0,
+            op: 0.2,
+          },
+          {
+            t: "ring",
+            c: "#00f5d4",
+            s: 80,
+            l: 35,
+            top: 85,
+            r: 0.09,
+            rot: -0.04,
+            osc: 6,
+            freq: 1.5,
+            bw: 1,
+            op: 0.17,
+          },
+          {
+            t: "diamond",
+            c: "#f5e642",
+            s: 40,
+            l: 65,
+            top: 10,
+            r: 0.25,
+            rot: 0.12,
+            osc: 22,
+            freq: 0.4,
+            bw: 0,
+            op: 0.22,
+          },
+          {
+            t: "ring",
+            c: "#a855f7",
+            s: 220,
+            l: 2,
+            top: 75,
+            r: 0.05,
+            rot: 0.02,
+            osc: 5,
+            freq: 0.8,
+            bw: 1,
+            op: 0.45,
+          },
+          {
+            t: "cross",
+            c: "#00f5d4",
+            s: 35,
+            l: 48,
+            top: 20,
+            r: 0.3,
+            rot: -0.15,
+            osc: 30,
+            freq: 0.3,
+            bw: 0,
+            op: 0.2,
+          },
+          {
+            t: "diamond",
+            c: "#ff2d78",
+            s: 70,
+            l: 22,
+            top: 95,
+            r: 0.11,
+            rot: 0.07,
+            osc: 14,
+            freq: 1.0,
+            bw: 0,
+            op: 0.52,
+          },
+          {
+            t: "ring",
+            c: "#f5e642",
+            s: 50,
+            l: 80,
+            top: 5,
+            r: 0.2,
+            rot: 0.09,
+            osc: 25,
+            freq: 0.6,
+            bw: 1.5,
+            op: 0.2,
+          },
+        ];
+
+        var items = defs.map(function (d) {
+          var el = document.createElement("div");
+          el.className = "px-shape px-" + d.t;
+          el.style.cssText = [
+            "width:" + d.s + "px",
+            "height:" + d.s + "px",
+            "left:" + d.l + "vw",
+            "top:" + d.top + "vh",
+            "opacity:" + d.op,
+            "color:" + d.c,
+          ].join(";");
+          if (d.t === "ring") {
+            el.style.borderWidth = d.bw + "px";
+            el.style.borderColor = d.c;
+          } else if (d.t === "diamond") {
+            el.style.background = d.c;
+          }
+          canvas.appendChild(el);
+          return {
+            el: el,
+            d: d,
+            angle: Math.random() * 360,
+            phase: Math.random() * Math.PI * 2,
+            t: 0,
+          };
+        });
+
+        var scrollY = 0;
+        window.addEventListener(
+          "scroll",
+          function () {
+            scrollY = window.scrollY;
+          },
+          { passive: true },
+        );
+
+        function tick() {
+          items.forEach(function (item) {
+            item.t += 0.016;
+            var oscY = Math.sin(item.t * item.d.freq + item.phase) * item.d.osc;
+            var translateY = scrollY * item.d.r + oscY;
+            var rotate = item.angle + item.d.rot * item.t * 60;
+            item.el.style.transform =
+              "translateY(" + translateY + "px) rotate(" + rotate + "deg)";
+          });
+          requestAnimationFrame(tick);
+        }
+        tick();
+      })();
+
+      // Scroll nav effect
+      window.addEventListener("scroll", function () {
+        var nav = document.querySelector("nav");
+        if (window.scrollY > 50) {
+          nav.classList.add("scrolled");
+        } else {
+          nav.classList.remove("scrolled");
+        }
+      });
+
+      // FAQ Accordion
+      document.querySelectorAll(".faq-question").forEach(function (button) {
+        button.addEventListener("click", function () {
+          var item = this.parentElement;
+          var wasActive = item.classList.contains("active");
+
+          document.querySelectorAll(".faq-item").forEach(function (faq) {
+            faq.classList.remove("active");
+          });
+
+          if (!wasActive) {
+            item.classList.add("active");
+          }
+        });
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
