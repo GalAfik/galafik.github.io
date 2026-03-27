@@ -6,7 +6,7 @@
     <title>Gal Afik &mdash; Game Developer &amp; Software Engineer</title>
     <meta
       name="description"
-      content="Gal Afik is a Senior Software Engineer and game developer based in Cary, NC with 8+ years of experience in Unity, Unreal Engine, VR/XR, Java, C++, C#, and full-stack web development."
+      content="Gal Afik is a Software Engineer and game developer based in Cary, NC with 14+ years of experience in Unity, Unreal Engine, VR/XR, Java, C++, C#, and full-stack web development."
     />
     <meta
       name="keywords"
@@ -22,7 +22,7 @@
     />
     <meta
       property="og:description"
-      content="8+ years shipping games and software. Founder of Mythos Interactive. Unity Certified Professional. Steam, VR, full-stack &mdash; all in one portfolio."
+      content="14+ years shipping games and software. Founder of Mythos Interactive. Unity Certified Professional. Steam, VR, full-stack &mdash; all in one portfolio."
     />
     <meta property="og:url" content="https://galafik.com" />
     <meta property="og:image" content="https://galafik.com/og-image.png" />
@@ -32,6 +32,8 @@
       http-equiv="Content-Security-Policy"
       content="upgrade-insecure-requests"
     />
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="format-detection" content="telephone=no" />
     <meta
       name="twitter:title"
       content="Gal Afik &mdash; Game Developer &amp; Software Engineer"
@@ -1610,7 +1612,7 @@
           "addressLocality": "Cary",
           "addressRegion": "NC"
         },
-        "jobTitle": "Senior Software Engineer & Game Developer",
+        "jobTitle": "Software Engineer & Game Developer",
         "sameAs": [
           "https://www.linkedin.com/in/galafik/",
           "https://github.com/GalAfik",
@@ -1618,6 +1620,20 @@
           "https://store.steampowered.com/app/3197330/Mythos_Interactive_Game_Collection/"
         ]
       }
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-WFZN2JFZ6J"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-WFZN2JFZ6J");
     </script>
   </head>
   <body>
@@ -1681,9 +1697,9 @@
           <span class="tag-pill vr">VR / XR</span>
         </div>
         <h1 class="hero-name">Gal<span class="outline">Afik</span></h1>
-        <p class="hero-subtitle">Senior Software Engineer &middot; Cary, NC</p>
+        <p class="hero-subtitle">Software Engineer &middot; Cary, NC</p>
         <p class="hero-bio">
-          8+ years engineering software that people play, use, and rely on
+          14+ years engineering software that people play, use, and rely on
           &mdash; from Steam-shipped games and VR military training simulations
           to Smithsonian museum systems and global banking infrastructure.
           Founder of
@@ -1699,13 +1715,23 @@
             href="assets/GalAfik_Software_2026.docx"
             download
             class="btn btn-secondary"
+            id="resume-download-btn"
+            onclick="trackResumeDownload()"
             >&#8595; Resume</a
+          >
+          <a
+            href="https://www.paypal.com/donate/?business=YOUR_PAYPAL_EMAIL&currency_code=USD"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-secondary"
+            onclick="trackDonation()"
+            >&#10084; Donate</a
           >
         </div>
       </div>
       <div class="hero-stats" aria-label="Key statistics">
         <div class="stat-card" style="--sc: var(--yellow)">
-          <div class="stat-num">17+</div>
+          <div class="stat-num">18+</div>
           <div class="stat-lbl">Years Programming</div>
         </div>
         <div class="stat-card" style="--sc: var(--cyan)">
@@ -1956,7 +1982,7 @@
           <div class="depth-card unity fade-up">
             <div class="depth-logo">Unity</div>
             <div class="depth-sub">
-              7+ Years &middot; Certified Professional &amp; Associate
+              14+ Years &middot; Certified Professional &amp; Associate
             </div>
             <div class="bar-row">
               <div class="bar-lbl">
@@ -2040,7 +2066,7 @@
             <span class="sk-icon">&#9749;</span>
             <div class="sk-name">Java / Spring Boot</div>
             <p class="sk-desc">
-              7 years of Java 7/8 professional experience including RESTful
+              14 years of Java 7/8 professional experience including RESTful
               APIs, Spring Boot microservices, Maven builds, and enterprise
               backend architecture.
             </p>
@@ -2963,6 +2989,7 @@
                 href="job-search-tracker/"
                 class="proj-link"
                 style="color: var(--cyan); font-weight: 600"
+                onclick="trackJobTrackerClick()"
                 >Download &amp; Learn More &#8599;</a
               >
             </div>
@@ -3175,7 +3202,7 @@
       <div class="lang-grid">
         <div class="lang-card fade-up" style="--lc: var(--orange)">
           <div class="lang-name">Java</div>
-          <div class="lang-type">7 Years &middot; Enterprise</div>
+          <div class="lang-type">14 Years &middot; Enterprise</div>
           <div class="lang-dots">
             <div class="ld on"></div>
             <div class="ld on"></div>
@@ -3419,7 +3446,7 @@
               database systems, and systems architecture.
             </li>
             <li>
-              Programming independently since 2008 &mdash; 8 years of personal
+              Programming independently since 2008 &mdash; 4 years of personal
               projects and game development prior to professional entry.
             </li>
           </ul>
@@ -3822,6 +3849,39 @@
             closeModal();
         });
       })();
+
+      /* ── GOOGLE ANALYTICS EVENT TRACKING ────────────────────────────
+   Track resume downloads, job tracker clicks, and donations.
+   ─────────────────────────────────────────────────────────────── */
+      function trackResumeDownload() {
+        if (typeof gtag !== "undefined") {
+          gtag("event", "download", {
+            event_category: "Resume",
+            event_label: "GalAfik_Software_2026.docx",
+            value: 1,
+          });
+        }
+      }
+
+      function trackJobTrackerClick() {
+        if (typeof gtag !== "undefined") {
+          gtag("event", "click", {
+            event_category: "Job Search Tracker",
+            event_label: "Visit Job Tracker Page",
+            value: 1,
+          });
+        }
+      }
+
+      function trackDonation() {
+        if (typeof gtag !== "undefined") {
+          gtag("event", "click", {
+            event_category: "Donation",
+            event_label: "PayPal Donation Button",
+            value: 1,
+          });
+        }
+      }
     </script>
   </body>
 </html>
