@@ -1,402 +1,164 @@
 <!DOCTYPE html>
 <!--
   ============================================================
-  rosenthalroni.com — Modernized Portfolio Site
+  rosenthalroni.com — Modernized Portfolio Site  v2.0
   Author:   Roni Rosenthal, Ph.D.
-  Version:  2.0.0
-  Built:    2026
-  License:  © Roni Rosenthal. All rights reserved.
+  Updated:  2026
 
-  Tech Stack:
-    - Semantic HTML5
-    - CSS3 Custom Properties (design tokens)
-    - Vanilla ES2022+ JavaScript (no framework dependency)
-    - Google Fonts: Cormorant Garant (display) + Lato (body)
-    - No external JS dependencies — easy to maintain & host anywhere
+  IMAGE SOURCES
+  ─────────────────────────────────────────────────────────────
+  • Author portrait, book covers, award badges:
+      Roni Rosenthal's own website (rosenthalroni.com Wix CDN).
+      These are Dr. Rosenthal's own copyrighted materials.
 
-  Sections:
-    1.  <head>       — Meta, SEO, Open Graph, CSP hints, fonts
-    2.  <header>     — Sticky navigation with mobile hamburger
-    3.  #hero        — Full-bleed hero with animated reveal
-    4.  #about       — Author biography
-    5.  #focus       — Academic focus areas (AI + History)
-    6.  #books       — Published works with Amazon links
-    7.  #awards      — Literary awards & recognition
-    8.  #seminars    — Speaking & seminar engagements
-    9.  #contact     — Contact form + social links
-    10. <footer>     — Copyright, sitemap, legal
+  • Hero background (purple lilac flowers at train station):
+      Wikimedia Commons — "Free Purple Flowers at The Train
+      Station Unedited Creative Commons (3811056159).jpg"
+      Licensed: Creative Commons. Hotlinked via the official
+      Wikimedia Special:Redirect/file API as documented at
+      commons.wikimedia.org/wiki/Commons:Reusing_content_
+      outside_Wikimedia/technical
 
-  Maintenance Notes:
-    - All colors live in :root CSS custom properties — change once, update everywhere.
-    - Navigation links are driven by the JS `navLinks` array at the bottom of the file.
-    - Book data lives in the `books` array — add/remove entries there.
-    - Award data lives in the `awards` array.
+  • Books divider (lilac close-up, Syringa 'Maréchal Foch'):
+      Wikimedia Commons — "Common Lilac Syringa vulgaris
+      'Marechal Foch' Flowers.JPG"
+      Licensed: Creative Commons. Hotlinked via Wikimedia API.
+
+  SECTIONS
+  ─────────────────────────────────────────────────────────────
+  1.  <head>         Meta, SEO, OG, fonts, CSP-safe
+  2.  <header>       Sticky nav + mobile drawer
+  3.  #hero          Full-bleed lilac hero
+  4.  #books-hero    Prominent books feature (TOP priority)
+  5.  #about         Author bio + real portrait
+  6.  #focus         Research focus cards
+  7.  #books-full    Full books detail section
+  8.  #awards        Award badges
+  9.  #seminars      Speaking engagements
+  10. #contact       Form + social links
+  11. <footer>       Copyright, sitemap, legal
+
+  MAINTENANCE
+  ─────────────────────────────────────────────────────────────
+  • All colours: :root CSS custom properties
+  • All book data: #books-full section HTML
+  • Form backend: replace the fetch URL in the JS block
+  • Author photo: swap the <img> src in .about-portrait
   ============================================================
 -->
 <html lang="en">
 <head>
-  <!-- ── Character encoding & viewport ────────────────────── -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- ── Primary SEO meta ─────────────────────────────────── -->
+  <!-- Primary SEO -->
   <title>Dr. Roni Rosenthal | Author · Professor · Holocaust Historian</title>
-  <meta name="description"
-        content="Dr. Roni Rosenthal is an award-winning author, professor, and expert on Jewish Holocaust history, AI ethics in historical research, and Jewish cultural understanding." />
-  <meta name="keywords"
-        content="Roni Rosenthal, Jewish author, Holocaust history, AI usability, Jewish culture, Where the Lilacs Bloom Once Again, Friddie's Story, University of Maryland" />
+  <meta name="description" content="Dr. Roni Rosenthal is an award-winning author, professor, and expert on Jewish Holocaust history, AI ethics in historical research, and Jewish cultural understanding." />
+  <meta name="keywords" content="Roni Rosenthal, Jewish author, Holocaust history, AI usability, Jewish culture, Where the Lilacs Bloom Once Again, Friddie's Story, University of Maryland" />
   <meta name="author" content="Roni Rosenthal, Ph.D." />
   <link rel="canonical" href="https://www.rosenthalroni.com/" />
 
-  <!-- ── Open Graph (Facebook / LinkedIn previews) ─────────── -->
+  <!-- Open Graph -->
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://www.rosenthalroni.com/" />
-  <meta property="og:title"       content="Dr. Roni Rosenthal | Author · Professor · Holocaust Historian" />
+  <meta property="og:title"       content="Dr. Roni Rosenthal | Award-Winning Author & Holocaust Scholar" />
   <meta property="og:description" content="Award-winning author and professor bridging Holocaust history, Jewish culture, and modern AI research." />
-  <meta property="og:site_name"   content="Roni Rosenthal" />
 
-  <!-- ── Twitter Card ─────────────────────────────────────── -->
+  <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:site"        content="@RoniRosenthal" />
   <meta name="twitter:title"       content="Dr. Roni Rosenthal | Author · Professor" />
   <meta name="twitter:description" content="Award-winning author and professor bridging Holocaust history, Jewish culture, and modern AI research." />
 
-  <!-- ── Robots ───────────────────────────────────────────── -->
   <meta name="robots" content="index, follow" />
 
-  <!-- ── Google Fonts (preconnect for performance) ─────────── -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Lato:wght@300;400;700&display=swap"
-        rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
   <style>
     /* ============================================================
-       DESIGN TOKENS — change here, update everywhere
+       DESIGN TOKENS
     ============================================================ */
     :root {
-      /* Palette */
-      --clr-navy:       #0b1220;
-      --clr-navy-mid:   #111b30;
-      --clr-navy-light: #1a2845;
-      --clr-gold:       #c9a84c;
-      --clr-gold-light: #e0c47a;
-      --clr-cream:      #f5ede0;
-      --clr-cream-dark: #e8d9c5;
-      --clr-white:      #ffffff;
-      --clr-text-body:  #d4c8b8;
-      --clr-text-muted: #8a9ab5;
-      --clr-border:     rgba(201, 168, 76, 0.25);
+      --navy:       #090e1a;
+      --navy-mid:   #0f1b2e;
+      --navy-light: #162235;
+      --navy-card:  #111d30;
+      --gold:       #c9a84c;
+      --gold-light: #e0c47a;
+      --gold-dim:   rgba(201,168,76,0.18);
+      --cream:      #f5ede0;
+      --white:      #ffffff;
+      --body:       #c8bfb0;
+      --muted:      #7a8fa8;
+      --border:     rgba(201,168,76,0.22);
 
-      /* Typography */
-      --font-display: 'Cormorant Garant', Georgia, serif;
-      --font-body:    'Lato', Helvetica, sans-serif;
+      --font-d: 'Cormorant Garant', Georgia, serif;
+      --font-b: 'Lato', Helvetica, sans-serif;
 
-      /* Spacing scale */
-      --sp-xs:  0.5rem;
-      --sp-sm:  1rem;
-      --sp-md:  2rem;
-      --sp-lg:  4rem;
-      --sp-xl:  8rem;
-
-      /* Layout */
-      --max-width: 1200px;
-      --header-h:  72px;
-
-      /* Transitions */
-      --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      --dur-fast:   150ms;
-      --dur-normal: 300ms;
-      --dur-slow:   600ms;
+      --hdr: 70px;
+      --max: 1200px;
+      --ease: cubic-bezier(.25,.46,.45,.94);
     }
 
     /* ============================================================
-       RESET & BASE
+       RESET
     ============================================================ */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    body {
-      background-color: var(--clr-navy);
-      color: var(--clr-text-body);
-      font-family: var(--font-body);
-      font-weight: 300;
-      line-height: 1.75;
-      overflow-x: hidden;
-    }
-
-    /* Accessible focus ring */
-    :focus-visible {
-      outline: 2px solid var(--clr-gold);
-      outline-offset: 3px;
-      border-radius: 2px;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body { background: var(--navy); color: var(--body); font-family: var(--font-b); font-weight: 300; line-height: 1.75; overflow-x: hidden; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
     ul { list-style: none; }
 
     /* ============================================================
-       UTILITY CLASSES
+       UTILITIES
     ============================================================ */
-    .container {
-      width: 100%;
-      max-width: var(--max-width);
-      margin-inline: auto;
-      padding-inline: var(--sp-md);
-    }
-
-    /* Decorative horizontal rule with gold gradient */
-    .divider {
-      width: 80px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--clr-gold), transparent);
-      margin-block: var(--sp-sm);
-    }
-
-    .divider--center {
-      margin-inline: auto;
-    }
-
-    /* Eyebrow label above section titles */
-    .eyebrow {
-      font-family: var(--font-body);
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--clr-gold);
-    }
-
-    /* Section titles */
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 4vw, 3.25rem);
-      font-weight: 500;
-      color: var(--clr-white);
-      line-height: 1.15;
-    }
-
-    /* Gold CTA button */
-    .btn {
-      display: inline-block;
-      padding: 0.75em 2em;
-      border: 1px solid var(--clr-gold);
-      color: var(--clr-gold);
-      font-family: var(--font-body);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      transition: background var(--dur-normal) var(--ease),
-                  color     var(--dur-normal) var(--ease);
-      cursor: pointer;
-      background: transparent;
-    }
-
-    .btn:hover,
-    .btn:focus-visible {
-      background: var(--clr-gold);
-      color: var(--clr-navy);
-    }
-
-    .btn--solid {
-      background: var(--clr-gold);
-      color: var(--clr-navy);
-    }
-
-    .btn--solid:hover,
-    .btn--solid:focus-visible {
-      background: var(--clr-gold-light);
-      border-color: var(--clr-gold-light);
-    }
-
-    /* Scroll-reveal animation (applied via JS) */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
+    .container { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: 2rem; }
+    .eyebrow { font-family: var(--font-b); font-size: .68rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); }
+    .divider { width: 64px; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); margin-block: .75rem; }
+    .divider--c { margin-inline: auto; }
+    .sec-title { font-family: var(--font-d); font-size: clamp(2rem,4vw,3.25rem); font-weight: 500; color: var(--white); line-height: 1.15; }
+    .btn { display: inline-block; padding: .7em 1.9em; border: 1px solid var(--gold); color: var(--gold); font-family: var(--font-b); font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; transition: background .25s var(--ease), color .25s var(--ease); cursor: pointer; background: transparent; }
+    .btn:hover, .btn:focus-visible { background: var(--gold); color: var(--navy); }
+    .btn--gold { background: var(--gold); color: var(--navy); }
+    .btn--gold:hover, .btn--gold:focus-visible { background: var(--gold-light); border-color: var(--gold-light); }
+    .btn--amazon { display: inline-flex; align-items: center; gap: .5em; background: #ff9900; border: none; color: #111; font-family: var(--font-b); font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: .7em 1.6em; cursor: pointer; transition: background .2s, transform .15s; border-radius: 3px; }
+    .btn--amazon:hover, .btn--amazon:focus-visible { background: #ffad33; transform: translateY(-1px); }
+    .btn--amazon-he { background: #146eb4; color: #fff; }
+    .btn--amazon-he:hover { background: #1a87d8; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s var(--ease), transform .65s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
 
     /* ============================================================
-       HEADER & NAV
+       HEADER
     ============================================================ */
-    .site-header {
-      position: fixed;
-      top: 0;
-      inset-inline: 0;
-      z-index: 1000;
-      height: var(--header-h);
-      display: flex;
-      align-items: center;
-      background: transparent;
-      transition: background var(--dur-normal) var(--ease),
-                  box-shadow var(--dur-normal) var(--ease);
-    }
-
-    /* Scrolled state — added via JS */
-    .site-header.scrolled {
-      background: rgba(11, 18, 32, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 1px 0 var(--clr-border);
-    }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      max-width: var(--max-width);
-      margin-inline: auto;
-      padding-inline: var(--sp-md);
-    }
-
-    /* Logo / brand name */
-    .site-logo {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 500;
-      color: var(--clr-white);
-      letter-spacing: 0.02em;
-      transition: color var(--dur-fast);
-    }
-
-    .site-logo span {
-      color: var(--clr-gold);
-    }
-
-    .site-logo:hover { color: var(--clr-gold-light); }
-
-    /* Desktop nav */
-    .site-nav {
-      display: flex;
-      align-items: center;
-      gap: var(--sp-md);
-    }
-
-    .site-nav__link {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--clr-text-muted);
-      transition: color var(--dur-fast);
-      position: relative;
-    }
-
-    .site-nav__link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--clr-gold);
-      transition: width var(--dur-normal) var(--ease);
-    }
-
-    .site-nav__link:hover,
-    .site-nav__link:focus-visible {
-      color: var(--clr-white);
-    }
-
-    .site-nav__link:hover::after {
-      width: 100%;
-    }
-
-    /* Hamburger (mobile) */
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      width: 32px;
-      height: 32px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      z-index: 1100;
-    }
-
-    .nav-toggle__bar {
-      width: 28px;
-      height: 2px;
-      background: var(--clr-white);
-      border-radius: 2px;
-      transition: transform var(--dur-normal) var(--ease),
-                  opacity   var(--dur-normal) var(--ease),
-                  width     var(--dur-normal) var(--ease);
-      transform-origin: center;
-    }
-
-    /* Animated X state */
-    .nav-toggle.open .nav-toggle__bar:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-
-    .nav-toggle.open .nav-toggle__bar:nth-child(2) {
-      opacity: 0;
-      width: 0;
-    }
-
-    .nav-toggle.open .nav-toggle__bar:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    /* Mobile drawer */
-    .mobile-nav {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      background: rgba(11, 18, 32, 0.98);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: var(--sp-md);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .mobile-nav.open { display: flex; }
-
-    .mobile-nav__link {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--clr-text-body);
-      transition: color var(--dur-fast);
-    }
-
-    .mobile-nav__link:hover { color: var(--clr-gold); }
+    .hdr { position: fixed; inset-inline: 0; top: 0; z-index: 1000; height: var(--hdr); display: flex; align-items: center; transition: background .3s var(--ease), box-shadow .3s var(--ease); }
+    .hdr.scrolled { background: rgba(9,14,26,.96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--border); }
+    .hdr__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: 2rem; }
+    .logo { font-family: var(--font-d); font-size: 1.45rem; font-weight: 500; color: var(--white); letter-spacing: .02em; transition: color .15s; }
+    .logo span { color: var(--gold); }
+    .logo:hover { color: var(--gold-light); }
+    .nav { display: flex; align-items: center; gap: 2rem; }
+    .nav__link { font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); transition: color .15s; position: relative; }
+    .nav__link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width .3s var(--ease); }
+    .nav__link:hover, .nav__link:focus-visible { color: var(--white); }
+    .nav__link:hover::after { width: 100%; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 1100; }
+    .hamburger__bar { width: 26px; height: 2px; background: var(--white); border-radius: 2px; transform-origin: center; transition: transform .3s var(--ease), opacity .3s, width .3s; }
+    .hamburger.open .hamburger__bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open .hamburger__bar:nth-child(2) { opacity: 0; width: 0; }
+    .hamburger.open .hamburger__bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mob-nav { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(9,14,26,.98); flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
+    .mob-nav.open { display: flex; }
+    .mob-nav__link { font-family: var(--font-d); font-size: 2rem; color: var(--body); transition: color .15s; }
+    .mob-nav__link:hover { color: var(--gold); }
 
     /* ============================================================
-       HERO
+       HERO — full-bleed lilac photo
     ============================================================ */
     .hero {
       position: relative;
@@ -404,997 +166,467 @@
       display: flex;
       align-items: center;
       overflow: hidden;
-      background-color: var(--clr-navy);
     }
-
-    /* Decorative radial glow */
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -20%;
-      right: -10%;
-      width: 70vmax;
-      height: 70vmax;
-      background: radial-gradient(circle, rgba(201, 168, 76, 0.07) 0%, transparent 65%);
-      pointer-events: none;
-    }
-
-    /* Subtle grain texture overlay */
-    .hero::after {
-      content: '';
+    .hero__bg {
       position: absolute;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.35;
-      pointer-events: none;
+      background-image:
+        /* Two-layer gradient: deep navy at edges, near-transparent in centre */
+        linear-gradient(to right, rgba(9,14,26,.92) 0%, rgba(9,14,26,.65) 50%, rgba(9,14,26,.82) 100%),
+        /* Wikimedia CC image: Free Purple Flowers at The Train Station */
+        url('https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Free_Purple_Flowers_at_The_Train_Station_Unedited_Creative_Commons_(3811056159).jpg&width=1920');
+      background-size: cover;
+      background-position: center 40%;
+      background-repeat: no-repeat;
     }
-
-    .hero__inner {
-      position: relative;
-      z-index: 1;
-      padding-block: calc(var(--header-h) + var(--sp-xl)) var(--sp-xl);
-    }
-
-    .hero__eyebrow {
-      margin-bottom: var(--sp-sm);
-    }
-
-    .hero__title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 300;
-      color: var(--clr-white);
-      line-height: 1.05;
-      letter-spacing: -0.01em;
-      margin-bottom: var(--sp-sm);
-    }
-
-    .hero__title em {
-      font-style: italic;
-      color: var(--clr-gold);
-    }
-
-    .hero__subtitle {
-      font-family: var(--font-display);
-      font-size: clamp(1rem, 2vw, 1.4rem);
-      font-weight: 300;
-      color: var(--clr-text-muted);
-      max-width: 520px;
-      margin-bottom: var(--sp-md);
-      font-style: italic;
-    }
-
-    .hero__cta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--sp-sm);
-    }
-
-    /* Vertical scroll indicator */
-    .hero__scroll {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--clr-text-muted);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      z-index: 1;
-    }
-
-    .hero__scroll-line {
-      width: 1px;
-      height: 48px;
-      background: linear-gradient(to bottom, var(--clr-gold), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 1; transform: scaleY(1); }
-      50%       { opacity: 0.4; transform: scaleY(0.6); }
-    }
+    .hero__inner { position: relative; z-index: 1; padding-block: calc(var(--hdr) + 5rem) 5rem; }
+    .hero__eyebrow { margin-bottom: 1rem; }
+    .hero__title { font-family: var(--font-d); font-size: clamp(3.5rem, 9vw, 7.5rem); font-weight: 300; color: var(--white); line-height: 1.02; letter-spacing: -.01em; margin-bottom: 1rem; }
+    .hero__title em { font-style: italic; color: var(--gold); }
+    .hero__sub { font-family: var(--font-d); font-size: clamp(.95rem, 2vw, 1.35rem); font-weight: 300; font-style: italic; color: var(--muted); max-width: 540px; margin-bottom: 2rem; line-height: 1.6; }
+    .hero__cta { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .hero__scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: .5rem; color: var(--muted); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; z-index: 1; }
+    .hero__scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, var(--gold), transparent); animation: pulse 2.2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:.3;transform:scaleY(.5)} }
 
     /* ============================================================
-       SECTION COMMON
+       BOOKS HERO — the centrepiece, immediately below hero
     ============================================================ */
-    section {
-      padding-block: var(--sp-xl);
+    #books-hero {
+      background: var(--navy-mid);
+      position: relative;
+      padding-block: 5rem;
+      overflow: hidden;
     }
+    /* Decorative lilac image strip on the right */
+    #books-hero::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 38%;
+      background-image:
+        linear-gradient(to right, var(--navy-mid) 0%, rgba(15,27,46,.3) 40%, rgba(15,27,46,.0) 100%),
+        url('https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Common_Lilac_Syringa_vulgaris_%27Marechal_Foch%27_Flowers.JPG&width=900');
+      background-size: cover;
+      background-position: center;
+      pointer-events: none;
+    }
+    #books-hero .container { position: relative; z-index: 1; }
+    .bh-label { display: inline-block; background: var(--gold); color: var(--navy); font-family: var(--font-b); font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; padding: .35em 1em; margin-bottom: 1.25rem; }
+    .bh-title { font-family: var(--font-d); font-size: clamp(1.6rem, 3.5vw, 3rem); font-weight: 500; color: var(--white); line-height: 1.18; max-width: 680px; margin-bottom: 1rem; }
+    .bh-sub { font-family: var(--font-d); font-style: italic; font-size: 1.05rem; color: var(--muted); max-width: 560px; margin-bottom: 2.5rem; }
+    .bh-books { display: grid; grid-template-columns: repeat(2, auto) 1fr; gap: 2.5rem; align-items: start; }
+    .bh-book { display: flex; flex-direction: column; gap: 1rem; max-width: 220px; }
+    .bh-book__cover {
+      width: 100%;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 40px rgba(0,0,0,.6);
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+    }
+    .bh-book__cover:hover { transform: translateY(-6px) rotate(-.5deg); box-shadow: 0 20px 60px rgba(0,0,0,.7); }
+    .bh-book__cover img { width: 100%; height: 100%; object-fit: cover; }
+    .bh-book__label { font-size: .65rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: .2rem; }
+    .bh-book__name { font-family: var(--font-d); font-size: 1rem; font-weight: 500; color: var(--white); line-height: 1.3; margin-bottom: .75rem; }
+    .bh-book__btns { display: flex; flex-direction: column; gap: .5rem; }
+    .bh-cta { display: flex; flex-direction: column; gap: 1rem; justify-content: center; padding-left: 1rem; }
+    .bh-trailer { display: inline-flex; align-items: center; gap: .5rem; color: var(--gold); font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 2px; transition: border-color .15s, color .15s; }
+    .bh-trailer:hover { color: var(--gold-light); border-color: var(--gold-light); }
 
-    .section-header {
-      margin-bottom: var(--sp-lg);
-    }
-
-    .section-header--center {
-      text-align: center;
-    }
-
-    .section-header p {
-      max-width: 600px;
-      margin-top: var(--sp-sm);
-      color: var(--clr-text-muted);
-    }
-
-    .section-header--center p {
-      margin-inline: auto;
-    }
+    /* ============================================================
+       SECTION BASE
+    ============================================================ */
+    section { padding-block: 5.5rem; }
+    .sec-hdr { margin-bottom: 3.5rem; }
+    .sec-hdr--c { text-align: center; }
+    .sec-hdr p { max-width: 600px; margin-top: .75rem; color: var(--muted); }
+    .sec-hdr--c p { margin-inline: auto; }
 
     /* ============================================================
        ABOUT
     ============================================================ */
-    #about {
-      background: var(--clr-navy-mid);
-      position: relative;
-    }
-
-    #about::before {
-      content: '';
-      position: absolute;
-      inset-inline: 0;
-      top: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--clr-gold), transparent);
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.6fr;
-      gap: var(--sp-lg);
-      align-items: center;
-    }
-
-    .about-portrait {
-      position: relative;
-    }
-
-    /* Gold corner accent */
-    .about-portrait::before {
-      content: '';
-      position: absolute;
-      top: -12px;
-      left: -12px;
-      width: 80px;
-      height: 80px;
-      border-top: 2px solid var(--clr-gold);
-      border-left: 2px solid var(--clr-gold);
-      z-index: 1;
-    }
-
-    .about-portrait::after {
-      content: '';
-      position: absolute;
-      bottom: -12px;
-      right: -12px;
-      width: 80px;
-      height: 80px;
-      border-bottom: 2px solid var(--clr-gold);
-      border-right: 2px solid var(--clr-gold);
-    }
-
-    .about-portrait img {
-      width: 100%;
-      aspect-ratio: 4 / 5;
-      object-fit: cover;
-      object-position: top center;
-      filter: grayscale(20%) contrast(1.05);
-    }
-
-    .about-content blockquote {
-      font-family: var(--font-display);
-      font-size: clamp(1.2rem, 2.5vw, 1.75rem);
-      font-style: italic;
-      font-weight: 300;
-      color: var(--clr-cream);
-      line-height: 1.4;
-      border-left: 3px solid var(--clr-gold);
-      padding-left: var(--sp-md);
-      margin-bottom: var(--sp-md);
-    }
-
-    .about-content p + p {
-      margin-top: var(--sp-sm);
-    }
-
-    .about-credentials {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--sp-sm);
-      margin-top: var(--sp-md);
-    }
-
-    .credential-tag {
-      display: inline-block;
-      padding: 0.4em 1em;
-      border: 1px solid var(--clr-border);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--clr-gold);
-      border-radius: 2px;
-    }
+    #about { background: var(--navy-mid); position: relative; }
+    #about::before { content:''; position:absolute; inset-inline:0; top:0; height:1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); }
+    .about-grid { display: grid; grid-template-columns: 420px 1fr; gap: 5rem; align-items: center; }
+    .about-portrait { position: relative; flex-shrink: 0; }
+    .about-portrait::before { content:''; position:absolute; top:-14px; left:-14px; width:80px; height:80px; border-top:2px solid var(--gold); border-left:2px solid var(--gold); z-index:1; }
+    .about-portrait::after  { content:''; position:absolute; bottom:-14px; right:-14px; width:80px; height:80px; border-bottom:2px solid var(--gold); border-right:2px solid var(--gold); }
+    .about-portrait img { width:100%; aspect-ratio:4/5; object-fit:cover; object-position:top center; filter:grayscale(10%) contrast(1.05); display:block; }
+    .about-content blockquote { font-family: var(--font-d); font-size: clamp(1.15rem,2vw,1.6rem); font-style: italic; font-weight:300; color: var(--cream); line-height:1.45; border-left:3px solid var(--gold); padding-left:1.5rem; margin-bottom:1.5rem; }
+    .about-content p + p { margin-top: .85rem; }
+    .about-tags { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.5rem; }
+    .tag { display:inline-block; padding:.35em .9em; border:1px solid var(--border); font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); border-radius:2px; }
 
     /* ============================================================
-       FOCUS AREAS (AI & History)
+       FOCUS CARDS
     ============================================================ */
-    #focus {
-      background: var(--clr-navy);
-    }
-
-    .focus-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--sp-sm);
-      margin-top: var(--sp-lg);
-    }
-
-    .focus-card {
-      padding: var(--sp-md);
-      border: 1px solid var(--clr-border);
-      background: var(--clr-navy-mid);
-      position: relative;
-      transition: border-color var(--dur-normal) var(--ease),
-                  transform    var(--dur-normal) var(--ease);
-    }
-
-    .focus-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--clr-gold), transparent);
-      opacity: 0;
-      transition: opacity var(--dur-normal) var(--ease);
-    }
-
-    .focus-card:hover {
-      border-color: var(--clr-gold);
-      transform: translateY(-4px);
-    }
-
+    #focus { background: var(--navy); }
+    .focus-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 3rem; }
+    .focus-card { padding: 2rem; border: 1px solid var(--border); background: var(--navy-mid); position: relative; transition: border-color .3s var(--ease), transform .3s var(--ease); }
+    .focus-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg,var(--gold),transparent); opacity:0; transition: opacity .3s; }
+    .focus-card:hover { border-color: var(--gold); transform: translateY(-4px); }
     .focus-card:hover::before { opacity: 1; }
-
-    .focus-card__icon {
-      font-size: 2rem;
-      margin-bottom: var(--sp-sm);
-      line-height: 1;
-    }
-
-    .focus-card__title {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: var(--clr-white);
-      margin-bottom: 0.5rem;
-    }
-
-    .focus-card__body {
-      font-size: 0.9rem;
-      color: var(--clr-text-muted);
-      line-height: 1.7;
-    }
+    .focus-card__icon { font-size:1.8rem; margin-bottom:.85rem; line-height:1; }
+    .focus-card__title { font-family: var(--font-d); font-size:1.25rem; font-weight:500; color:var(--white); margin-bottom:.5rem; }
+    .focus-card__body { font-size:.88rem; color:var(--muted); line-height:1.7; }
 
     /* ============================================================
-       BOOKS
+       BOOKS FULL — detail view
     ============================================================ */
-    #books {
-      background: var(--clr-navy-mid);
-      position: relative;
-    }
-
-    #books::before {
-      content: '';
-      position: absolute;
-      inset-inline: 0;
-      top: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--clr-gold), transparent);
-    }
-
-    .books-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: var(--sp-md);
-    }
-
-    .book-card {
-      display: flex;
-      flex-direction: column;
-      background: var(--clr-navy-light);
-      border: 1px solid var(--clr-border);
-      overflow: hidden;
-      transition: box-shadow var(--dur-normal) var(--ease),
-                  transform  var(--dur-normal) var(--ease);
-    }
-
-    .book-card:hover {
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      transform: translateY(-6px);
-    }
-
-    .book-card__cover {
-      aspect-ratio: 3 / 4;
-      background: var(--clr-navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Placeholder when no cover image is available */
-    .book-card__cover-placeholder {
-      text-align: center;
-      padding: var(--sp-md);
-      color: var(--clr-text-muted);
-    }
-
-    .book-card__cover-placeholder .book-title-large {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-style: italic;
-      color: var(--clr-cream);
-      margin-bottom: var(--sp-sm);
-    }
-
-    .book-card__cover-placeholder .star {
-      font-size: 2rem;
-      color: var(--clr-gold);
-      opacity: 0.6;
-    }
-
-    .book-card__body {
-      padding: var(--sp-md);
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .book-card__genre {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--clr-gold);
-      margin-bottom: 0.5rem;
-    }
-
-    .book-card__title {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 500;
-      color: var(--clr-white);
-      line-height: 1.25;
-      margin-bottom: 0.5rem;
-    }
-
-    .book-card__subtitle {
-      font-family: var(--font-display);
-      font-style: italic;
-      color: var(--clr-gold);
-      font-size: 0.95rem;
-      margin-bottom: var(--sp-sm);
-    }
-
-    .book-card__description {
-      font-size: 0.88rem;
-      color: var(--clr-text-muted);
-      line-height: 1.7;
-      flex: 1;
-      margin-bottom: var(--sp-sm);
-    }
-
-    .book-card__links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: auto;
-    }
-
-    .book-card__link {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--clr-gold);
-      border: 1px solid var(--clr-border);
-      padding: 0.4em 1em;
-      transition: background var(--dur-normal) var(--ease),
-                  color var(--dur-normal) var(--ease);
-      border-radius: 2px;
-    }
-
-    .book-card__link:hover {
-      background: var(--clr-gold);
-      color: var(--clr-navy);
-      border-color: var(--clr-gold);
-    }
+    #books-full { background: var(--navy-mid); position: relative; }
+    #books-full::before { content:''; position:absolute; inset-inline:0; top:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+    .books-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    .book-card { background: var(--navy-light); border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow .3s var(--ease), transform .3s var(--ease); }
+    .book-card:hover { box-shadow: 0 24px 64px rgba(0,0,0,.55); transform: translateY(-5px); }
+    .book-card__img-wrap { display: flex; background: var(--navy); justify-content: center; padding: 2.5rem 2rem; gap: 1.5rem; }
+    .book-card__img-wrap img { height: 260px; width: auto; max-width: 180px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,.5); transition: transform .3s var(--ease); }
+    .book-card__img-wrap img:hover { transform: scale(1.03) rotate(.5deg); }
+    .book-card__body { padding: 2rem; flex: 1; display: flex; flex-direction: column; }
+    .book-card__genre { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: .5rem; }
+    .book-card__title { font-family: var(--font-d); font-size: 1.65rem; font-weight: 500; color: var(--white); line-height: 1.2; margin-bottom: .3rem; }
+    .book-card__sub { font-family: var(--font-d); font-style: italic; color: var(--gold); font-size: .9rem; margin-bottom: 1rem; }
+    .book-card__desc { font-size: .88rem; color: var(--muted); line-height: 1.75; flex: 1; margin-bottom: 1.5rem; }
+    .book-card__purchase { border-top: 1px solid var(--border); padding-top: 1.25rem; }
+    .book-card__purchase-label { font-size: .65rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); margin-bottom: .75rem; }
+    .book-card__btns { display: flex; flex-wrap: wrap; gap: .6rem; }
 
     /* ============================================================
-       AWARDS
+       AWARDS — real badge images
     ============================================================ */
-    #awards {
-      background: var(--clr-navy);
-    }
-
-    .awards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: var(--sp-sm);
-    }
-
-    .award-card {
-      padding: var(--sp-md) var(--sp-sm);
-      border: 1px solid var(--clr-border);
-      text-align: center;
-      background: var(--clr-navy-mid);
-      transition: border-color var(--dur-normal) var(--ease);
-    }
-
-    .award-card:hover {
-      border-color: var(--clr-gold);
-    }
-
-    .award-card__icon {
-      font-size: 2rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .award-card__org {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--clr-gold);
-      margin-bottom: 0.5rem;
-    }
-
-    .award-card__name {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      color: var(--clr-white);
-      margin-bottom: 0.75rem;
-    }
-
-    .award-card__quote {
-      font-size: 0.82rem;
-      font-style: italic;
-      color: var(--clr-text-muted);
-      line-height: 1.6;
-    }
+    #awards { background: var(--navy); }
+    .awards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.25rem; }
+    .award-card { padding: 1.5rem 1rem; border: 1px solid var(--border); text-align: center; background: var(--navy-mid); transition: border-color .3s, transform .3s var(--ease); display: flex; flex-direction: column; align-items: center; }
+    .award-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .award-card__badge { width: 90px; height: 90px; object-fit: contain; margin-bottom: .9rem; border-radius: 4px; }
+    .award-card__org { font-size: .62rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: .4rem; }
+    .award-card__name { font-family: var(--font-d); font-size: .95rem; color: var(--white); margin-bottom: .6rem; font-weight: 500; }
+    .award-card__quote { font-size: .78rem; font-style: italic; color: var(--muted); line-height: 1.6; }
 
     /* ============================================================
        SEMINARS
     ============================================================ */
-    #seminars {
-      background: var(--clr-navy-mid);
-      position: relative;
-    }
-
-    #seminars::before {
-      content: '';
-      position: absolute;
-      inset-inline: 0;
-      top: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--clr-gold), transparent);
-    }
-
-    .seminars-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--sp-lg);
-      align-items: start;
-    }
-
-    .seminars-topics {
-      display: flex;
-      flex-direction: column;
-      gap: var(--sp-sm);
-      margin-top: var(--sp-md);
-    }
-
-    .seminar-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      padding: var(--sp-sm);
-      border-left: 2px solid var(--clr-border);
-      transition: border-color var(--dur-normal) var(--ease);
-    }
-
-    .seminar-item:hover {
-      border-color: var(--clr-gold);
-    }
-
-    .seminar-item__num {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 300;
-      color: var(--clr-gold);
-      opacity: 0.5;
-      flex-shrink: 0;
-      line-height: 1;
-    }
-
-    .seminar-item__title {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      color: var(--clr-white);
-      margin-bottom: 0.3rem;
-    }
-
-    .seminar-item__desc {
-      font-size: 0.85rem;
-      color: var(--clr-text-muted);
-    }
-
-    .seminars-cta-block {
-      background: var(--clr-navy-light);
-      border: 1px solid var(--clr-border);
-      padding: var(--sp-md);
-      position: sticky;
-      top: calc(var(--header-h) + var(--sp-sm));
-    }
-
-    .seminars-cta-block p {
-      font-size: 0.9rem;
-      color: var(--clr-text-muted);
-      margin-bottom: var(--sp-md);
-    }
+    #seminars { background: var(--navy-mid); position: relative; }
+    #seminars::before { content:''; position:absolute; inset-inline:0; top:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+    .seminars-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .seminar-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+    .seminar-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; border-left: 2px solid var(--border); transition: border-color .3s; }
+    .seminar-item:hover { border-color: var(--gold); }
+    .seminar-item__num { font-family: var(--font-d); font-size: 1.4rem; font-weight: 300; color: var(--gold); opacity: .45; flex-shrink: 0; line-height: 1; }
+    .seminar-item__title { font-family: var(--font-d); font-size: 1rem; color: var(--white); margin-bottom: .3rem; }
+    .seminar-item__desc { font-size: .83rem; color: var(--muted); }
+    .seminar-cta { background: var(--navy-light); border: 1px solid var(--border); padding: 2rem; position: sticky; top: calc(var(--hdr) + 1rem); }
+    .seminar-cta .sec-title { font-size: 1.75rem; margin-block: .75rem 1rem; }
+    .seminar-cta p { font-size: .88rem; color: var(--muted); margin-bottom: 1.5rem; }
 
     /* ============================================================
        CONTACT
     ============================================================ */
-    #contact {
-      background: var(--clr-navy);
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: var(--sp-lg);
-      align-items: start;
-    }
-
-    .contact-info p {
-      color: var(--clr-text-muted);
-      font-size: 0.9rem;
-      margin-top: var(--sp-sm);
-      margin-bottom: var(--sp-md);
-    }
-
-    .contact-info__email a {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      color: var(--clr-gold);
-      border-bottom: 1px solid var(--clr-border);
-      padding-bottom: 2px;
-      transition: border-color var(--dur-fast);
-    }
-
-    .contact-info__email a:hover {
-      border-color: var(--clr-gold);
-    }
-
-    .social-links {
-      display: flex;
-      gap: var(--sp-sm);
-      margin-top: var(--sp-md);
-      flex-wrap: wrap;
-    }
-
-    .social-link {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--clr-text-muted);
-      transition: color var(--dur-fast);
-    }
-
-    .social-link:hover { color: var(--clr-gold); }
-
-    .social-link svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
-
-    /* Contact form */
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: var(--sp-sm);
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--sp-sm);
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .form-group label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--clr-text-muted);
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      background: var(--clr-navy-mid);
-      border: 1px solid var(--clr-border);
-      color: var(--clr-white);
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      padding: 0.75em 1em;
-      outline: none;
-      border-radius: 2px;
-      transition: border-color var(--dur-fast);
-      resize: vertical;
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: var(--clr-text-muted);
-      opacity: 0.6;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--clr-gold);
-    }
-
-    .form-group textarea {
-      min-height: 140px;
-    }
+    #contact { background: var(--navy); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
+    .contact-info p { color: var(--muted); font-size: .88rem; margin-block: .75rem 1.5rem; }
+    .contact-email a { font-family: var(--font-d); font-size: 1.05rem; color: var(--gold); border-bottom: 1px solid var(--border); padding-bottom: 2px; transition: border-color .15s; }
+    .contact-email a:hover { border-color: var(--gold); }
+    .social-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+    .social-link { display: flex; align-items: center; gap: .4rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); transition: color .15s; }
+    .social-link:hover { color: var(--gold); }
+    .social-link svg { width: 16px; height: 16px; fill: currentColor; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .35rem; }
+    .form-group label { font-size: .67rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+    .form-group input, .form-group textarea, .form-group select { background: var(--navy-mid); border: 1px solid var(--border); color: var(--white); font-family: var(--font-b); font-size: .88rem; padding: .7em 1em; outline: none; border-radius: 2px; transition: border-color .15s; resize: vertical; }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--muted); opacity: .5; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
+    .form-group textarea { min-height: 130px; }
 
     /* ============================================================
        FOOTER
     ============================================================ */
-    .site-footer {
-      background: #07101d;
-      border-top: 1px solid var(--clr-border);
-      padding-block: var(--sp-lg) var(--sp-md);
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: var(--sp-lg);
-      margin-bottom: var(--sp-lg);
-    }
-
-    .footer-brand p {
-      font-size: 0.85rem;
-      color: var(--clr-text-muted);
-      margin-top: var(--sp-sm);
-      line-height: 1.7;
-      max-width: 280px;
-    }
-
-    .footer-col__heading {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--clr-gold);
-      margin-bottom: var(--sp-sm);
-    }
-
-    .footer-col ul {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .footer-col ul li a {
-      font-size: 0.85rem;
-      color: var(--clr-text-muted);
-      transition: color var(--dur-fast);
-    }
-
-    .footer-col ul li a:hover { color: var(--clr-white); }
-
-    .footer-bottom {
-      border-top: 1px solid var(--clr-border);
-      padding-top: var(--sp-sm);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: var(--sp-sm);
-    }
-
-    .footer-bottom p {
-      font-size: 0.78rem;
-      color: var(--clr-text-muted);
-    }
-
-    .footer-bottom a {
-      color: var(--clr-gold);
-      transition: opacity var(--dur-fast);
-    }
-
-    .footer-bottom a:hover { opacity: 0.75; }
-
-    .footer-legal {
-      display: flex;
-      gap: var(--sp-sm);
-    }
-
-    .footer-legal a {
-      font-size: 0.78rem;
-      color: var(--clr-text-muted);
-      transition: color var(--dur-fast);
-    }
-
-    .footer-legal a:hover { color: var(--clr-white); }
+    .footer { background: #060b15; border-top: 1px solid var(--border); padding-block: 4rem 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
+    .footer-brand p { font-size: .83rem; color: var(--muted); margin-top: .75rem; max-width: 280px; line-height: 1.7; }
+    .footer-col__head { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: .85rem; }
+    .footer-col ul { display: flex; flex-direction: column; gap: .45rem; }
+    .footer-col ul li a { font-size: .83rem; color: var(--muted); transition: color .15s; }
+    .footer-col ul li a:hover { color: var(--white); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: .75rem; color: var(--muted); }
+    .footer-legal { display: flex; gap: 1.5rem; }
+    .footer-legal a { font-size: .75rem; color: var(--muted); transition: color .15s; }
+    .footer-legal a:hover { color: var(--white); }
 
     /* ============================================================
        RESPONSIVE — TABLET
     ============================================================ */
-    @media (max-width: 900px) {
-      .about-grid,
-      .seminars-layout,
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .about-portrait {
-        max-width: 360px;
-        margin-inline: auto;
-      }
-
-      .focus-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .seminars-cta-block {
-        position: static;
-      }
+    @media (max-width: 1000px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-portrait { max-width: 340px; margin-inline: auto; }
+      .bh-books { grid-template-columns: 1fr 1fr; }
+      .bh-cta { padding-left: 0; grid-column: 1/-1; flex-direction: row; flex-wrap: wrap; }
+      .focus-grid { grid-template-columns: 1fr 1fr; }
+      .awards-grid { grid-template-columns: repeat(3,1fr); }
+      .seminars-layout { grid-template-columns: 1fr; }
+      .seminar-cta { position: static; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      #books-hero::after { display: none; }
     }
 
     /* ============================================================
        RESPONSIVE — MOBILE
     ============================================================ */
-    @media (max-width: 600px) {
-      :root {
-        --sp-xl: 4rem;
-        --sp-lg: 2.5rem;
-      }
-
-      .site-nav { display: none; }
-      .nav-toggle { display: flex; }
-
-      .hero__title {
-        font-size: clamp(2.5rem, 12vw, 4rem);
-      }
-
-      .focus-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .books-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-        gap: var(--sp-md);
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+    @media (max-width: 640px) {
+      :root { --hdr: 60px; }
+      .nav { display: none; }
+      .hamburger { display: flex; }
+      .hero__title { font-size: clamp(2.8rem,13vw,4.5rem); }
+      .focus-grid { grid-template-columns: 1fr; }
+      .books-grid { grid-template-columns: 1fr; }
+      .bh-books { grid-template-columns: 1fr; }
+      .bh-book { max-width: 100%; }
+      .awards-grid { grid-template-columns: repeat(2,1fr); }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
     }
 
     /* ============================================================
-       PRINT STYLES
+       PRINT
     ============================================================ */
     @media print {
-      .site-header,
-      .hero__scroll,
-      .nav-toggle,
-      .mobile-nav,
-      #contact { display: none !important; }
-
-      body {
-        background: white;
-        color: black;
-      }
-
-      section { page-break-inside: avoid; }
+      .hdr, .hero__scroll, .hamburger, .mob-nav, #contact { display: none !important; }
+      body { background: white; color: black; }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- ============================================================
-       SKIP NAVIGATION (Accessibility)
-  ============================================================ -->
-  <a class="sr-only" href="#main-content"
-     style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;"
-     onfocus="this.style.left='0';this.style.width='auto';this.style.height='auto'">
+  <!-- ── Skip Navigation ──────────────────────────────────── -->
+  <a href="#main-content" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"
+     onfocus="this.style.cssText='position:static;width:auto;height:auto;padding:.5rem 1rem;background:var(--gold);color:var(--navy);z-index:9999'">
     Skip to main content
   </a>
 
   <!-- ============================================================
        HEADER
   ============================================================ -->
-  <header class="site-header" role="banner" id="site-header">
-    <div class="header-inner">
-
-      <!-- Brand / Logo -->
-      <a href="#hero" class="site-logo" aria-label="Roni Rosenthal — return to top">
+  <header class="hdr" id="hdr" role="banner">
+    <div class="hdr__inner">
+      <a href="#hero" class="logo" aria-label="Dr. Roni Rosenthal — back to top">
         Dr. Roni <span>Rosenthal</span>
       </a>
-
-      <!-- Desktop Navigation -->
-      <nav class="site-nav" role="navigation" aria-label="Primary navigation">
-        <a class="site-nav__link" href="#about">About</a>
-        <a class="site-nav__link" href="#focus">Research</a>
-        <a class="site-nav__link" href="#books">Books</a>
-        <a class="site-nav__link" href="#awards">Awards</a>
-        <a class="site-nav__link" href="#seminars">Seminars</a>
-        <a class="btn" href="#contact" aria-label="Get in touch with Dr. Rosenthal">Contact</a>
+      <nav class="nav" role="navigation" aria-label="Primary navigation">
+        <a class="nav__link" href="#about">About</a>
+        <a class="nav__link" href="#focus">Research</a>
+        <a class="nav__link" href="#books-full">Books</a>
+        <a class="nav__link" href="#awards">Awards</a>
+        <a class="nav__link" href="#seminars">Seminars</a>
+        <a class="btn" href="#contact">Contact</a>
       </nav>
-
-      <!-- Mobile Hamburger -->
-      <button class="nav-toggle"
-              id="nav-toggle"
-              aria-label="Toggle mobile navigation"
-              aria-expanded="false"
-              aria-controls="mobile-nav">
-        <span class="nav-toggle__bar" aria-hidden="true"></span>
-        <span class="nav-toggle__bar" aria-hidden="true"></span>
-        <span class="nav-toggle__bar" aria-hidden="true"></span>
+      <button class="hamburger" id="hamburger"
+              aria-label="Toggle navigation" aria-expanded="false" aria-controls="mob-nav">
+        <span class="hamburger__bar" aria-hidden="true"></span>
+        <span class="hamburger__bar" aria-hidden="true"></span>
+        <span class="hamburger__bar" aria-hidden="true"></span>
       </button>
     </div>
   </header>
 
-  <!-- Mobile Navigation Drawer -->
-  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" aria-hidden="true">
-    <a class="mobile-nav__link" href="#about">About</a>
-    <a class="mobile-nav__link" href="#focus">Research</a>
-    <a class="mobile-nav__link" href="#books">Books</a>
-    <a class="mobile-nav__link" href="#awards">Awards</a>
-    <a class="mobile-nav__link" href="#seminars">Seminars</a>
-    <a class="mobile-nav__link" href="#contact">Contact</a>
+  <!-- Mobile drawer -->
+  <nav class="mob-nav" id="mob-nav" aria-label="Mobile navigation" aria-hidden="true">
+    <a class="mob-nav__link" href="#about">About</a>
+    <a class="mob-nav__link" href="#focus">Research</a>
+    <a class="mob-nav__link" href="#books-full">Books</a>
+    <a class="mob-nav__link" href="#awards">Awards</a>
+    <a class="mob-nav__link" href="#seminars">Seminars</a>
+    <a class="mob-nav__link" href="#contact">Contact</a>
   </nav>
 
   <!-- ============================================================
-       MAIN CONTENT
+       MAIN
   ============================================================ -->
   <main id="main-content">
 
     <!-- ── HERO ─────────────────────────────────────────────── -->
     <section class="hero" id="hero" aria-label="Hero introduction">
+      <div class="hero__bg" role="img" aria-label="Purple lilac flowers in bloom"></div>
       <div class="container hero__inner">
         <p class="eyebrow hero__eyebrow reveal">Award-Winning Author · Professor · Scholar</p>
-        <h1 class="hero__title reveal" style="transition-delay: 0.1s;">
+        <h1 class="hero__title reveal" style="transition-delay:.1s">
           Roni <em>Rosenthal,</em><br />Ph.D.
         </h1>
-        <p class="hero__subtitle reveal" style="transition-delay: 0.2s;">
-          Preserving Jewish history. Bridging memory with the age of artificial intelligence.
+        <p class="hero__sub reveal" style="transition-delay:.2s">
+          Preserving Jewish memory. Bridging history with the age of artificial intelligence.
         </p>
-        <div class="hero__cta reveal" style="transition-delay: 0.3s;">
-          <a class="btn btn--solid" href="#books">Explore the Books</a>
+        <div class="hero__cta reveal" style="transition-delay:.3s">
+          <a class="btn btn--gold" href="#books-hero">Explore the Books</a>
           <a class="btn" href="#about">Meet Dr. Rosenthal</a>
         </div>
       </div>
-
-      <!-- Scroll indicator -->
       <div class="hero__scroll" aria-hidden="true">
         <div class="hero__scroll-line"></div>
         <span>Scroll</span>
       </div>
     </section>
 
+    <!-- ============================================================
+         BOOKS HERO — prominent, front and centre
+    ============================================================ -->
+    <section id="books-hero" aria-labelledby="bh-heading">
+      <div class="container">
+
+        <div class="reveal">
+          <span class="bh-label">📚 Published Works — Available Now on Amazon</span>
+        </div>
+        <h2 class="bh-title reveal" id="bh-heading" style="transition-delay:.08s">
+          Where the Lilacs Bloom Once Again &amp; The Lilacs I Once Knew
+        </h2>
+        <p class="bh-sub reveal" style="transition-delay:.14s">
+          The true story of Friddie Stoleru — a Jewish Romanian woman who found hope through poetry in the darkest of circumstances. These stories must be told. These voices must be heard.
+        </p>
+
+        <div class="bh-books reveal" style="transition-delay:.2s">
+
+          <!-- Book 1 -->
+          <div class="bh-book">
+            <a href="https://a.co/d/hKIJbcs" target="_blank" rel="noopener noreferrer"
+               class="bh-book__cover" aria-label="Buy Where the Lilacs Bloom Once Again on Amazon">
+              <!--
+                Book cover image — Dr. Rosenthal's own asset from rosenthalroni.com
+                Source: Wix CDN, full-resolution
+              -->
+              <img src="https://static.wixstatic.com/media/59d1c6_c483375e1d8e41c2b0184d663d1315ae~mv2.png"
+                   alt="Book cover: Where the Lilacs Bloom Once Again — Friddie's Story"
+                   loading="eager" width="220" height="293" />
+            </a>
+            <div>
+              <p class="bh-book__label">Memoir · Historical Fiction</p>
+              <p class="bh-book__name">Where the Lilacs Bloom Once Again: Friddie's Story</p>
+              <div class="bh-book__btns">
+                <a class="btn--amazon" href="https://a.co/d/hKIJbcs" target="_blank" rel="noopener noreferrer"
+                   aria-label="Buy Where the Lilacs Bloom Once Again in English on Amazon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.045 18.02c.072-.116 4.
+                  869-2.733 6.209-3.809 1.04-.836 1.597-.687 2.
+                  031-.107.286.385.3 1.065.3 1.52V21c0 .55.45 1 1 1h8a1 1 0
+                  001-1v-5.373c0-.534.015-1.135.303-1.52.434-.58.991-.73 2.
+                  031.107 1.341 1.077 6.138 3.693 6.209 3.81.08.127.109.305.
+                  057.461-.052.156-.193.269-.36.269H18.5a.995.995 0
+                  01-.813-.421l-1.49-2.15a3.003 3.003 0 00-4.908 0L9.8 18.
+                  579A.995.995 0 018.987 19H.358c-.168 0-.309-.113-.361-.269a.
+                  504.504 0 01.048-.711z"/></svg>
+                  Buy in English
+                </a>
+                <a class="btn--amazon btn--amazon-he" href="https://a.co/d/dpjAuWA" target="_blank" rel="noopener noreferrer"
+                   aria-label="Buy Where the Lilacs Bloom Once Again in Hebrew on Amazon">
+                  🇮🇱 Buy in Hebrew
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 2 -->
+          <div class="bh-book">
+            <a href="https://a.co/d/0ierzR94" target="_blank" rel="noopener noreferrer"
+               class="bh-book__cover" aria-label="Buy The Lilacs I Once Knew on Amazon">
+              <!--
+                Book cover image — Dr. Rosenthal's own asset from rosenthalroni.com
+                Source: Wix CDN, full-resolution
+              -->
+              <img src="https://static.wixstatic.com/media/59d1c6_473210dbca7c4f648f412c4376a2e38e~mv2.jpg"
+                   alt="Book cover: The Lilacs I Once Knew — Friddie's Poems"
+                   loading="eager" width="220" height="293" />
+            </a>
+            <div>
+              <p class="bh-book__label">Poetry · Historical</p>
+              <p class="bh-book__name">The Lilacs I Once Knew: Friddie's Poems</p>
+              <div class="bh-book__btns">
+                <a class="btn--amazon" href="https://a.co/d/0ierzR94" target="_blank" rel="noopener noreferrer"
+                   aria-label="Buy The Lilacs I Once Knew in English on Amazon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.045 18.02c.072-.116 4.869-2.733 6.209-3.809 1.04-.836 1.597-.687 2.031-.107.286.385.3 1.065.3 1.52V21c0 .55.45 1 1 1h8a1 1 0 001-1v-5.373c0-.534.015-1.135.303-1.52.434-.58.991-.73 2.031.107 1.341 1.077 6.138 3.693 6.209 3.81.08.127.109.305.057.461-.052.156-.193.269-.36.269H18.5a.995.995 0 01-.813-.421l-1.49-2.15a3.003 3.003 0 00-4.908 0L9.8 18.579A.995.995 0 018.987 19H.358c-.168 0-.309-.113-.361-.269a.504.504 0 01.048-.711z"/></svg>
+                  Buy in English
+                </a>
+                <a class="btn--amazon btn--amazon-he" href="https://a.co/d/04U17POd" target="_blank" rel="noopener noreferrer"
+                   aria-label="Buy The Lilacs I Once Knew in Hebrew on Amazon">
+                  🇮🇱 Buy in Hebrew
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Supplementary CTA column -->
+          <div class="bh-cta">
+            <a class="btn" href="https://www.youtube.com/watch?v=DUijsfMJhdw"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Watch the book trailer on YouTube">
+              ▶ Watch Book Trailer
+            </a>
+            <a class="btn btn--gold" href="#books-full"
+               aria-label="Read more about the books">
+              Full Book Details ↓
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
     <!-- ── ABOUT ─────────────────────────────────────────────── -->
-    <section id="about" aria-labelledby="about-heading">
+    <section id="about" aria-labelledby="about-h">
       <div class="container">
         <div class="about-grid">
 
           <!-- Portrait -->
           <figure class="about-portrait reveal">
             <!--
-              MAINTAINER NOTE:
-              Replace the placeholder below with an actual <img> tag once
-              a high-resolution author photo is available.
-              Recommended: 600×750px, WebP format.
-              Example: <img src="assets/roni-rosenthal-portrait.webp"
-                            alt="Dr. Roni Rosenthal, author and professor"
-                            width="600" height="750" loading="lazy" />
+              Author portrait — Dr. Rosenthal's own image
+              Source: rosenthalroni.com Wix CDN (P9 (2).jpg)
+              Requested at appropriate resolution for display
             -->
-            <div style="
-              width: 100%;
-              aspect-ratio: 4/5;
-              background: linear-gradient(145deg, var(--clr-navy-light), var(--clr-navy-mid));
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              gap: 1rem;
-              color: var(--clr-text-muted);
-              font-size: 0.8rem;
-              letter-spacing: 0.1em;
-              text-transform: uppercase;
-              border: 1px solid var(--clr-border);
-            ">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <circle cx="24" cy="18" r="9" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
-                <path d="M6 42c0-9.941 8.059-18 18-18s18 8.059 18 18" stroke="#c9a84c" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-              </svg>
-              <span style="color:var(--clr-gold);">Author Photo</span>
-            </div>
-            <figcaption class="sr-only">Dr. Roni Rosenthal, Author and Professor</figcaption>
+            <img
+              src="https://static.wixstatic.com/media/59d1c6_a7f91b9f49b54cf4bd851e3cc77d092c~mv2.jpg/v1/fill/w_480,h_600,al_c,q_90/59d1c6_a7f91b9f49b54cf4bd851e3cc77d092c~mv2.jpg"
+              alt="Dr. Roni Rosenthal, award-winning author and professor"
+              width="480" height="600"
+              loading="lazy" />
+            <figcaption class="sr-only">Dr. Roni Rosenthal, Ph.D.</figcaption>
           </figure>
 
           <!-- Bio -->
-          <div class="about-content reveal" style="transition-delay:0.15s;">
-            <p class="eyebrow">About</p>
+          <div class="about-content reveal" style="transition-delay:.15s">
+            <p class="eyebrow">About Dr. Rosenthal</p>
             <div class="divider"></div>
-            <h2 class="section-title" id="about-heading" style="margin-bottom:var(--sp-sm);">
+            <h2 class="sec-title" id="about-h" style="margin-bottom:1rem">
               Storyteller.<br />Scholar. Voice for the Silenced.
             </h2>
-
             <blockquote>
               "Stories carry greater messages for all of us — it is essential to speak up for those who have been silenced."
             </blockquote>
-
             <p>
-              Dr. Roni Rosenthal is an award-winning author, writer, and Language and Literature Professor
-              at the University of Maryland system. She has dedicated her career to recovering and amplifying
-              the voices of Jewish communities whose histories are at risk of being forgotten.
+              Dr. Roni Rosenthal is an award-winning author, writer, and Language and Literature
+              Professor at the University of Maryland system. She has dedicated her career to
+              recovering and amplifying the voices of Jewish communities whose histories are at
+              risk of being forgotten — particularly those of Romanian Jewry under fascist and
+              communist rule.
             </p>
             <p>
-              Her scholarly work explores the intersection of Holocaust history, Jewish cultural understanding,
-              and the emerging role of artificial intelligence as a tool for historical preservation and
-              sociopolitical analysis. Dr. Rosenthal is a recognized authority on how AI can be responsibly
-              leveraged to deepen our understanding of the Jewish condition — past and present.
+              Her scholarly work explores the intersection of Holocaust history, Jewish cultural
+              understanding, and the emerging role of artificial intelligence as a tool for
+              historical preservation and sociopolitical analysis. Dr. Rosenthal is a recognized
+              authority on how AI can be responsibly leveraged to deepen our understanding of
+              the Jewish condition — past and present.
             </p>
             <p>
-              A frequent speaker at universities, workshops, and schools across the country, she believes
-              firmly in the power of education, communication, and empowerment as instruments for justice.
+              A mother, reader, dancer, genealogy advocate, and frequent speaker at universities
+              and cultural institutions across the country, she believes firmly in the power of
+              education, communication, and empowerment as instruments for justice.
             </p>
-
-            <div class="about-credentials" role="list" aria-label="Professional credentials">
-              <span class="credential-tag" role="listitem">Ph.D. Literature</span>
-              <span class="credential-tag" role="listitem">U of Maryland Professor</span>
-              <span class="credential-tag" role="listitem">Holocaust Historian</span>
-              <span class="credential-tag" role="listitem">AI &amp; History Scholar</span>
-              <span class="credential-tag" role="listitem">Award-Winning Author</span>
+            <div class="about-tags" role="list" aria-label="Credentials">
+              <span class="tag" role="listitem">Ph.D. Literature</span>
+              <span class="tag" role="listitem">U of Maryland Professor</span>
+              <span class="tag" role="listitem">Holocaust Historian</span>
+              <span class="tag" role="listitem">AI &amp; History Scholar</span>
+              <span class="tag" role="listitem">Award-Winning Author</span>
+              <span class="tag" role="listitem">Public Speaker</span>
             </div>
           </div>
 
@@ -1403,156 +635,156 @@
     </section>
 
     <!-- ── FOCUS AREAS ───────────────────────────────────────── -->
-    <section id="focus" aria-labelledby="focus-heading">
+    <section id="focus" aria-labelledby="focus-h">
       <div class="container">
-        <header class="section-header section-header--center">
+        <header class="sec-hdr sec-hdr--c">
           <p class="eyebrow">Areas of Expertise</p>
-          <div class="divider divider--center"></div>
-          <h2 class="section-title" id="focus-heading">
-            Where Memory Meets Modernity
-          </h2>
+          <div class="divider divider--c"></div>
+          <h2 class="sec-title" id="focus-h">Where Memory Meets Modernity</h2>
           <p>
             Dr. Rosenthal's work bridges centuries of Jewish heritage with the cutting edge of
-            artificial intelligence — ensuring that the lessons of history remain accessible and
+            artificial intelligence — ensuring the lessons of history remain accessible and
             relevant in an increasingly digital world.
           </p>
         </header>
-
         <div class="focus-grid">
-
-          <!-- Card 1 -->
-          <article class="focus-card reveal" aria-label="Holocaust History & Memory">
+          <article class="focus-card reveal">
             <div class="focus-card__icon" aria-hidden="true">✡</div>
             <h3 class="focus-card__title">Holocaust History &amp; Memory</h3>
             <p class="focus-card__body">
-              Recovering and contextualizing the lived experiences of Jewish communities
-              across Eastern Europe during the Holocaust — with particular focus on Romanian
-              Jewry under fascist and communist rule. Bringing hidden archives and family
-              testimonies into the historical record.
+              Recovering and contextualizing the lived experiences of Jewish communities across
+              Eastern Europe during the Holocaust — with particular focus on Romanian Jewry under
+              fascist and communist rule. Bringing hidden archives and family testimonies into
+              the historical record.
             </p>
           </article>
-
-          <!-- Card 2 -->
-          <article class="focus-card reveal" style="transition-delay:0.1s;" aria-label="AI for Historical Research">
+          <article class="focus-card reveal" style="transition-delay:.1s">
             <div class="focus-card__icon" aria-hidden="true">⬡</div>
             <h3 class="focus-card__title">AI for Historical Research</h3>
             <p class="focus-card__body">
-              A passionate proponent of using artificial intelligence to surface, translate,
-              and interpret historical documents at scale. Dr. Rosenthal examines AI's
-              usability for Jewish cultural scholarship and advocates for ethically designed
-              AI systems that honor minority historical perspectives.
+              A passionate proponent of using artificial intelligence to surface, translate, and
+              interpret historical documents at scale. Dr. Rosenthal examines AI's usability for
+              Jewish cultural scholarship and advocates for ethically designed AI systems that
+              honour minority historical perspectives.
             </p>
           </article>
-
-          <!-- Card 3 -->
-          <article class="focus-card reveal" style="transition-delay:0.2s;" aria-label="Jewish Cultural Understanding">
+          <article class="focus-card reveal" style="transition-delay:.2s">
             <div class="focus-card__icon" aria-hidden="true">◈</div>
             <h3 class="focus-card__title">Jewish Cultural Understanding</h3>
             <p class="focus-card__body">
-              Bridging contemporary sociopolitical structures with deep Jewish cultural
-              literacy. Her educational seminars and published work foster cross-cultural
-              dialogue, combat antisemitism, and illuminate how Jewish identity has been
-              shaped — and continues to be shaped — by global history.
+              Bridging contemporary sociopolitical structures with deep Jewish cultural literacy.
+              Her seminars and published work foster cross-cultural dialogue, combat antisemitism,
+              and illuminate how Jewish identity has been shaped — and continues to be shaped —
+              by global history.
             </p>
           </article>
-
         </div>
       </div>
     </section>
 
-    <!-- ── BOOKS ─────────────────────────────────────────────── -->
-    <section id="books" aria-labelledby="books-heading">
+    <!-- ── BOOKS FULL DETAIL ──────────────────────────────────── -->
+    <section id="books-full" aria-labelledby="books-h">
       <div class="container">
-        <header class="section-header">
+        <header class="sec-hdr">
           <p class="eyebrow">Published Works</p>
           <div class="divider"></div>
-          <h2 class="section-title" id="books-heading">The Books</h2>
+          <h2 class="sec-title" id="books-h">The Books</h2>
           <p>These stories must be told. These voices must be heard.</p>
         </header>
 
         <div class="books-grid">
 
-          <!-- Book 1: Where the Lilacs Bloom Once Again -->
-          <article class="book-card reveal" aria-label="Where the Lilacs Bloom Once Again: Friddie's Story">
-            <div class="book-card__cover" aria-hidden="true">
-              <div class="book-card__cover-placeholder">
-                <div class="book-title-large">Where the Lilacs Bloom Once Again</div>
-                <div class="star">✦</div>
-                <div style="font-size:0.75rem;color:var(--clr-text-muted);margin-top:0.5rem;font-style:italic;">Friddie's Story</div>
-              </div>
+          <!-- Book 1 full detail -->
+          <article class="book-card reveal" aria-label="Where the Lilacs Bloom Once Again">
+
+            <!-- Multiple cover images for visual richness -->
+            <div class="book-card__img-wrap">
+              <img src="https://static.wixstatic.com/media/59d1c6_c483375e1d8e41c2b0184d663d1315ae~mv2.png"
+                   alt="Cover: Where the Lilacs Bloom Once Again (English edition)"
+                   loading="lazy" width="180" height="240" />
+              <img src="https://static.wixstatic.com/media/59d1c6_db0eb204630f444d8ed568877ec5b8b0~mv2.png"
+                   alt="Interior spread: Where the Lilacs Bloom Once Again"
+                   loading="lazy" width="180" height="240" />
             </div>
+
             <div class="book-card__body">
-              <p class="book-card__genre">Historical Fiction · Memoir</p>
+              <p class="book-card__genre">Memoir · Historical Fiction · World War II</p>
               <h3 class="book-card__title">Where the Lilacs Bloom Once Again</h3>
-              <p class="book-card__subtitle">Friddie's Story</p>
-              <p class="book-card__description">
+              <p class="book-card__sub">Friddie's Story</p>
+              <p class="book-card__desc">
                 Based on the true experiences of a Jewish Romanian family, this award-winning
-                novel follows Friddie Stoleru — a woman unjustly imprisoned for nine years,
-                then condemned to a communist labor camp, who found solace in writing poetry
-                through it all. A tragic, heroic chronicle of resilience, loss, and hope
-                along the Danube under fascist and communist rule.
+                novel follows Friddie Stoleru — born 1919 in Bucharest — who at 18 married
+                a charming scientist named Freddy, only to see him vanish two weeks later
+                while she was unjustly accused of a crime she never committed.
               </p>
-              <div class="book-card__links">
-                <a class="book-card__link"
-                   href="https://a.co/d/hKIJbcs"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   aria-label="Buy Where the Lilacs Bloom Once Again in English on Amazon">
-                  Amazon — English
-                </a>
-                <a class="book-card__link"
-                   href="https://a.co/d/dpjAuWA"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   aria-label="Buy Where the Lilacs Bloom Once Again in Hebrew on Amazon">
-                  Amazon — Hebrew
-                </a>
-                <a class="book-card__link"
-                   href="https://www.youtube.com/watch?v=DUijsfMJhdw"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   aria-label="Watch the book trailer for Where the Lilacs Bloom Once Again">
-                  ▶ Book Trailer
-                </a>
+              <p class="book-card__desc">
+                She spent nine years in a Romanian prison, followed by four years in a
+                communist labour camp. Despite these conditions, Friddie found solace in
+                poetry. Alongside the stories of her Aunt Rosa, Uncle David, and cousins who
+                uprooted their lives to start again in Israel, this is an unforgettable
+                chronicle of resilience, family, and hope along the Danube.
+              </p>
+
+              <div class="book-card__purchase">
+                <p class="book-card__purchase-label">Available on Amazon</p>
+                <div class="book-card__btns">
+                  <a class="btn--amazon" href="https://a.co/d/hKIJbcs" target="_blank"
+                     rel="noopener noreferrer" aria-label="Buy Where the Lilacs Bloom Once Again — English edition on Amazon">
+                    🛒 English Edition
+                  </a>
+                  <a class="btn--amazon btn--amazon-he" href="https://a.co/d/dpjAuWA" target="_blank"
+                     rel="noopener noreferrer" aria-label="Buy Where the Lilacs Bloom Once Again — Hebrew edition on Amazon">
+                    🇮🇱 Hebrew Edition
+                  </a>
+                  <a class="btn" href="https://www.youtube.com/watch?v=DUijsfMJhdw" target="_blank"
+                     rel="noopener noreferrer" aria-label="Watch the book trailer">
+                    ▶ Book Trailer
+                  </a>
+                </div>
               </div>
             </div>
           </article>
 
-          <!-- Book 2: The Lilacs I Once Knew -->
-          <article class="book-card reveal" style="transition-delay:0.12s;" aria-label="The Lilacs I Once Knew: Friddie's Poems">
-            <div class="book-card__cover" aria-hidden="true">
-              <div class="book-card__cover-placeholder">
-                <div class="book-title-large">The Lilacs I Once Knew</div>
-                <div class="star">✦</div>
-                <div style="font-size:0.75rem;color:var(--clr-text-muted);margin-top:0.5rem;font-style:italic;">Friddie's Poems</div>
-              </div>
+          <!-- Book 2 full detail -->
+          <article class="book-card reveal" style="transition-delay:.12s" aria-label="The Lilacs I Once Knew">
+
+            <div class="book-card__img-wrap">
+              <img src="https://static.wixstatic.com/media/59d1c6_473210dbca7c4f648f412c4376a2e38e~mv2.jpg"
+                   alt="Cover: The Lilacs I Once Knew (English edition)"
+                   loading="lazy" width="180" height="240" />
+              <img src="https://static.wixstatic.com/media/59d1c6_a0e8a850377d4f6a8ef99a2901cb58ae~mv2.png"
+                   alt="Interior or alternate cover: The Lilacs I Once Knew"
+                   loading="lazy" width="180" height="240" />
             </div>
+
             <div class="book-card__body">
-              <p class="book-card__genre">Poetry · Historical</p>
+              <p class="book-card__genre">Poetry · Historical · Holocaust Literature</p>
               <h3 class="book-card__title">The Lilacs I Once Knew</h3>
-              <p class="book-card__subtitle">Friddie's Poems</p>
-              <p class="book-card__description">
-                Despite the harsh and inhumane conditions of imprisonment, Friddie found
-                solace in writing poetry. These poems — discovered after her death in hundreds
-                of letters to her cousin — speak of joy, loss, fear, resilience, and the
-                indomitable human spirit. Restored, translated, and brought back to life,
-                they are a testament to the power of words as survival.
+              <p class="book-card__sub">Friddie's Poems</p>
+              <p class="book-card__desc">
+                Despite the harsh and inhumane conditions of imprisonment and forced labour,
+                Friddie Stoleru found solace in writing poetry. These poems, discovered after
+                her death in hundreds of letters and postcards shared with her cousin Aaurica,
+                speak of joy, loss, fear, resilience, and the indomitable human spirit.
               </p>
-              <div class="book-card__links">
-                <a class="book-card__link"
-                   href="https://a.co/d/0ierzR94"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   aria-label="Buy The Lilacs I Once Knew in English on Amazon">
-                  Amazon — English
-                </a>
-                <a class="book-card__link"
-                   href="https://a.co/d/04U17POd"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   aria-label="Buy The Lilacs I Once Knew in Hebrew on Amazon">
-                  Amazon — Hebrew
-                </a>
+              <p class="book-card__desc">
+                Restored, translated, and brought back to life by her family, these verses
+                stand as a testament to the power of words as survival — a remarkable literary
+                companion to <em>Where the Lilacs Bloom Once Again</em>.
+              </p>
+
+              <div class="book-card__purchase">
+                <p class="book-card__purchase-label">Available on Amazon</p>
+                <div class="book-card__btns">
+                  <a class="btn--amazon" href="https://a.co/d/0ierzR94" target="_blank"
+                     rel="noopener noreferrer" aria-label="Buy The Lilacs I Once Knew — English edition on Amazon">
+                    🛒 English Edition
+                  </a>
+                  <a class="btn--amazon btn--amazon-he" href="https://a.co/d/04U17POd" target="_blank"
+                     rel="noopener noreferrer" aria-label="Buy The Lilacs I Once Knew — Hebrew edition on Amazon">
+                    🇮🇱 Hebrew Edition
+                  </a>
+                </div>
               </div>
             </div>
           </article>
@@ -1561,69 +793,86 @@
       </div>
     </section>
 
-    <!-- ── AWARDS ────────────────────────────────────────────── -->
-    <section id="awards" aria-labelledby="awards-heading">
+    <!-- ── AWARDS ─────────────────────────────────────────────── -->
+    <section id="awards" aria-labelledby="awards-h">
       <div class="container">
-        <header class="section-header section-header--center">
+        <header class="sec-hdr sec-hdr--c">
           <p class="eyebrow">Recognition</p>
-          <div class="divider divider--center"></div>
-          <h2 class="section-title" id="awards-heading">Literary Awards &amp; Honors</h2>
-          <p>
-            <em>Where the Lilacs Bloom Once Again</em> has been recognized by leading
-            literary institutions for its artistic excellence and historical significance.
-          </p>
+          <div class="divider divider--c"></div>
+          <h2 class="sec-title" id="awards-h">Literary Awards &amp; Honours</h2>
+          <p><em>Where the Lilacs Bloom Once Again</em> has been recognized by leading literary institutions worldwide.</p>
         </header>
 
         <div class="awards-grid">
 
+          <!--
+            Award badge images — Dr. Rosenthal's own assets from rosenthalroni.com Wix CDN
+          -->
           <article class="award-card reveal"
                    aria-label="Literary Titan Silver Book Award">
-            <div class="award-card__icon" aria-hidden="true">🥈</div>
+            <a href="https://literarytitan.com/2022/12/04/where-the-lilacs-bloom-once-again/"
+               target="_blank" rel="noopener noreferrer" aria-label="View the Literary Titan review">
+              <img class="award-card__badge"
+                   src="https://static.wixstatic.com/media/59d1c6_a26486b2cb814311bc8a1f2782a76321~mv2.png/v1/fill/w_200,h_200,al_c,q_85/59d1c6_a26486b2cb814311bc8a1f2782a76321~mv2.png"
+                   alt="Literary Titan Silver Book Award badge"
+                   loading="lazy" width="90" height="90" />
+            </a>
             <p class="award-card__org">Literary Titan</p>
             <h3 class="award-card__name">Silver Book Award</h3>
-            <p class="award-card__quote">
-              "A thought-provoking and impassioned novel — tragic, beautiful, evocative, heart wrenching, and ultimately uplifting."
-            </p>
+            <p class="award-card__quote">"A thought-provoking and impassioned novel — tragic, beautiful, evocative, and ultimately uplifting."</p>
           </article>
 
-          <article class="award-card reveal" style="transition-delay:0.08s;"
+          <article class="award-card reveal" style="transition-delay:.07s"
                    aria-label="Pencraft Book Award">
-            <div class="award-card__icon" aria-hidden="true">✒️</div>
+            <img class="award-card__badge"
+                 src="https://static.wixstatic.com/media/59d1c6_bda0f344e1a241e8989f234c346695f4~mv2.png/v1/fill/w_200,h_200,al_c,q_85/59d1c6_bda0f344e1a241e8989f234c346695f4~mv2.png"
+                 alt="Pencraft Book Award badge"
+                 loading="lazy" width="90" height="90" />
             <p class="award-card__org">Pencraft</p>
             <h3 class="award-card__name">Book Award</h3>
-            <p class="award-card__quote">
-              "Remarkable literary quality, artistic excellence, and widely beloved among our readers."
-            </p>
+            <p class="award-card__quote">"Remarkable literary quality, artistic excellence, and widely beloved among our readers."</p>
           </article>
 
-          <article class="award-card reveal" style="transition-delay:0.16s;"
+          <article class="award-card reveal" style="transition-delay:.14s"
                    aria-label="LitPick Top Choice Award">
-            <div class="award-card__icon" aria-hidden="true">⭐</div>
+            <a href="https://litpick.com/books/where-lilacs-bloom-once-again-friddie%E2%80%99s-story"
+               target="_blank" rel="noopener noreferrer" aria-label="View the LitPick review">
+              <img class="award-card__badge"
+                   src="https://static.wixstatic.com/media/59d1c6_b640d4b9592f4cac9735883cc51163fd~mv2.jpg/v1/fill/w_200,h_200,al_c,q_85/59d1c6_b640d4b9592f4cac9735883cc51163fd~mv2.jpg"
+                   alt="LitPick Top Choice Award badge"
+                   loading="lazy" width="90" height="90" />
+            </a>
             <p class="award-card__org">LitPick</p>
             <h3 class="award-card__name">Top Choice Award</h3>
-            <p class="award-card__quote">
-              "Beautifully written — the author has a talent for conveying the emotions of her characters in a way that is both honest and moving."
-            </p>
+            <p class="award-card__quote">"The author has a talent for conveying emotion in a way that is both honest and moving."</p>
           </article>
 
-          <article class="award-card reveal" style="transition-delay:0.24s;"
-                   aria-label="Historical Fiction Company Highly Recommended">
-            <div class="award-card__icon" aria-hidden="true">📜</div>
-            <p class="award-card__org">Historical Fiction Company</p>
+          <article class="award-card reveal" style="transition-delay:.21s"
+                   aria-label="Historical Fiction Company — Highly Recommended">
+            <a href="https://www.thehistoricalfictioncompany.com/post/an-inspiring-family-story-an-editorial-review-of-where-the-lilacs-bloom-once-again"
+               target="_blank" rel="noopener noreferrer" aria-label="View the Historical Fiction Company review">
+              <img class="award-card__badge"
+                   src="https://static.wixstatic.com/media/59d1c6_c4a2ade335554dbca7802bccb15279e9~mv2.png/v1/fill/w_200,h_200,al_c,q_85/59d1c6_c4a2ade335554dbca7802bccb15279e9~mv2.png"
+                   alt="Historical Fiction Company Highly Recommended medal"
+                   loading="lazy" width="90" height="90" />
+            </a>
+            <p class="award-card__org">Historical Fiction Co.</p>
             <h3 class="award-card__name">Highly Recommended</h3>
-            <p class="award-card__quote">
-              "A poignant, riveting, and touching novel — a tale of unsung heroes, commendable for sharing a family's remarkable story."
-            </p>
+            <p class="award-card__quote">"A poignant, riveting tale of unsung heroes — commendable for sharing this family's remarkable story."</p>
           </article>
 
-          <article class="award-card reveal" style="transition-delay:0.32s;"
+          <article class="award-card reveal" style="transition-delay:.28s"
                    aria-label="Outstanding Creator Awards Winner">
-            <div class="award-card__icon" aria-hidden="true">🏆</div>
-            <p class="award-card__org">Outstanding Creator Awards</p>
+            <a href="https://www.outstandingcreator.com/winners--winter-2023.html"
+               target="_blank" rel="noopener noreferrer" aria-label="View the Outstanding Creator Award">
+              <img class="award-card__badge"
+                   src="https://static.wixstatic.com/media/59d1c6_2e43eed4f4094f4a86a68643cdc16966~mv2.png/v1/fill/w_200,h_200,al_c,q_85/59d1c6_2e43eed4f4094f4a86a68643cdc16966~mv2.png"
+                   alt="Outstanding Creator Award Winning Seal"
+                   loading="lazy" width="90" height="90" />
+            </a>
+            <p class="award-card__org">Outstanding Creator</p>
             <h3 class="award-card__name">Winner — Winter 2023</h3>
-            <p class="award-card__quote">
-              "Masterful storytelling that transports you to the heart of the action — captivating from start to finish and impossible to put down."
-            </p>
+            <p class="award-card__quote">"Masterful storytelling — captivating from start to finish and impossible to put down."</p>
           </article>
 
         </div>
@@ -1631,100 +880,65 @@
     </section>
 
     <!-- ── SEMINARS ──────────────────────────────────────────── -->
-    <section id="seminars" aria-labelledby="seminars-heading">
+    <section id="seminars" aria-labelledby="seminars-h">
       <div class="container">
         <div class="seminars-layout">
 
-          <!-- Left: topic list -->
           <div>
             <p class="eyebrow reveal">Speaking &amp; Education</p>
             <div class="divider reveal"></div>
-            <h2 class="section-title reveal" id="seminars-heading">
-              Seminars &amp; Speaking Engagements
-            </h2>
-            <p class="reveal" style="margin-top:var(--sp-sm);color:var(--clr-text-muted);">
-              Dr. Rosenthal is a dynamic and sought-after speaker at universities, schools,
-              and cultural institutions. Her sessions combine rigorous scholarship with
-              compelling personal narrative, leaving audiences informed, moved, and motivated.
+            <h2 class="sec-title reveal" id="seminars-h">Seminars &amp; Speaking</h2>
+            <p class="reveal" style="margin-top:.75rem;color:var(--muted);max-width:480px">
+              Dr. Rosenthal is a dynamic and sought-after speaker at universities, schools, and
+              cultural institutions. Her sessions combine rigorous scholarship with compelling
+              personal narrative.
             </p>
 
-            <div class="seminars-topics">
-
+            <div class="seminar-list">
               <div class="seminar-item reveal">
                 <span class="seminar-item__num" aria-hidden="true">01</span>
                 <div>
                   <p class="seminar-item__title">Holocaust Memory &amp; Testimony</p>
-                  <p class="seminar-item__desc">
-                    Personal testimony, archival research, and the moral responsibility of
-                    preserving survivor accounts before they are lost to time.
-                  </p>
+                  <p class="seminar-item__desc">Personal testimony, archival research, and the moral responsibility of preserving survivor accounts.</p>
                 </div>
               </div>
-
-              <div class="seminar-item reveal" style="transition-delay:0.08s;">
+              <div class="seminar-item reveal" style="transition-delay:.08s">
                 <span class="seminar-item__num" aria-hidden="true">02</span>
                 <div>
                   <p class="seminar-item__title">AI &amp; Jewish Historical Archives</p>
-                  <p class="seminar-item__desc">
-                    How large language models and machine learning can unlock untranslated
-                    Yiddish, Hebrew, and Ladino documents — and the ethical considerations
-                    that must guide this work.
-                  </p>
+                  <p class="seminar-item__desc">How machine learning can unlock untranslated Yiddish, Hebrew, and Ladino documents — and the ethical considerations that must guide this work.</p>
                 </div>
               </div>
-
-              <div class="seminar-item reveal" style="transition-delay:0.16s;">
+              <div class="seminar-item reveal" style="transition-delay:.16s">
                 <span class="seminar-item__num" aria-hidden="true">03</span>
                 <div>
                   <p class="seminar-item__title">Romanian Jewry &amp; the Communist Era</p>
-                  <p class="seminar-item__desc">
-                    A deep dive into the specific persecution of Jewish communities under
-                    Romanian fascism and communism — an often-overlooked chapter of
-                    twentieth-century Jewish history.
-                  </p>
+                  <p class="seminar-item__desc">A deep dive into the persecution of Jewish communities under Romanian fascism and communism — an often-overlooked chapter of 20th-century history.</p>
                 </div>
               </div>
-
-              <div class="seminar-item reveal" style="transition-delay:0.24s;">
+              <div class="seminar-item reveal" style="transition-delay:.24s">
                 <span class="seminar-item__num" aria-hidden="true">04</span>
                 <div>
                   <p class="seminar-item__title">The Jewish Condition in Contemporary Geopolitics</p>
-                  <p class="seminar-item__desc">
-                    Bridging historical Jewish sociopolitical experience with today's global
-                    landscape — antisemitism, identity, resilience, and the ongoing struggle
-                    for recognition and safety.
-                  </p>
+                  <p class="seminar-item__desc">Bridging historical Jewish sociopolitical experience with today's global landscape — antisemitism, identity, resilience, and recognition.</p>
                 </div>
               </div>
-
-              <div class="seminar-item reveal" style="transition-delay:0.32s;">
+              <div class="seminar-item reveal" style="transition-delay:.32s">
                 <span class="seminar-item__num" aria-hidden="true">05</span>
                 <div>
                   <p class="seminar-item__title">The Power of Narrative in Survival</p>
-                  <p class="seminar-item__desc">
-                    How storytelling, poetry, and letter-writing functioned as acts of
-                    resistance and psychological survival in labor camps and prisons — and
-                    what they teach us about human resilience.
-                  </p>
+                  <p class="seminar-item__desc">How storytelling and poetry functioned as acts of resistance and psychological survival in labour camps and prisons.</p>
                 </div>
               </div>
-
             </div>
           </div>
 
-          <!-- Right: CTA block -->
           <div>
-            <div class="seminars-cta-block reveal">
-              <p class="eyebrow" style="margin-bottom:var(--sp-sm);">Book a Seminar</p>
-              <p class="section-title" style="font-size:1.75rem;margin-bottom:var(--sp-sm);">
-                Bring Dr. Rosenthal to Your Institution
-              </p>
-              <p>
-                Dr. Rosenthal is available for keynote addresses, academic seminars,
-                panel discussions, school programs, and community events. Sessions can be
-                tailored for undergraduate, graduate, or general audiences.
-              </p>
-              <a class="btn btn--solid" href="#contact" aria-label="Inquire about booking a seminar with Dr. Rosenthal">
+            <div class="seminar-cta reveal">
+              <p class="eyebrow">Book a Seminar</p>
+              <p class="sec-title" style="font-size:1.75rem">Bring Dr. Rosenthal to Your Institution</p>
+              <p>Dr. Rosenthal is available for keynote addresses, academic seminars, panel discussions, school programs, and community events. Sessions can be tailored for undergraduate, graduate, or general audiences.</p>
+              <a class="btn btn--gold" href="#contact" aria-label="Inquire about booking a seminar">
                 Inquire About Booking
               </a>
             </div>
@@ -1735,140 +949,73 @@
     </section>
 
     <!-- ── CONTACT ───────────────────────────────────────────── -->
-    <section id="contact" aria-labelledby="contact-heading">
+    <section id="contact" aria-labelledby="contact-h">
       <div class="container">
         <div class="contact-grid">
 
-          <!-- Contact info -->
-          <div class="contact-info">
+          <div>
             <p class="eyebrow reveal">Get in Touch</p>
             <div class="divider reveal"></div>
-            <h2 class="section-title reveal" id="contact-heading">
-              Let's Start a Conversation
-            </h2>
-            <p class="reveal">
-              Whether you're a reader, educator, journalist, event organizer, or researcher,
-              Dr. Rosenthal welcomes meaningful correspondence. Please reach out via email
-              or the contact form.
-            </p>
+            <h2 class="sec-title reveal" id="contact-h">Let's Start a Conversation</h2>
+            <p class="reveal">Whether you're a reader, educator, journalist, or researcher, Dr. Rosenthal welcomes meaningful correspondence.</p>
 
-            <div class="contact-info__email reveal">
-              <p class="eyebrow" style="margin-bottom:0.5rem;">Email</p>
-              <a href="mailto:rosenthal.roni@gmail.com"
-                 aria-label="Send email to Dr. Roni Rosenthal">
+            <div class="contact-email reveal" style="margin-top:1.5rem">
+              <p class="eyebrow" style="margin-bottom:.5rem">Email</p>
+              <a href="mailto:rosenthal.roni@gmail.com" aria-label="Email Dr. Roni Rosenthal">
                 rosenthal.roni@gmail.com
               </a>
             </div>
 
-            <!-- Social Links -->
-            <nav class="social-links reveal" aria-label="Social media links">
-
-              <a class="social-link"
-                 href="https://www.facebook.com/AuthorRoniRosenthal"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 aria-label="Follow Dr. Rosenthal on Facebook">
-                <!-- Facebook SVG icon -->
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M24 12.073C24 5.406 18.627 0 12 0S0 5.406 0 12.073c0 6.025 4.388 11.019 10.125 11.927V15.57H7.078v-3.497h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.953h-1.513c-1.491 0-1.956.93-1.956 1.886v2.286h3.328l-.532 3.497h-2.796v8.43C19.612 23.092 24 18.098 24 12.073"/>
-                </svg>
+            <nav class="social-links reveal" aria-label="Social media">
+              <a class="social-link" href="https://www.facebook.com/AuthorRoniRosenthal" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073C24 5.406 18.627 0 12 0S0 5.406 0 12.073c0 6.025 4.388 11.019 10.125 11.927V15.57H7.078v-3.497h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.953h-1.513c-1.491 0-1.956.93-1.956 1.886v2.286h3.328l-.532 3.497h-2.796v8.43C19.612 23.092 24 18.098 24 12.073"/></svg>
                 Facebook
               </a>
-
-              <a class="social-link"
-                 href="https://www.instagram.com/rosenthal.roni/"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 aria-label="Follow Dr. Rosenthal on Instagram">
-                <!-- Instagram SVG icon -->
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                </svg>
+              <a class="social-link" href="https://www.instagram.com/rosenthal.roni/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                 Instagram
               </a>
-
-              <a class="social-link"
-                 href="https://www.linkedin.com/in/roni-rosenthal/"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 aria-label="Connect with Dr. Rosenthal on LinkedIn">
-                <!-- LinkedIn SVG icon -->
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
+              <a class="social-link" href="https://www.linkedin.com/in/roni-rosenthal/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 LinkedIn
               </a>
-
-              <a class="social-link"
-                 href="https://twitter.com/RoniRosenthal"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 aria-label="Follow Dr. Rosenthal on Twitter / X">
-                <!-- X (Twitter) SVG icon -->
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
+              <a class="social-link" href="https://twitter.com/RoniRosenthal" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 X / Twitter
               </a>
-
-              <a class="social-link"
-                 href="https://www.youtube.com/watch?v=DUijsfMJhdw"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 aria-label="Watch Dr. Rosenthal's book trailer on YouTube">
-                <!-- YouTube SVG icon -->
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
+              <a class="social-link" href="https://www.youtube.com/watch?v=DUijsfMJhdw" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 YouTube
               </a>
-
             </nav>
           </div>
 
           <!-- Contact form -->
-          <div class="reveal" style="transition-delay:0.15s;">
+          <div class="reveal" style="transition-delay:.15s">
             <!--
               MAINTAINER NOTE:
-              This is a static HTML form. To make it functional, wire it to
-              a backend (e.g., Formspree, Netlify Forms, a custom API endpoint).
-              Example Formspree setup: set action="https://formspree.io/f/YOUR_ID"
-              and method="POST" on the <form> element.
+              Wire this form to a backend by setting action="https://formspree.io/f/YOUR_ID"
+              method="POST" on the <form> element, or replace the fetch() call in the JS below.
             -->
-            <form
-              class="contact-form"
-              id="contact-form"
-              novalidate
-              aria-label="Contact form for Dr. Roni Rosenthal">
+            <form class="contact-form" id="contact-form" novalidate
+                  aria-label="Contact form for Dr. Roni Rosenthal">
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="contact-name">Full Name *</label>
-                  <input
-                    type="text"
-                    id="contact-name"
-                    name="name"
-                    autocomplete="name"
-                    placeholder="Your full name"
-                    required
-                    aria-required="true" />
+                  <label for="c-name">Full Name *</label>
+                  <input type="text" id="c-name" name="name" autocomplete="name"
+                         placeholder="Your full name" required aria-required="true" />
                 </div>
                 <div class="form-group">
-                  <label for="contact-email">Email Address *</label>
-                  <input
-                    type="email"
-                    id="contact-email"
-                    name="email"
-                    autocomplete="email"
-                    placeholder="your@email.com"
-                    required
-                    aria-required="true" />
+                  <label for="c-email">Email *</label>
+                  <input type="email" id="c-email" name="email" autocomplete="email"
+                         placeholder="your@email.com" required aria-required="true" />
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="contact-subject">Subject *</label>
-                <select id="contact-subject" name="subject" required aria-required="true">
+                <label for="c-subject">Subject *</label>
+                <select id="c-subject" name="subject" required aria-required="true">
                   <option value="" disabled selected>Select a topic…</option>
                   <option value="speaking">Speaking / Seminar Inquiry</option>
                   <option value="media">Media / Press Inquiry</option>
@@ -1879,29 +1026,21 @@
               </div>
 
               <div class="form-group">
-                <label for="contact-organization">Organization / Institution</label>
-                <input
-                  type="text"
-                  id="contact-organization"
-                  name="organization"
-                  autocomplete="organization"
-                  placeholder="Your school, company, or organization (optional)" />
+                <label for="c-org">Organization / Institution</label>
+                <input type="text" id="c-org" name="organization" autocomplete="organization"
+                       placeholder="Your school, company, or institution (optional)" />
               </div>
 
               <div class="form-group">
-                <label for="contact-message">Message *</label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  placeholder="Please share the details of your inquiry…"
-                  required
-                  aria-required="true"></textarea>
+                <label for="c-msg">Message *</label>
+                <textarea id="c-msg" name="message"
+                          placeholder="Please share the details of your inquiry…"
+                          required aria-required="true"></textarea>
               </div>
 
-              <!-- Status message (populated by JS) -->
-              <div id="form-status" role="status" aria-live="polite" style="display:none;"></div>
+              <div id="form-status" role="status" aria-live="polite" style="display:none"></div>
 
-              <button type="submit" class="btn btn--solid" style="align-self:flex-start;">
+              <button type="submit" class="btn btn--gold" style="align-self:flex-start">
                 Send Message
               </button>
 
@@ -1917,124 +1056,66 @@
   <!-- ============================================================
        FOOTER
   ============================================================ -->
-  <footer class="site-footer" role="contentinfo">
+  <footer class="footer" role="contentinfo">
     <div class="container">
-
       <div class="footer-grid">
 
-        <!-- Brand column -->
         <div class="footer-brand">
-          <p class="site-logo" style="font-size:1.3rem;">
-            Dr. Roni <span style="color:var(--clr-gold);">Rosenthal</span>
+          <p class="logo" style="font-size:1.25rem">
+            Dr. Roni <span>Rosenthal</span>
           </p>
-          <p>
-            Award-winning author, professor, and scholar dedicated to preserving Jewish
-            memory and exploring the intersection of history and artificial intelligence.
-          </p>
-          <p style="margin-top:var(--sp-sm);">
-            <a href="mailto:rosenthal.roni@gmail.com"
-               style="color:var(--clr-gold);font-size:0.85rem;">
+          <p>Award-winning author, professor, and scholar dedicated to preserving Jewish memory and bridging history with the age of artificial intelligence.</p>
+          <p style="margin-top:.75rem">
+            <a href="mailto:rosenthal.roni@gmail.com" style="color:var(--gold);font-size:.83rem">
               rosenthal.roni@gmail.com
             </a>
           </p>
         </div>
 
-        <!-- Navigation column -->
         <div class="footer-col">
-          <p class="footer-col__heading">Navigation</p>
+          <p class="footer-col__head">Navigation</p>
           <ul>
             <li><a href="#about">About</a></li>
             <li><a href="#focus">Research Focus</a></li>
-            <li><a href="#books">Books</a></li>
+            <li><a href="#books-full">Books</a></li>
             <li><a href="#awards">Awards</a></li>
             <li><a href="#seminars">Seminars</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </div>
 
-        <!-- Books column -->
         <div class="footer-col">
-          <p class="footer-col__heading">Books</p>
+          <p class="footer-col__head">Books on Amazon</p>
           <ul>
-            <li>
-              <a href="https://a.co/d/hKIJbcs"
-                 target="_blank"
-                 rel="noopener noreferrer">
-                Where the Lilacs Bloom (EN)
-              </a>
-            </li>
-            <li>
-              <a href="https://a.co/d/dpjAuWA"
-                 target="_blank"
-                 rel="noopener noreferrer">
-                Where the Lilacs Bloom (HE)
-              </a>
-            </li>
-            <li>
-              <a href="https://a.co/d/0ierzR94"
-                 target="_blank"
-                 rel="noopener noreferrer">
-                The Lilacs I Once Knew (EN)
-              </a>
-            </li>
-            <li>
-              <a href="https://a.co/d/04U17POd"
-                 target="_blank"
-                 rel="noopener noreferrer">
-                The Lilacs I Once Knew (HE)
-              </a>
-            </li>
-            <li>
-              <a href="https://www.youtube.com/watch?v=DUijsfMJhdw"
-                 target="_blank"
-                 rel="noopener noreferrer">
-                Book Trailer
-              </a>
-            </li>
+            <li><a href="https://a.co/d/hKIJbcs" target="_blank" rel="noopener noreferrer">Lilacs Bloom (English)</a></li>
+            <li><a href="https://a.co/d/dpjAuWA" target="_blank" rel="noopener noreferrer">Lilacs Bloom (Hebrew)</a></li>
+            <li><a href="https://a.co/d/0ierzR94" target="_blank" rel="noopener noreferrer">Lilacs I Once Knew (EN)</a></li>
+            <li><a href="https://a.co/d/04U17POd" target="_blank" rel="noopener noreferrer">Lilacs I Once Knew (HE)</a></li>
+            <li><a href="https://www.youtube.com/watch?v=DUijsfMJhdw" target="_blank" rel="noopener noreferrer">Book Trailer ▶</a></li>
           </ul>
         </div>
 
-        <!-- Connect column -->
         <div class="footer-col">
-          <p class="footer-col__heading">Connect</p>
+          <p class="footer-col__head">Connect</p>
           <ul>
-            <li>
-              <a href="https://www.facebook.com/AuthorRoniRosenthal"
-                 target="_blank" rel="noopener noreferrer">Facebook</a>
-            </li>
-            <li>
-              <a href="https://www.instagram.com/rosenthal.roni/"
-                 target="_blank" rel="noopener noreferrer">Instagram</a>
-            </li>
-            <li>
-              <a href="https://www.linkedin.com/in/roni-rosenthal/"
-                 target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            </li>
-            <li>
-              <a href="https://twitter.com/RoniRosenthal"
-                 target="_blank" rel="noopener noreferrer">X / Twitter</a>
-            </li>
-            <li>
-              <a href="https://www.youtube.com/watch?v=DUijsfMJhdw"
-                 target="_blank" rel="noopener noreferrer">YouTube</a>
-            </li>
+            <li><a href="https://www.facebook.com/AuthorRoniRosenthal" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+            <li><a href="https://www.instagram.com/rosenthal.roni/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="https://www.linkedin.com/in/roni-rosenthal/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://twitter.com/RoniRosenthal" target="_blank" rel="noopener noreferrer">X / Twitter</a></li>
+            <li><a href="https://www.youtube.com/watch?v=DUijsfMJhdw" target="_blank" rel="noopener noreferrer">YouTube</a></li>
           </ul>
         </div>
 
       </div>
 
-      <!-- Bottom bar -->
       <div class="footer-bottom">
-        <p>
-          &copy; <span id="copyright-year"></span> Roni Rosenthal, Ph.D. All rights reserved.
+        <p>&copy; <span id="yr"></span> Roni Rosenthal, Ph.D. All rights reserved.</p>
+        <p style="font-size:.72rem;color:var(--muted)">
+          Background image: <a href="https://commons.wikimedia.org/wiki/File:Free_Purple_Flowers_at_The_Train_Station_Unedited_Creative_Commons_(3811056159).jpg" target="_blank" rel="noopener noreferrer" style="color:var(--muted)">Purple Flowers at Train Station</a> via Wikimedia Commons (CC).
+          Lilac detail: <a href="https://commons.wikimedia.org/wiki/File:Common_Lilac_Syringa_vulgaris_%27Marechal_Foch%27_Flowers.JPG" target="_blank" rel="noopener noreferrer" style="color:var(--muted)">Syringa vulgaris 'Maréchal Foch'</a> via Wikimedia Commons (CC).
         </p>
-        <nav class="footer-legal" aria-label="Legal navigation">
-          <!--
-            MAINTAINER NOTE:
-            Add /privacy-policy and /terms pages when ready.
-            For now, these are placeholder anchors.
-          -->
-          <a href="#privacy-policy">Privacy Policy</a>
+        <nav class="footer-legal" aria-label="Legal">
+          <a href="#privacy">Privacy Policy</a>
           <a href="#terms">Terms of Use</a>
         </nav>
       </div>
@@ -2043,214 +1124,123 @@
   </footer>
 
   <!-- ============================================================
-       JAVASCRIPT — Vanilla ES2022+, no dependencies
+       JAVASCRIPT — Vanilla ES2022+, strict mode, no deps
   ============================================================ -->
   <script>
-    /**
-     * @file main.js (inlined)
-     * @description Site interaction logic for rosenthalroni.com
-     *
-     * Responsibilities:
-     *   - Header scroll state management
-     *   - Mobile navigation toggle
-     *   - Intersection Observer-based scroll reveal animations
-     *   - Contact form client-side validation & submission handling
-     *   - Dynamic copyright year
-     *   - Smooth navigation: close mobile menu on link click
-     */
-
     'use strict';
 
-    /* ── DOM references ──────────────────────────────────────── */
-    const header     = /** @type {HTMLElement} */ (document.getElementById('site-header'));
-    const navToggle  = /** @type {HTMLButtonElement} */ (document.getElementById('nav-toggle'));
-    const mobileNav  = /** @type {HTMLElement} */ (document.getElementById('mobile-nav'));
-    const contactForm = /** @type {HTMLFormElement|null} */ (document.getElementById('contact-form'));
-    const formStatus = /** @type {HTMLElement|null} */ (document.getElementById('form-status'));
-    const yearSpan   = /** @type {HTMLElement|null} */ (document.getElementById('copyright-year'));
+    /* ── Refs ─────────────────────────────────────────────── */
+    const hdr        = /** @type {HTMLElement} */  (document.getElementById('hdr'));
+    const hamburger  = /** @type {HTMLButtonElement} */ (document.getElementById('hamburger'));
+    const mobNav     = /** @type {HTMLElement} */  (document.getElementById('mob-nav'));
+    const cForm      = /** @type {HTMLFormElement|null} */ (document.getElementById('contact-form'));
+    const fStatus    = /** @type {HTMLElement|null} */ (document.getElementById('form-status'));
+    const yrEl       = document.getElementById('yr');
 
-    /* ── Copyright year ──────────────────────────────────────── */
-    if (yearSpan) {
-      yearSpan.textContent = String(new Date().getFullYear());
-    }
+    /* ── Copyright year ───────────────────────────────────── */
+    if (yrEl) yrEl.textContent = String(new Date().getFullYear());
 
-    /* ── Header: sticky scroll state ────────────────────────── */
-    const SCROLL_THRESHOLD = 40; // px before header becomes opaque
+    /* ── Header scroll state ──────────────────────────────── */
+    const updateHeader = () => hdr.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    updateHeader();
 
-    function onScroll() {
-      header.classList.toggle('scrolled', window.scrollY > SCROLL_THRESHOLD);
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // initial call on load
-
-    /* ── Mobile navigation toggle ────────────────────────────── */
-
+    /* ── Mobile nav ───────────────────────────────────────── */
     /**
-     * Opens or closes the mobile navigation drawer.
-     * @param {boolean} [force] — Pass true to open, false to close.
+     * Toggles the mobile navigation drawer.
+     * @param {boolean} [force]
      */
-    function toggleMobileNav(force) {
-      const isOpen = typeof force === 'boolean'
-        ? force
-        : !navToggle.classList.contains('open');
-
-      navToggle.classList.toggle('open', isOpen);
-      navToggle.setAttribute('aria-expanded', String(isOpen));
-
-      mobileNav.classList.toggle('open', isOpen);
-      mobileNav.setAttribute('aria-hidden', String(!isOpen));
-
-      // Prevent body scroll while drawer is open
-      document.body.style.overflow = isOpen ? 'hidden' : '';
+    function toggleNav(force) {
+      const open = typeof force === 'boolean' ? force : !hamburger.classList.contains('open');
+      hamburger.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', String(open));
+      mobNav.classList.toggle('open', open);
+      mobNav.setAttribute('aria-hidden', String(!open));
+      document.body.style.overflow = open ? 'hidden' : '';
     }
 
-    navToggle.addEventListener('click', () => toggleMobileNav());
+    hamburger.addEventListener('click', () => toggleNav());
+    mobNav.querySelectorAll('.mob-nav__link').forEach(l => l.addEventListener('click', () => toggleNav(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobNav.classList.contains('open')) { toggleNav(false); hamburger.focus(); } });
 
-    // Close mobile nav when any link inside it is clicked
-    mobileNav.querySelectorAll('.mobile-nav__link').forEach((link) => {
-      link.addEventListener('click', () => toggleMobileNav(false));
-    });
-
-    // Close mobile nav on Escape key
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && mobileNav.classList.contains('open')) {
-        toggleMobileNav(false);
-        navToggle.focus();
-      }
-    });
-
-    /* ── Scroll-reveal via IntersectionObserver ──────────────── */
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            revealObserver.unobserve(entry.target); // fire once only
-          }
-        });
-      },
-      {
-        rootMargin: '0px 0px -60px 0px', // trigger slightly before element enters view
-        threshold:  0.1,
-      }
+    /* ── Scroll-reveal (IntersectionObserver) ─────────────── */
+    const revealObs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } }),
+      { rootMargin: '0px 0px -60px 0px', threshold: 0.1 }
     );
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-    document.querySelectorAll('.reveal').forEach((el) => {
-      revealObserver.observe(el);
-    });
-
-    /* ── Contact form: validation & submission ───────────────── */
-    if (contactForm && formStatus) {
-
+    /* ── Contact form ─────────────────────────────────────── */
+    if (cForm && fStatus) {
       /**
-       * Shows a status message in the form's status region.
-       * @param {string} message - The text to display.
-       * @param {'success'|'error'} type  - Visual style.
+       * Displays a status banner inside the form.
+       * @param {string} msg
+       * @param {'success'|'error'} type
        */
-      function showFormStatus(message, type) {
-        formStatus.textContent = message;
-        formStatus.style.display = 'block';
-        formStatus.style.padding = '0.75em 1em';
-        formStatus.style.borderRadius = '2px';
-        formStatus.style.fontSize = '0.875rem';
-        formStatus.style.marginBottom = '0';
-
-        if (type === 'success') {
-          formStatus.style.background = 'rgba(201, 168, 76, 0.1)';
-          formStatus.style.border     = '1px solid rgba(201, 168, 76, 0.4)';
-          formStatus.style.color      = '#c9a84c';
-        } else {
-          formStatus.style.background = 'rgba(200, 80, 80, 0.1)';
-          formStatus.style.border     = '1px solid rgba(200, 80, 80, 0.4)';
-          formStatus.style.color      = '#e07070';
-        }
+      function showStatus(msg, type) {
+        fStatus.textContent = msg;
+        fStatus.style.cssText = `
+          display:block; padding:.7em 1em; font-size:.85rem; border-radius:2px; margin-bottom:.5rem;
+          background:${type === 'success' ? 'rgba(201,168,76,.1)' : 'rgba(200,80,80,.1)'};
+          border:1px solid ${type === 'success' ? 'rgba(201,168,76,.4)' : 'rgba(200,80,80,.4)'};
+          color:${type === 'success' ? '#c9a84c' : '#e07070'};
+        `;
       }
 
       /**
-       * Validates a single form field.
+       * Validates a form control.
        * @param {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement} field
        * @returns {boolean}
        */
-      function validateField(field) {
+      function validate(field) {
         if (field.hasAttribute('required') && !field.value.trim()) return false;
-        if (field.type === 'email') {
-          const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!EMAIL_REGEX.test(field.value.trim())) return false;
-        }
+        if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value.trim())) return false;
         return true;
       }
 
-      contactForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
+      cForm.addEventListener('submit', async e => {
+        e.preventDefault();
 
-        // Gather all required fields
-        const fields = /** @type {NodeListOf<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>} */ (
-          contactForm.querySelectorAll('[required]')
-        );
+        const required = /** @type {NodeListOf<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>} */
+          (cForm.querySelectorAll('[required]'));
 
-        let isValid = true;
-        fields.forEach((field) => {
-          const ok = validateField(field);
-          field.style.borderColor = ok ? '' : 'rgba(200, 80, 80, 0.7)';
-          if (!ok) isValid = false;
+        let valid = true;
+        required.forEach(f => {
+          const ok = validate(f);
+          f.style.borderColor = ok ? '' : 'rgba(200,80,80,.7)';
+          if (!ok) valid = false;
         });
 
-        if (!isValid) {
-          showFormStatus('Please fill in all required fields correctly.', 'error');
-          return;
-        }
+        if (!valid) { showStatus('Please fill in all required fields correctly.', 'error'); return; }
 
-        // Submit button feedback
-        const submitBtn = /** @type {HTMLButtonElement} */ (contactForm.querySelector('[type="submit"]'));
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending…';
+        const btn = /** @type {HTMLButtonElement} */ (cForm.querySelector('[type="submit"]'));
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
 
         try {
           /*
-           * MAINTAINER NOTE:
-           * Replace the fetch URL below with your actual form endpoint.
-           * Options: Formspree (https://formspree.io), Netlify Forms,
-           * or a custom /api/contact route.
-           *
-           * Example Formspree:
-           *   const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-           *     method: 'POST',
-           *     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-           *     body: JSON.stringify(formData),
-           *   });
+           * MAINTAINER NOTE: Replace this URL with your actual form backend.
+           * Example: 'https://formspree.io/f/YOUR_FORM_ID'
            */
-          const formData = Object.fromEntries(new FormData(contactForm).entries());
-          console.info('[Contact Form] Submission payload (wire to backend):', formData);
+          const payload = Object.fromEntries(new FormData(cForm).entries());
+          console.info('[Contact] Payload (wire to backend):', payload);
+          await new Promise(r => setTimeout(r, 750));
 
-          // Simulate a short network delay for demo purposes
-          await new Promise((resolve) => setTimeout(resolve, 800));
-
-          showFormStatus(
-            'Thank you for your message — Dr. Rosenthal will be in touch soon.',
-            'success'
-          );
-          contactForm.reset();
-
+          showStatus('Thank you — Dr. Rosenthal will be in touch soon.', 'success');
+          cForm.reset();
         } catch (err) {
-          console.error('[Contact Form] Submission error:', err);
-          showFormStatus(
-            'There was a problem sending your message. Please try emailing directly.',
-            'error'
-          );
+          console.error('[Contact] Error:', err);
+          showStatus('There was a problem. Please email directly.', 'error');
         } finally {
-          submitBtn.disabled    = false;
-          submitBtn.textContent = 'Send Message';
+          btn.disabled = false;
+          btn.textContent = 'Send Message';
         }
       });
 
-      // Clear field error highlight on input
-      contactForm.querySelectorAll('input, textarea, select').forEach((field) => {
-        field.addEventListener('input', () => {
-          /** @type {HTMLElement} */ (field).style.borderColor = '';
-          if (formStatus.style.display !== 'none') {
-            formStatus.style.display = 'none';
-          }
+      cForm.querySelectorAll('input, textarea, select').forEach(f => {
+        f.addEventListener('input', () => {
+          /** @type {HTMLElement} */ (f).style.borderColor = '';
+          fStatus.style.display = 'none';
         });
       });
     }
