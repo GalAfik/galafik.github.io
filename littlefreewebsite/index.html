@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Little Free Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+
+/* =====================================================================
+   TOKENS & RESET
+   ===================================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:      #2d6a4f;
+  --green-dark: #1f5039;
+  --green-pale: #e8f5ee;
+  --paper:      #f7f2eb;
+  --ink:        #1c1410;
+  --muted:      #7a6a58;
+  --border:     #ddd5c8;
+  --card:       #ffffff;
+  --red:        #dc2626;
+  --font-ui:    'DM Mono', 'Courier New', monospace;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+}
+
+html { font-size: 16px; }
+body { font-family: var(--font-ui); background: var(--paper); color: var(--ink); min-height: 100vh; }
+button { cursor: pointer; font-family: inherit; }
+input, textarea { font-family: inherit; }
+
+/* =====================================================================
+   SHARED BUTTON STYLES
+   ===================================================================== */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 15px; border-radius: 7px;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.01em;
+  border: 1.5px solid var(--border); background: var(--card);
+  color: var(--ink); text-decoration: none; white-space: nowrap;
+  transition: background 0.13s, border-color 0.13s;
+  cursor: pointer;
+}
+.btn:hover { background: var(--paper); border-color: #bfb5a8; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--green); border-color: var(--green); color: #fff; }
+.btn-primary:hover { background: var(--green-dark); border-color: var(--green-dark); }
+.btn-sm { padding: 4px 10px; font-size: 0.7rem; border-radius: 5px; }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--muted); }
+.btn-ghost:hover { background: rgba(0,0,0,.04); color: var(--ink); border-color: transparent; }
+
+/* =====================================================================
+   EDITOR — HEADER
+   ===================================================================== */
+.editor-header {
+  position: sticky; top: 0; z-index: 200;
+  height: 54px;
+  background: rgba(247,242,235,.93);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1.5px solid var(--border);
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.editor-logo {
+  font-size: 0.85rem; font-weight: 500; color: var(--green);
+  display: flex; align-items: center; gap: 7px;
+}
+.editor-logo svg { flex-shrink: 0; }
+.header-btns { display: flex; gap: 8px; }
+
+/* =====================================================================
+   EDITOR — MAIN LAYOUT
+   ===================================================================== */
+.editor-main {
+  max-width: 760px; margin: 0 auto; padding: 36px 20px 100px;
+}
+.site-title-wrap { margin-bottom: 26px; }
+.site-title-inp {
+  width: 100%;
+  font-family: var(--font-serif); font-size: 2.1rem; font-style: italic;
+  border: none; outline: none; background: transparent;
+  color: var(--ink); border-bottom: 2px solid transparent;
+  padding: 2px 0 6px; transition: border-color 0.2s;
+}
+.site-title-inp::placeholder { color: #ccc2b4; }
+.site-title-inp:focus { border-bottom-color: var(--green); }
+
+/* =====================================================================
+   EDITOR — TOOLBAR
+   ===================================================================== */
+.block-toolbar {
+  display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+  padding: 9px 13px; margin-bottom: 16px;
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.toolbar-label {
+  font-size: 0.62rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #b8a898; flex-shrink: 0; margin-right: 2px;
+}
+.toolbar-sep { width: 1px; height: 18px; background: var(--border); margin: 0 2px; flex-shrink: 0; }
+.btn-add {
+  padding: 4px 10px; font-size: 0.73rem; font-weight: 500;
+  border: 1.5px solid var(--border); border-radius: 5px;
+  background: transparent; color: var(--muted); cursor: pointer;
+  transition: all 0.12s;
+}
+.btn-add:hover { border-color: var(--green); color: var(--green); background: var(--green-pale); }
+
+/* =====================================================================
+   EDITOR — BLOCK CARDS
+   ===================================================================== */
+.blocks-container { display: flex; flex-direction: column; gap: 10px; }
+
+.block-card {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  transition: border-color 0.18s, box-shadow 0.18s, opacity 0.15s;
+}
+.block-card:focus-within { border-color: #a8c4b0; box-shadow: 0 0 0 3px rgba(45,106,79,.07); }
+.block-card.is-dragging { opacity: 0.35; }
+.block-card.drag-over { border-color: var(--green); box-shadow: 0 0 0 3px rgba(45,106,79,.13); }
+
+.block-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 10px 6px 12px;
+  background: #faf6f0; border-bottom: 1px solid #f0e8dd;
+  cursor: grab; user-select: none;
+}
+.block-head:active { cursor: grabbing; }
+.block-label {
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #9a8a78;
+  display: flex; align-items: center; gap: 5px;
+}
+.block-dot { width: 5px; height: 5px; border-radius: 50%; background: #c4b4a4; flex-shrink: 0; }
+.block-acts { display: flex; gap: 3px; }
+.btn-ctrl {
+  width: 23px; height: 23px; border-radius: 5px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--muted); font-size: 0.77rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.11s;
+}
+.btn-ctrl:hover { background: var(--paper); color: var(--ink); }
+.btn-del {
+  width: 23px; height: 23px; border-radius: 5px;
+  border: 1px solid #f5c6c6; background: transparent;
+  color: #f08080; font-size: 0.88rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.11s;
+}
+.btn-del:hover { background: #fef2f2; color: var(--red); border-color: #f87171; }
+
+.block-body { padding: 13px 16px; }
+
+/* =====================================================================
+   EDITOR — TEXT INPUTS
+   ===================================================================== */
+.h-inp {
+  width: 100%; border: none; outline: none; background: transparent;
+  color: var(--ink); padding: 2px 0;
+}
+.h-inp::placeholder { color: #ccc2b4; }
+.inp-h1 { font-family: var(--font-serif); font-size: 1.95rem; font-style: italic; }
+.inp-h2 { font-family: var(--font-serif); font-size: 1.45rem; font-style: italic; }
+.inp-h3 { font-family: var(--font-serif); font-size: 1.12rem; }
+.textarea-p {
+  width: 100%; min-height: 70px; border: none; outline: none;
+  background: transparent; resize: vertical;
+  font-size: 0.88rem; line-height: 1.75; color: #3d3020;
+  padding: 2px 0;
+}
+.textarea-p::placeholder { color: #ccc2b4; }
+
+/* =====================================================================
+   EDITOR — IMAGE BLOCK
+   ===================================================================== */
+.img-drop-zone {
+  border: 2px dashed #d8cfC4; border-radius: 8px;
+  padding: 26px 18px; text-align: center; cursor: pointer;
+  background: #fdfaf7; transition: all 0.18s;
+}
+.img-drop-zone:hover, .img-drop-zone.drag-over {
+  border-color: var(--green); background: rgba(45,106,79,.025);
+}
+.img-drop-zone.loading { opacity: 0.5; pointer-events: none; }
+.drop-icon { font-size: 2rem; margin-bottom: 7px; }
+.drop-title { font-weight: 500; font-size: 0.85rem; color: var(--ink); margin-bottom: 3px; }
+.drop-sub { font-size: 0.73rem; color: var(--muted); margin-bottom: 13px; }
+.drop-url-row { display: flex; gap: 6px; max-width: 340px; margin: 0 auto 10px; }
+.drop-url-inp {
+  flex: 1; padding: 6px 11px;
+  border: 1.5px solid var(--border); border-radius: 6px;
+  font-size: 0.75rem; outline: none; background: #fff;
+  transition: border-color 0.18s;
+}
+.drop-url-inp:focus { border-color: var(--green); }
+.btn-url-load {
+  padding: 6px 12px; background: var(--green); color: #fff;
+  border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 500;
+  cursor: pointer; transition: background 0.13s; white-space: nowrap;
+}
+.btn-url-load:hover { background: var(--green-dark); }
+.drop-note { font-size: 0.7rem; color: #b0a090; line-height: 1.5; max-width: 380px; margin: 0 auto; }
+.img-err {
+  margin-top: 9px; padding: 6px 11px;
+  background: #fef2f2; border-radius: 6px;
+  font-size: 0.74rem; color: var(--red); display: none;
+}
+.img-preview { text-align: center; }
+.img-prev-canvas {
+  display: block; margin: 0 auto 7px;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+  border: 2px solid var(--border); border-radius: 3px; max-width: 100%;
+}
+.img-prev-meta { font-size: 0.7rem; color: var(--muted); margin-bottom: 8px; }
+
+/* =====================================================================
+   EDITOR — LIST BLOCK
+   ===================================================================== */
+.list-editor { display: flex; flex-direction: column; gap: 5px; }
+.list-row { display: flex; align-items: center; gap: 7px; }
+.list-bullet { font-size: 0.82rem; color: var(--muted); min-width: 20px; text-align: right; flex-shrink: 0; }
+.list-inp {
+  flex: 1; padding: 5px 9px;
+  border: 1.5px solid var(--border); border-radius: 6px;
+  font-size: 0.85rem; outline: none; background: #fff;
+  transition: border-color 0.18s;
+}
+.list-inp:focus { border-color: var(--green); }
+.btn-del-item {
+  width: 21px; height: 21px; border-radius: 4px; flex-shrink: 0;
+  border: 1px solid #f5c6c6; background: transparent;
+  color: #f08080; font-size: 0.72rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.11s;
+}
+.btn-del-item:hover { background: #fef2f2; color: var(--red); }
+.btn-add-item {
+  align-self: flex-start; margin-top: 2px;
+  padding: 4px 11px; font-size: 0.73rem;
+  border: 1.5px dashed var(--border); border-radius: 6px;
+  background: transparent; color: var(--muted); cursor: pointer;
+  transition: all 0.13s;
+}
+.btn-add-item:hover { border-color: var(--green); color: var(--green); }
+
+/* =====================================================================
+   EDITOR — TABLE BLOCK
+   ===================================================================== */
+.table-editor { overflow-x: auto; }
+.t-row { display: flex; gap: 3px; margin-bottom: 3px; align-items: center; }
+.t-cell { flex: 1; min-width: 68px; position: relative; }
+.t-head-inp {
+  width: 100%; padding: 5px 7px;
+  border: 1.5px solid #c8c0b4; border-radius: 5px;
+  font-size: 0.73rem; font-weight: 500;
+  background: #f5f0e8; outline: none;
+  transition: border-color 0.18s;
+}
+.t-head-inp:focus { border-color: var(--green); }
+.t-cell-inp {
+  width: 100%; padding: 5px 7px;
+  border: 1.5px solid var(--border); border-radius: 5px;
+  font-size: 0.73rem; background: #fff; outline: none;
+  transition: border-color 0.18s;
+}
+.t-cell-inp:focus { border-color: var(--green); }
+.btn-del-col {
+  position: absolute; top: -5px; right: -5px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #f87171; color: #fff; border: none;
+  font-size: 0.52rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.14s; z-index: 1; pointer-events: none;
+}
+.t-cell:hover .btn-del-col { opacity: 1; pointer-events: auto; }
+.t-add-col {
+  width: 27px; height: 27px; border-radius: 5px; flex-shrink: 0;
+  border: 1.5px dashed var(--border); background: transparent;
+  color: var(--muted); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.13s;
+}
+.t-add-col:hover { border-color: var(--green); color: var(--green); }
+.btn-del-row {
+  width: 20px; height: 20px; border-radius: 4px; flex-shrink: 0;
+  border: 1px solid #f5c6c6; background: transparent;
+  color: #f08080; font-size: 0.58rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.11s;
+}
+.btn-del-row:hover { background: #fef2f2; color: var(--red); }
+.btn-add-row {
+  margin-top: 4px; padding: 4px 11px; font-size: 0.73rem;
+  border: 1.5px dashed var(--border); border-radius: 6px;
+  background: transparent; color: var(--muted); cursor: pointer;
+  transition: all 0.13s;
+}
+.btn-add-row:hover { border-color: var(--green); color: var(--green); }
+
+.hr-preview { padding: 6px 0; }
+.hr-preview hr { border: none; border-top: 2px solid var(--border); }
+
+/* =====================================================================
+   EDITOR — EMPTY STATE
+   ===================================================================== */
+#empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 68px 20px; text-align: center;
+}
+.empty-icon { font-size: 2.6rem; margin-bottom: 14px; opacity: 0.55; }
+.empty-title { font-size: 0.95rem; font-weight: 500; color: #8a7a68; margin-bottom: 5px; }
+.empty-sub { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+.empty-sub em { font-style: italic; }
+
+/* =====================================================================
+   PUBLISH MODAL
+   ===================================================================== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: rgba(28,20,16,.52);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: fadeIn .18s ease;
+}
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.modal {
+  background: var(--card); border-radius: 14px; padding: 32px;
+  max-width: 560px; width: 100%;
+  box-shadow: 0 24px 64px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.05);
+  animation: slideUp .2s ease;
+}
+@keyframes slideUp { from { transform:translateY(10px);opacity:0; } to { transform:none;opacity:1; } }
+.modal-title { font-family: var(--font-serif); font-size: 1.55rem; font-style: italic; margin-bottom: 5px; }
+.modal-sub { font-size: 0.78rem; color: var(--muted); margin-bottom: 18px; line-height: 1.55; }
+.url-box { display: flex; gap: 7px; margin-bottom: 7px; }
+.url-field {
+  flex: 1; padding: 8px 12px;
+  border: 1.5px solid var(--border); border-radius: 7px;
+  font-family: var(--font-ui); font-size: 0.7rem; color: var(--muted);
+  background: var(--paper); outline: none;
+}
+.url-meta { font-size: 0.7rem; color: #b8a898; margin-bottom: 22px; }
+.modal-acts { display: flex; gap: 7px; justify-content: flex-end; }
+
+/* =====================================================================
+   VIEWER
+   ===================================================================== */
+#mode-viewer { min-height: 100vh; background: var(--paper); }
+
+.viewer-page {
+  font-family: var(--font-serif);
+  max-width: 660px; margin: 0 auto;
+  padding: 56px 24px 72px;
+}
+.view-site-title {
+  font-family: var(--font-serif); font-size: 2.55rem; font-style: italic;
+  line-height: 1.15; color: var(--ink);
+  margin-top: 0; margin-bottom: 36px;
+  padding-bottom: 24px; border-bottom: 2px solid var(--border);
+}
+.viewer-page h1 {
+  font-family: var(--font-serif); font-size: 1.95rem; font-style: italic;
+  line-height: 1.2; color: var(--ink); margin: 1.5em 0 0.55em;
+}
+.viewer-page h2 {
+  font-family: var(--font-serif); font-size: 1.45rem; font-style: italic;
+  color: var(--ink); margin: 1.4em 0 0.5em;
+}
+.viewer-page h3 {
+  font-family: var(--font-serif); font-size: 1.1rem;
+  color: var(--ink); margin: 1.3em 0 0.45em;
+}
+.viewer-page p {
+  font-size: 1.04rem; line-height: 1.82; color: #3a2e22; margin-bottom: 1.05em;
+}
+.viewer-page ul, .viewer-page ol { margin: 0.75em 0 1em 1.55em; }
+.viewer-page li { font-size: 1rem; line-height: 1.75; color: #3a2e22; margin-bottom: 0.3em; }
+.viewer-page hr { border: none; border-top: 2px solid var(--border); margin: 2.2em 0; }
+.table-wrap { overflow-x: auto; margin: 1.2em 0; }
+.viewer-page table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+.viewer-page th {
+  text-align: left; padding: 8px 14px;
+  font-family: var(--font-ui); font-size: 0.68rem; font-weight: 500;
+  letter-spacing: 0.09em; text-transform: uppercase; color: #7a6855;
+  background: #f5ede0; border-bottom: 2px solid var(--border);
+}
+.viewer-page td {
+  padding: 9px 14px; border-bottom: 1px solid #ede3d4; color: #3a2e22;
+}
+.viewer-page tr:last-child td { border-bottom: none; }
+.viewer-page tr:nth-child(even) td { background: #fdf8f3; }
+
+.view-figure { margin: 2em 0; text-align: center; }
+.view-img-canvas {
+  image-rendering: pixelated; image-rendering: crisp-edges;
+  display: inline-block; max-width: 100%;
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 rgba(28,20,16,.16);
+}
+
+.viewer-footer {
+  max-width: 660px; margin: 0 auto;
+  padding: 18px 24px 32px; border-top: 1.5px solid var(--border);
+  font-family: var(--font-ui); font-size: 0.7rem; color: #b8a898;
+  text-align: center;
+}
+.viewer-footer a { color: var(--green); text-decoration: none; font-weight: 500; }
+.viewer-footer a:hover { text-decoration: underline; }
+
+.view-error {
+  padding: 28px; margin: 40px auto; max-width: 480px;
+  background: #fef2f2; border-radius: 10px; text-align: center;
+  font-family: var(--font-ui); font-size: 0.82rem; color: var(--red);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ==================================================================
+     EDITOR MODE
+     ================================================================== -->
+<div id="mode-editor">
+  <header class="editor-header">
+    <div class="editor-logo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2a9 9 0 00-4 17.1V21h8v-1.9A9 9 0 0012 2z"/>
+        <path d="M9 21v1M15 21v1M9 12c0-1.7.5-3 3-4 2.5-1 3-2.3 3-4"/>
+      </svg>
+      Little Free Website
+    </div>
+    <div class="header-btns">
+      <button class="btn btn-ghost" id="btn-preview">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Preview
+      </button>
+      <button class="btn btn-primary" id="btn-publish">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/>
+        </svg>
+        Publish &amp; Get Link
+      </button>
+    </div>
+  </header>
+
+  <main class="editor-main">
+    <div class="site-title-wrap">
+      <input type="text" id="site-title" class="site-title-inp" placeholder="My Website" spellcheck="false" autocomplete="off" />
+    </div>
+
+    <div class="block-toolbar">
+      <span class="toolbar-label">Add</span>
+      <div class="toolbar-sep"></div>
+      <button class="btn-add" data-add="h1">H1</button>
+      <button class="btn-add" data-add="h2">H2</button>
+      <button class="btn-add" data-add="h3">H3</button>
+      <button class="btn-add" data-add="p">Paragraph</button>
+      <div class="toolbar-sep"></div>
+      <button class="btn-add" data-add="img">🖼 Image</button>
+      <div class="toolbar-sep"></div>
+      <button class="btn-add" data-add="ul">• List</button>
+      <button class="btn-add" data-add="ol">1. List</button>
+      <button class="btn-add" data-add="table">⊞ Table</button>
+      <div class="toolbar-sep"></div>
+      <button class="btn-add" data-add="hr">— Divider</button>
+    </div>
+
+    <div id="blocks-container" class="blocks-container"></div>
+
+    <div id="empty-state">
+      <div class="empty-icon">✍️</div>
+      <div class="empty-title">Your page is a blank canvas</div>
+      <div class="empty-sub">Click a button above to add your first block.<br>When you're done, hit <em>Publish &amp; Get Link</em>.</div>
+    </div>
+  </main>
+</div>
+
+<!-- ==================================================================
+     VIEWER MODE
+     ================================================================== -->
+<div id="mode-viewer" style="display:none">
+  <div class="viewer-page" id="viewer-content"></div>
+  <div class="viewer-footer">
+    Made with <a id="viewer-back" href="#">🌱 Little Free Website</a>
+    &nbsp;·&nbsp; All content is stored in the URL. No servers. No accounts.
+  </div>
+</div>
+
+<!-- ==================================================================
+     PUBLISH MODAL
+     ================================================================== -->
+<div id="modal-publish" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <div class="modal-title">Your site is live 🎉</div>
+    <div class="modal-sub">
+      This URL <em>is</em> your website — the entire page is encoded in the hash.
+      No server, no account, no expiry date. Anyone with this link can read it.
+    </div>
+    <div class="url-box">
+      <input type="text" id="pub-url" class="url-field" readonly />
+      <button class="btn btn-primary" id="btn-copy">Copy</button>
+    </div>
+    <div class="url-meta" id="url-meta"></div>
+    <div class="modal-acts">
+      <button class="btn" id="btn-open-tab">Open in new tab</button>
+      <button class="btn btn-primary" id="btn-modal-close">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- LZString: lossless text compression for the URL hash -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+<script>
+'use strict';
+
+// ====================================================================
+//  CONSTANTS
+// ====================================================================
+/** @const {number} */ const IMG_W          = 64;
+/** @const {number} */ const IMG_H          = 48;
+/** @const {number} */ const SCALE_EDITOR   = 2;    // 128×96 preview
+/** @const {number} */ const SCALE_VIEWER   = 5;    // 320×240 display
+/** @const {number} */ const MIN_HASH       = 12;   // min chars to treat hash as encoded data
+
+// ====================================================================
+//  EDITOR STATE
+// ====================================================================
+/** @type {Array<{id:number, type:string, data:Object}>} */
+let editorBlocks = [];
+/** @type {number} */
+let nextId = 1;
+
+// ====================================================================
+//  IMAGE PROCESSING  (Floyd-Steinberg dithering → 1-bit packed)
+// ====================================================================
+
+/**
+ * Floyd-Steinberg error-diffusion dithering (in-place).
+ * @param {Float32Array} g   Grayscale pixels, values 0.0–1.0
+ * @param {number} w
+ * @param {number} h
+ */
+function floydSteinberg(g, w, h) {
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const i   = y * w + x;
+      const old = Math.min(1.0, Math.max(0.0, g[i]));
+      const nv  = old < 0.5 ? 0.0 : 1.0;
+      g[i]      = nv;
+      const err = old - nv;
+      if (x + 1 < w)      g[i + 1]         += err * (7 / 16);
+      if (y + 1 < h) {
+        if (x > 0)         g[i + w - 1]     += err * (3 / 16);
+                           g[i + w]         += err * (5 / 16);
+        if (x + 1 < w)    g[i + w + 1]     += err * (1 / 16);
+      }
+    }
+  }
+}
+
+/**
+ * Convert RGBA Uint8ClampedArray to luminance Float32Array.
+ * @param {Uint8ClampedArray} rgba
+ * @returns {Float32Array}
+ */
+function toGray(rgba) {
+  const n = rgba.length >>> 2;
+  const g = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    g[i] = (0.299 * rgba[i*4] + 0.587 * rgba[i*4+1] + 0.114 * rgba[i*4+2]) / 255.0;
+  }
+  return g;
+}
+
+/**
+ * Pack a binary Float32Array (0.0 or 1.0) into a Uint8Array, MSB first.
+ * @param {Float32Array} bin
+ * @param {number} n  pixel count
+ * @returns {Uint8Array}
+ */
+function packBits(bin, n) {
+  const bytes = new Uint8Array((n + 7) >>> 3);
+  for (let i = 0; i < n; i++) {
+    if (bin[i] >= 0.5) bytes[i >>> 3] |= (128 >>> (i & 7));
+  }
+  return bytes;
+}
+
+/**
+ * Encode Uint8Array → base64 string.
+ * @param {Uint8Array} u8
+ * @returns {string}
+ */
+function toB64(u8) {
+  let s = '';
+  for (let i = 0; i < u8.length; i++) s += String.fromCharCode(u8[i]);
+  return btoa(s);
+}
+
+/**
+ * Process an HTMLImageElement → dithered block data.
+ * @param {HTMLImageElement} img
+ * @returns {{bits:string, w:number, h:number}}
+ */
+function processImgEl(img) {
+  const c   = document.createElement('canvas');
+  c.width   = IMG_W;
+  c.height  = IMG_H;
+  const ctx = /** @type {CanvasRenderingContext2D} */ (c.getContext('2d'));
+  ctx.drawImage(img, 0, 0, IMG_W, IMG_H);
+  const g = toGray(ctx.getImageData(0, 0, IMG_W, IMG_H).data);
+  floydSteinberg(g, IMG_W, IMG_H);
+  return { bits: toB64(packBits(g, IMG_W * IMG_H)), w: IMG_W, h: IMG_H };
+}
+
+/**
+ * Load a File → dithered block data.
+ * @param {File} file
+ * @returns {Promise<{bits:string, w:number, h:number}>}
+ */
+function processFile(file) {
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload  = e => {
+      const img = new Image();
+      img.onload  = () => res(processImgEl(img));
+      img.onerror = () => rej(new Error('Could not decode this image file.'));
+      img.src = /** @type {string} */ (e.target.result);
+    };
+    fr.onerror = () => rej(new Error('Could not read the file.'));
+    fr.readAsDataURL(file);
+  });
+}
+
+/**
+ * Fetch an image URL (cross-origin) → dithered block data.
+ * @param {string} url
+ * @returns {Promise<{bits:string, w:number, h:number}>}
+ */
+function processURL(url) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload  = () => res(processImgEl(img));
+    img.onerror = () => rej(new Error('Could not load image — the server may block cross-origin requests.'));
+    img.src = url;
+  });
+}
+
+/**
+ * Render packed 1-bit data to a scaled HTMLCanvasElement.
+ * 1-bit: 0 = ink (#1a1410), 1 = paper (#f5ede0).
+ * @param {string} b64   base64 packed bits
+ * @param {number} w
+ * @param {number} h
+ * @param {number} scale display scale factor
+ * @returns {HTMLCanvasElement}
+ */
+function bitsToCanvas(b64, w, h, scale) {
+  const raw    = atob(b64);
+  const packed = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) packed[i] = raw.charCodeAt(i);
+
+  const c   = document.createElement('canvas');
+  c.width   = w * scale;
+  c.height  = h * scale;
+  const ctx = /** @type {CanvasRenderingContext2D} */ (c.getContext('2d'));
+  const id  = ctx.createImageData(w * scale, h * scale);
+  const px  = id.data;
+
+  for (let py = 0; py < h; py++) {
+    for (let px2 = 0; px2 < w; px2++) {
+      const bi  = py * w + px2;
+      const bit = (packed[bi >>> 3] >>> (7 - (bi & 7))) & 1;
+      // Warm paper tone for 1, deep ink for 0
+      const r = bit ? 245 : 26,
+            g = bit ? 237 : 20,
+            b = bit ? 224 : 16;
+      for (let sy = 0; sy < scale; sy++) {
+        for (let sx = 0; sx < scale; sx++) {
+          const p = ((py * scale + sy) * (w * scale) + (px2 * scale + sx)) * 4;
+          px[p] = r;  px[p+1] = g;  px[p+2] = b;  px[p+3] = 255;
+        }
+      }
+    }
+  }
+  ctx.putImageData(id, 0, 0);
+  return c;
+}
+
+// ====================================================================
+//  DOCUMENT ENCODING / DECODING
+// ====================================================================
+
+/**
+ * @typedef {{t:string, c?:string, d?:string, w?:number, h?:number,
+ *            i?:string[], cols?:string[], rows?:string[][]}} SBlock
+ * @typedef {{v:number, title:string, blocks:SBlock[]}} SDoc
+ */
+
+/**
+ * Sync live DOM input values back into editorBlocks[].data.
+ * Must be called before any operation that re-renders the block list
+ * or reads the document state.
+ */
+function syncDOM() {
+  editorBlocks.forEach(b => {
+    const card = document.querySelector(`[data-bid="${b.id}"]`);
+    if (!card) return;
+    switch (b.type) {
+      case 'h1': case 'h2': case 'h3': {
+        const el = /** @type {HTMLInputElement|null} */ (card.querySelector('.h-inp'));
+        if (el) b.data.txt = el.value;
+        break;
+      }
+      case 'p': {
+        const el = /** @type {HTMLTextAreaElement|null} */ (card.querySelector('.textarea-p'));
+        if (el) b.data.txt = el.value;
+        break;
+      }
+      case 'ul': case 'ol': {
+        const els = card.querySelectorAll('.list-inp');
+        b.data.items = Array.from(els).map(e => /** @type {HTMLInputElement} */(e).value);
+        break;
+      }
+      case 'table': {
+        const hEls = card.querySelectorAll('.t-head-inp');
+        const dEls = card.querySelectorAll('.t-cell-inp');
+        const cols = Array.from(hEls).map(e => /** @type {HTMLInputElement} */(e).value);
+        b.data.cols = cols;
+        const nc = cols.length;
+        if (nc > 0) {
+          const nr   = Math.floor(dEls.length / nc);
+          const rows = [];
+          for (let r = 0; r < nr; r++) {
+            const row = [];
+            for (let c = 0; c < nc; c++) {
+              row.push(/** @type {HTMLInputElement} */(dEls[r * nc + c]).value);
+            }
+            rows.push(row);
+          }
+          b.data.rows = rows;
+        }
+        break;
+      }
+    }
+  });
+}
+
+/**
+ * Serialize the editor's current document and compress it for the URL hash.
+ * @returns {string}  URL-safe compressed string
+ */
+function encode() {
+  syncDOM();
+  const title = (/** @type {HTMLInputElement} */(document.getElementById('site-title'))).value.trim() || 'Untitled';
+
+  /** @type {SBlock[]} */
+  const out = [];
+  editorBlocks.forEach(b => {
+    switch (b.type) {
+      case 'h1': case 'h2': case 'h3':
+        out.push({ t: b.type, c: b.data.txt || '' });
+        break;
+      case 'p':
+        if ((b.data.txt || '').trim()) out.push({ t: 'p', c: b.data.txt });
+        break;
+      case 'img':
+        if (b.data.bits) out.push({ t: 'img', d: b.data.bits, w: b.data.w, h: b.data.h });
+        break;
+      case 'ul': case 'ol': {
+        const items = (b.data.items || []).filter(/** @param {string} s */ s => s.trim());
+        if (items.length) out.push({ t: b.type, i: items });
+        break;
+      }
+      case 'table':
+        if ((b.data.cols || []).length) out.push({ t: 'table', cols: b.data.cols, rows: b.data.rows || [] });
+        break;
+      case 'hr':
+        out.push({ t: 'hr' });
+        break;
+    }
+  });
+
+  /** @type {SDoc} */
+  const doc = { v: 1, title, blocks: out };
+  return LZString.compressToEncodedURIComponent(JSON.stringify(doc));
+}
+
+/**
+ * Decompress and parse a URL hash into a SDoc.
+ * @param {string} hash
+ * @returns {SDoc|null}
+ */
+function decode(hash) {
+  try {
+    const json = LZString.decompressFromEncodedURIComponent(hash);
+    return json ? /** @type {SDoc} */ (JSON.parse(json)) : null;
+  } catch (_) { return null; }
+}
+
+// ====================================================================
+//  EDITOR BLOCK MANAGEMENT
+// ====================================================================
+
+/** @type {Record<string,string>} */
+const BLOCK_LABEL = {
+  h1: 'H1 — Heading',  h2: 'H2 — Heading',  h3: 'H3 — Heading',
+  p:  'Paragraph',     img: 'Image',
+  ul: 'Bullet List',   ol: 'Numbered List',
+  table: 'Table',      hr: 'Divider',
+};
+
+/**
+ * Add a new block of the given type.
+ * @param {string} type
+ */
+function addBlock(type) {
+  /** @type {Object} */ const data = {};
+  if (type === 'ul' || type === 'ol') data.items = [''];
+  if (type === 'table') { data.cols = ['Column 1', 'Column 2']; data.rows = [['',''],['','']]; }
+
+  const id = nextId++;
+  editorBlocks.push({ id, type, data });
+  appendCard({ id, type, data });
+  setEmptyState(false);
+
+  // Auto-focus the first input in the new block
+  setTimeout(() => {
+    const card = document.querySelector(`[data-bid="${id}"]`);
+    if (!card) return;
+    const inp = /** @type {HTMLElement|null} */ (card.querySelector('input, textarea'));
+    if (inp) inp.focus();
+  }, 60);
+}
+
+/**
+ * Delete a block by id.
+ * @param {number} id
+ */
+function deleteBlock(id) {
+  syncDOM();
+  editorBlocks = editorBlocks.filter(b => b.id !== id);
+  document.querySelector(`[data-bid="${id}"]`)?.remove();
+  setEmptyState(editorBlocks.length === 0);
+}
+
+/**
+ * Move a block up (-1) or down (1).
+ * @param {number} id
+ * @param {-1|1} dir
+ */
+function moveBlock(id, dir) {
+  syncDOM();
+  const i = editorBlocks.findIndex(b => b.id === id);
+  if (i < 0) return;
+  const j = i + dir;
+  if (j < 0 || j >= editorBlocks.length) return;
+  [editorBlocks[i], editorBlocks[j]] = [editorBlocks[j], editorBlocks[i]];
+  rebuildAll();
+}
+
+/** @param {boolean} show */
+function setEmptyState(show) {
+  const el = document.getElementById('empty-state');
+  if (el) el.style.display = show ? 'flex' : 'none';
+}
+
+/**
+ * Re-render all block cards from current editorBlocks state.
+ * Call syncDOM() before this if you need to preserve live input values.
+ */
+function rebuildAll() {
+  const c = document.getElementById('blocks-container');
+  if (!c) return;
+  c.innerHTML = '';
+  editorBlocks.forEach(b => appendCard(b));
+  // Restore auto-height on all textareas
+  setTimeout(() => {
+    document.querySelectorAll('.textarea-p').forEach(el => {
+      const ta = /** @type {HTMLTextAreaElement} */(el);
+      ta.style.height = 'auto';
+      ta.style.height = ta.scrollHeight + 'px';
+    });
+  }, 0);
+}
+
+// ====================================================================
+//  BLOCK CARD DOM BUILDERS
+// ====================================================================
+
+/**
+ * Build the content area for an image block.
+ * Shows the drop-zone if no image is loaded, preview otherwise.
+ * @param {{id:number, type:string, data:Object}} block
+ * @returns {HTMLElement}
+ */
+function buildImgContent(block) {
+  const wrap = document.createElement('div');
+
+  if (block.data.bits) {
+    // ---- Dithered preview ----
+    const pv   = document.createElement('div');
+    pv.className = 'img-preview';
+
+    const cv = bitsToCanvas(block.data.bits, block.data.w, block.data.h, SCALE_EDITOR);
+    cv.className = 'img-prev-canvas';
+
+    const meta = document.createElement('div');
+    meta.className = 'img-prev-meta';
+    meta.textContent = `${block.data.w}×${block.data.h}px — ${block.data.bits.length} encoded characters`;
+
+    const repl = document.createElement('button');
+    repl.className = 'btn btn-sm';
+    repl.textContent = 'Replace image';
+    repl.addEventListener('click', () => {
+      block.data.bits = null;
+      refreshImgBlock(block);
+    });
+
+    pv.append(cv, meta, repl);
+    wrap.appendChild(pv);
+
+  } else {
+    // ---- Drop zone ----
+    const zone = document.createElement('div');
+    zone.className = 'img-drop-zone';
+
+    zone.innerHTML = `
+      <div class="drop-icon">🖼</div>
+      <div class="drop-title">Drop an image here, or click to browse</div>
+      <div class="drop-sub">JPEG · PNG · WebP · GIF — any resolution</div>
+      <div class="drop-url-row">
+        <input class="drop-url-inp" type="text" placeholder="…or paste an image URL" />
+        <button class="btn-url-load">Load URL</button>
+      </div>
+      <div class="drop-note">✦ Images are resized to 64×48 px, converted to black &amp; white, and dithered using Floyd-Steinberg. This compressed art style is what keeps the URL short.</div>
+      <div class="img-err"></div>
+    `;
+
+    const errEl  = /** @type {HTMLElement} */       (zone.querySelector('.img-err'));
+    const urlInp = /** @type {HTMLInputElement} */   (zone.querySelector('.drop-url-inp'));
+    const loadBt = /** @type {HTMLButtonElement} */  (zone.querySelector('.btn-url-load'));
+
+    /**
+     * Run a processing promise and handle loading / error states.
+     * @param {Promise<{bits:string,w:number,h:number}>} p
+     */
+    const run = async (p) => {
+      errEl.style.display = 'none';
+      zone.classList.add('loading');
+      try {
+        block.data = await p;
+        refreshImgBlock(block);
+      } catch (/** @type {any} */ e) {
+        errEl.textContent = e.message;
+        errEl.style.display = 'block';
+        zone.classList.remove('loading');
+      }
+    };
+
+    // Drag-and-drop onto the zone
+    zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', e => { if (!zone.contains(/** @type {Node} */(e.relatedTarget))) zone.classList.remove('drag-over'); });
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      const f = e.dataTransfer?.files?.[0];
+      if (f && f.type.startsWith('image/')) run(processFile(f));
+    });
+
+    // Click anywhere in zone (except URL controls) → file picker
+    zone.addEventListener('click', e => {
+      const t = /** @type {HTMLElement} */(e.target);
+      if (t === urlInp || t === loadBt) return;
+      const fi = document.createElement('input');
+      fi.type = 'file'; fi.accept = 'image/*';
+      fi.onchange = () => { if (fi.files?.[0]) run(processFile(fi.files[0])); };
+      fi.click();
+    });
+
+    // URL load button / Enter key
+    const tryURL = () => { const u = urlInp.value.trim(); if (u) run(processURL(u)); };
+    loadBt.addEventListener('click',   e => { e.stopPropagation(); tryURL(); });
+    urlInp.addEventListener('keydown', e => { if (e.key === 'Enter') tryURL(); });
+    urlInp.addEventListener('click',   e => e.stopPropagation());
+
+    wrap.appendChild(zone);
+  }
+  return wrap;
+}
+
+/**
+ * Replace only the image content area without re-building the whole card.
+ * @param {{id:number, type:string, data:Object}} block
+ */
+function refreshImgBlock(block) {
+  const card = document.querySelector(`[data-bid="${block.id}"]`);
+  const body = card?.querySelector('.block-body');
+  if (body) { body.innerHTML = ''; body.appendChild(buildImgContent(block)); }
+}
+
+/**
+ * Build the list editor (ul / ol) content area.
+ * Handles Enter/Backspace keyboard navigation for a native-feeling list editor.
+ * @param {{id:number, type:string, data:Object}} block
+ * @returns {HTMLElement}
+ */
+function buildListContent(block) {
+  const wrap  = document.createElement('div');
+  wrap.className = 'list-editor';
+  if (!block.data.items) block.data.items = [''];
+  const items = /** @type {string[]} */(block.data.items);
+
+  const render = () => {
+    wrap.innerHTML = '';
+    items.forEach((item, idx) => {
+      const row  = document.createElement('div');
+      row.className = 'list-row';
+
+      const bull = document.createElement('span');
+      bull.className = 'list-bullet';
+      bull.textContent = block.type === 'ul' ? '•' : `${idx + 1}.`;
+
+      const inp  = document.createElement('input');
+      inp.type = 'text'; inp.className = 'list-inp';
+      inp.value = item; inp.placeholder = `Item ${idx + 1}`;
+      inp.addEventListener('input', () => { items[idx] = inp.value; });
+      inp.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          items.splice(idx + 1, 0, '');
+          render();
+          setTimeout(() => /** @type {HTMLInputElement|undefined} */(wrap.querySelectorAll('.list-inp')[idx + 1])?.focus(), 0);
+        } else if (e.key === 'Backspace' && inp.value === '' && items.length > 1) {
+          e.preventDefault();
+          items.splice(idx, 1);
+          render();
+          setTimeout(() => /** @type {HTMLInputElement|undefined} */(wrap.querySelectorAll('.list-inp')[Math.max(0, idx - 1)])?.focus(), 0);
+        }
+      });
+
+      const del  = document.createElement('button');
+      del.className = 'btn-del-item'; del.textContent = '×';
+      del.addEventListener('click', () => { if (items.length > 1) { items.splice(idx, 1); render(); } });
+
+      row.append(bull, inp, del);
+      wrap.appendChild(row);
+    });
+
+    const addBtn = document.createElement('button');
+    addBtn.className = 'btn-add-item'; addBtn.textContent = '+ Add item';
+    addBtn.addEventListener('click', () => {
+      items.push(''); render();
+      setTimeout(() => {
+        const all = wrap.querySelectorAll('.list-inp');
+        /** @type {HTMLInputElement|undefined} */(all[all.length - 1])?.focus();
+      }, 0);
+    });
+    wrap.appendChild(addBtn);
+  };
+
+  render();
+  return wrap;
+}
+
+/**
+ * Build the table editor content area.
+ * Supports add/remove rows and columns dynamically.
+ * @param {{id:number, type:string, data:Object}} block
+ * @returns {HTMLElement}
+ */
+function buildTableContent(block) {
+  const wrap = document.createElement('div');
+  wrap.className = 'table-editor';
+  if (!block.data.cols) block.data.cols = ['Column 1', 'Column 2'];
+  if (!block.data.rows) block.data.rows = [['', '']];
+  const cols = /** @type {string[]} */(block.data.cols);
+  const rows = /** @type {string[][]} */(block.data.rows);
+
+  const render = () => {
+    wrap.innerHTML = '';
+
+    // Header row
+    const hr = document.createElement('div');
+    hr.className = 't-row';
+    cols.forEach((col, ci) => {
+      const cell = document.createElement('div');
+      cell.className = 't-cell';
+      const inp = document.createElement('input');
+      inp.type = 'text'; inp.className = 't-head-inp';
+      inp.value = col; inp.placeholder = `Header ${ci + 1}`;
+      inp.addEventListener('input', () => { cols[ci] = inp.value; });
+      const del = document.createElement('button');
+      del.className = 'btn-del-col'; del.textContent = '×'; del.title = 'Remove column';
+      del.addEventListener('click', e => {
+        e.stopPropagation();
+        if (cols.length <= 1) return;
+        cols.splice(ci, 1);
+        rows.forEach(r => r.splice(ci, 1));
+        render();
+      });
+      cell.append(inp, del);
+      hr.appendChild(cell);
+    });
+    const addCol = document.createElement('div');
+    addCol.className = 't-add-col'; addCol.textContent = '+'; addCol.title = 'Add column';
+    addCol.addEventListener('click', () => { cols.push(`Col ${cols.length + 1}`); rows.forEach(r => r.push('')); render(); });
+    hr.appendChild(addCol);
+    wrap.appendChild(hr);
+
+    // Data rows
+    rows.forEach((row, ri) => {
+      const dr = document.createElement('div');
+      dr.className = 't-row';
+      row.forEach((val, ci) => {
+        const cell = document.createElement('div');
+        cell.className = 't-cell';
+        const inp = document.createElement('input');
+        inp.type = 'text'; inp.className = 't-cell-inp';
+        inp.value = val; inp.placeholder = '…';
+        inp.addEventListener('input', () => { rows[ri][ci] = inp.value; });
+        cell.appendChild(inp);
+        dr.appendChild(cell);
+      });
+      const del = document.createElement('div');
+      del.className = 'btn-del-row'; del.textContent = '×'; del.title = 'Remove row';
+      del.addEventListener('click', () => { if (rows.length > 1) { rows.splice(ri, 1); render(); } });
+      dr.appendChild(del);
+      wrap.appendChild(dr);
+    });
+
+    const addRow = document.createElement('button');
+    addRow.className = 'btn-add-row'; addRow.textContent = '+ Add row';
+    addRow.addEventListener('click', () => { rows.push(new Array(cols.length).fill('')); render(); });
+    wrap.appendChild(addRow);
+  };
+
+  render();
+  return wrap;
+}
+
+/**
+ * Create a full block card element (header + body) for a given block.
+ * @param {{id:number, type:string, data:Object}} block
+ * @returns {HTMLElement}
+ */
+function createCard(block) {
+  const card = document.createElement('div');
+  card.className = 'block-card';
+  card.dataset.bid = String(block.id);
+  card.draggable = true;
+
+  // ---- Drag-to-reorder ----
+  card.addEventListener('dragstart', e => {
+    e.dataTransfer?.setData('text/plain', String(block.id));
+    setTimeout(() => card.classList.add('is-dragging'), 0);
+  });
+  card.addEventListener('dragend', () => card.classList.remove('is-dragging'));
+  card.addEventListener('dragover', e => { e.preventDefault(); card.classList.add('drag-over'); });
+  card.addEventListener('dragleave', e => {
+    if (!card.contains(/** @type {Node} */(e.relatedTarget))) card.classList.remove('drag-over');
+  });
+  card.addEventListener('drop', e => {
+    e.preventDefault();
+    card.classList.remove('drag-over');
+    const fromId = parseInt(e.dataTransfer?.getData('text/plain') || '-1');
+    if (fromId < 0 || fromId === block.id) return;
+    syncDOM();
+    const fi = editorBlocks.findIndex(b => b.id === fromId);
+    const ti = editorBlocks.findIndex(b => b.id === block.id);
+    if (fi < 0 || ti < 0) return;
+    const [moved] = editorBlocks.splice(fi, 1);
+    editorBlocks.splice(ti, 0, moved);
+    rebuildAll();
+  });
+
+  // ---- Header ----
+  const head = document.createElement('div');
+  head.className = 'block-head';
+
+  const lbl  = document.createElement('span');
+  lbl.className = 'block-label';
+  lbl.innerHTML = `<span class="block-dot"></span>${BLOCK_LABEL[block.type] || block.type}`;
+
+  const acts = document.createElement('div');
+  acts.className = 'block-acts';
+
+  /** @param {string} t @param {string} title @param {()=>void} fn */
+  const ctrl = (t, title, fn) => {
+    const b = document.createElement('button');
+    b.className = 'btn-ctrl'; b.textContent = t; b.title = title;
+    b.addEventListener('click', fn); return b;
+  };
+  const delB = document.createElement('button');
+  delB.className = 'btn-del'; delB.textContent = '×'; delB.title = 'Delete block';
+  delB.addEventListener('click', () => deleteBlock(block.id));
+
+  acts.append(ctrl('↑','Move up',() => moveBlock(block.id, -1)), ctrl('↓','Move down',() => moveBlock(block.id, 1)), delB);
+  head.append(lbl, acts);
+  card.appendChild(head);
+
+  // ---- Body ----
+  const body = document.createElement('div');
+  body.className = 'block-body';
+
+  switch (block.type) {
+    case 'h1': case 'h2': case 'h3': {
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = `h-inp inp-${block.type}`;
+      inp.placeholder = block.type.toUpperCase() + ' heading text';
+      inp.value = block.data.txt || '';
+      inp.addEventListener('input', () => { block.data.txt = inp.value; });
+      body.appendChild(inp);
+      break;
+    }
+    case 'p': {
+      const ta = document.createElement('textarea');
+      ta.className = 'textarea-p';
+      ta.placeholder = 'Write your paragraph here…';
+      ta.rows = 3;
+      ta.value = block.data.txt || '';
+      ta.addEventListener('input', () => {
+        block.data.txt = ta.value;
+        ta.style.height = 'auto';
+        ta.style.height = ta.scrollHeight + 'px';
+      });
+      body.appendChild(ta);
+      // Auto-size on next tick after insertion
+      setTimeout(() => { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }, 0);
+      break;
+    }
+    case 'img':   body.appendChild(buildImgContent(block));  break;
+    case 'ul':
+    case 'ol':    body.appendChild(buildListContent(block)); break;
+    case 'table': body.appendChild(buildTableContent(block)); break;
+    case 'hr': {
+      const pv = document.createElement('div');
+      pv.className = 'hr-preview'; pv.innerHTML = '<hr>';
+      body.appendChild(pv); break;
+    }
+  }
+
+  card.appendChild(body);
+  return card;
+}
+
+/**
+ * Create a card and append it to the blocks-container.
+ * @param {{id:number, type:string, data:Object}} block
+ */
+function appendCard(block) {
+  const c = document.getElementById('blocks-container');
+  if (c) c.appendChild(createCard(block));
+}
+
+// ====================================================================
+//  VIEWER RENDERING
+// ====================================================================
+
+/**
+ * Render a SBlock as a viewer DOM element.
+ * All text content is set via textContent (XSS-safe).
+ * @param {SBlock} block
+ * @returns {HTMLElement}
+ */
+function renderViewBlock(block) {
+  switch (block.t) {
+    case 'h1': case 'h2': case 'h3': {
+      const el = document.createElement(block.t);
+      el.textContent = block.c || '';
+      return el;
+    }
+    case 'p': {
+      const el = document.createElement('p');
+      el.textContent = block.c || '';
+      return el;
+    }
+    case 'img': {
+      const fig = document.createElement('figure');
+      fig.className = 'view-figure';
+      if (block.d && block.w && block.h) {
+        const cv = bitsToCanvas(block.d, block.w, block.h, SCALE_VIEWER);
+        cv.className = 'view-img-canvas';
+        cv.style.maxWidth = '100%';
+        fig.appendChild(cv);
+      }
+      return fig;
+    }
+    case 'ul': case 'ol': {
+      const list = document.createElement(block.t);
+      (block.i || []).forEach(txt => {
+        const li = document.createElement('li');
+        li.textContent = txt;
+        list.appendChild(li);
+      });
+      return list;
+    }
+    case 'table': {
+      const wrap  = document.createElement('div');
+      wrap.className = 'table-wrap';
+      const table = document.createElement('table');
+      if (block.cols?.length) {
+        const thead = table.createTHead();
+        const tr    = thead.insertRow();
+        block.cols.forEach(c => {
+          const th = document.createElement('th');
+          th.textContent = c; tr.appendChild(th);
+        });
+      }
+      if (block.rows?.length) {
+        const tbody = table.createTBody();
+        block.rows.forEach(row => {
+          const tr = tbody.insertRow();
+          row.forEach(cell => { tr.insertCell().textContent = cell; });
+        });
+      }
+      wrap.appendChild(table);
+      return wrap;
+    }
+    case 'hr': return document.createElement('hr');
+    default:   return document.createElement('span');
+  }
+}
+
+/**
+ * Render a full SDoc into the viewer-content element.
+ * @param {SDoc} doc
+ */
+function renderDoc(doc) {
+  document.title = `${doc.title || 'Untitled'} · Little Free Website`;
+  const root = document.getElementById('viewer-content');
+  if (!root) return;
+  root.innerHTML = '';
+
+  const titleEl = document.createElement('h1');
+  titleEl.className = 'view-site-title';
+  titleEl.textContent = doc.title || 'Untitled';
+  root.appendChild(titleEl);
+
+  (doc.blocks || []).forEach(b => root.appendChild(renderViewBlock(b)));
+}
+
+// ====================================================================
+//  PUBLISH MODAL
+// ====================================================================
+
+function openModal() {
+  const hash    = encode();
+  const fullURL = `${location.origin}${location.pathname}#${hash}`;
+  const modal   = document.getElementById('modal-publish');
+  const field   = /** @type {HTMLInputElement|null} */ (document.getElementById('pub-url'));
+  const meta    = document.getElementById('url-meta');
+  if (!modal || !field) return;
+
+  field.value = fullURL;
+  if (meta) {
+    const kb     = (new Blob([fullURL]).size / 1024).toFixed(1);
+    const hChars = hash.length.toLocaleString();
+    meta.textContent = `${hChars} characters · ${kb} KB · entire site stored in this URL`;
+  }
+
+  modal.style.display = 'flex';
+  setTimeout(() => { field.focus(); field.select(); }, 60);
+}
+
+function closeModal() {
+  const m = document.getElementById('modal-publish');
+  if (m) m.style.display = 'none';
+}
+
+// ====================================================================
+//  EVENT WIRING (editor mode only)
+// ====================================================================
+
+function wireEditor() {
+  // Toolbar block-add buttons
+  document.querySelectorAll('[data-add]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = /** @type {HTMLElement} */(btn).dataset.add;
+      if (type) addBlock(type);
+    });
+  });
+
+  // Header buttons
+  document.getElementById('btn-publish')?.addEventListener('click', openModal);
+  document.getElementById('btn-preview')?.addEventListener('click', () => {
+    window.open(`${location.pathname}#${encode()}`, '_blank');
+  });
+
+  // Modal interactions
+  document.getElementById('btn-copy')?.addEventListener('click', async () => {
+    const f = /** @type {HTMLInputElement|null} */(document.getElementById('pub-url'));
+    if (!f) return;
+    try { await navigator.clipboard.writeText(f.value); }
+    catch (_) { f.select(); document.execCommand('copy'); }
+    const btn = document.getElementById('btn-copy');
+    if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => { btn.textContent = 'Copy'; }, 2200); }
+  });
+
+  document.getElementById('btn-open-tab')?.addEventListener('click', () => {
+    const f = /** @type {HTMLInputElement|null} */(document.getElementById('pub-url'));
+    if (f) window.open(f.value, '_blank');
+  });
+
+  document.getElementById('btn-modal-close')?.addEventListener('click', closeModal);
+  document.getElementById('modal-publish')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+}
+
+// ====================================================================
+//  INIT — dispatch to editor or viewer based on URL hash
+// ====================================================================
+
+function init() {
+  if (typeof LZString === 'undefined') {
+    document.body.innerHTML = `
+      <div style="padding:48px;text-align:center;font-family:monospace;color:#dc2626;font-size:.9rem">
+        ⚠ Required library (LZString) failed to load.<br>
+        Check your internet connection and refresh the page.
+      </div>`;
+    return;
+  }
+
+  const hash  = location.hash.slice(1);
+  const edEl  = document.getElementById('mode-editor');
+  const vwEl  = document.getElementById('mode-viewer');
+
+  if (hash.length >= MIN_HASH) {
+    // ==== VIEWER MODE ====
+    if (edEl) edEl.style.display = 'none';
+    if (vwEl) vwEl.style.display = 'block';
+
+    // Back link just strips the hash
+    const backLink = /** @type {HTMLAnchorElement|null} */(document.getElementById('viewer-back'));
+    if (backLink) backLink.href = location.pathname;
+
+    const doc = decode(hash);
+    if (doc) {
+      renderDoc(doc);
+    } else {
+      const root = document.getElementById('viewer-content');
+      if (root) root.innerHTML = `<div class="view-error">⚠ Could not decode this site. The URL may be damaged or incomplete.</div>`;
+    }
+  } else {
+    // ==== EDITOR MODE ====
+    if (edEl) edEl.style.display = 'block';
+    if (vwEl) vwEl.style.display = 'none';
+    wireEditor();
+    setEmptyState(true);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
