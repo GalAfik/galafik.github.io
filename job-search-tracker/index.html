@@ -206,21 +206,51 @@
           productivity during your job search.
         </p>
       </div>
-      <div class="screenshots">
-        <div class="screenshot-main">
-          <img src="img/Main.png" alt="Job Search Tracker Main Window" />
-        </div>
-        <div class="screenshot-thumbs">
-          <div class="screenshot-thumb">
+      <div class="carousel-container">
+        <div class="carousel">
+          <div class="carousel-slide active">
+            <img src="img/Main.png" alt="Job Search Tracker Main Window" />
+            <div class="carousel-caption">Main Dashboard</div>
+          </div>
+          <div class="carousel-slide">
             <img src="img/Analytics.png" alt="Analytics Dashboard" />
+            <div class="carousel-caption">Analytics & Insights</div>
           </div>
-          <div class="screenshot-thumb">
+          <div class="carousel-slide">
             <img src="img/Interview.png" alt="Interview Tracking" />
+            <div class="carousel-caption">Interview Management</div>
           </div>
-          <div class="screenshot-thumb">
+          <div class="carousel-slide">
             <img src="img/AI.png" alt="AI Job Scraping" />
+            <div class="carousel-caption">AI-Powered Job Scraping</div>
           </div>
         </div>
+        <button
+          class="carousel-nav carousel-prev"
+          aria-label="Previous screenshot"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button class="carousel-nav carousel-next" aria-label="Next screenshot">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+        <div class="carousel-dots"></div>
       </div>
     </section>
 
@@ -875,6 +905,86 @@
           }
         });
       });
+
+      // Carousel functionality
+      (function initCarousel() {
+        const slides = document.querySelectorAll(".carousel-slide");
+        const dotsContainer = document.querySelector(".carousel-dots");
+        const prevBtn = document.querySelector(".carousel-prev");
+        const nextBtn = document.querySelector(".carousel-next");
+        let currentSlide = 0;
+
+        // Create dots
+        slides.forEach((_, index) => {
+          const dot = document.createElement("div");
+          dot.classList.add("carousel-dot");
+          if (index === 0) dot.classList.add("active");
+          dot.addEventListener("click", () => goToSlide(index));
+          dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll(".carousel-dot");
+
+        function goToSlide(n) {
+          slides[currentSlide].classList.remove("active");
+          dots[currentSlide].classList.remove("active");
+          currentSlide = (n + slides.length) % slides.length;
+          slides[currentSlide].classList.add("active");
+          dots[currentSlide].classList.add("active");
+        }
+
+        function nextSlide() {
+          goToSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+          goToSlide(currentSlide - 1);
+        }
+
+        // Event listeners
+        nextBtn.addEventListener("click", nextSlide);
+        prevBtn.addEventListener("click", prevSlide);
+
+        // Keyboard navigation
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowLeft") prevSlide();
+          if (e.key === "ArrowRight") nextSlide();
+        });
+
+        // Auto-play (optional, 5 seconds interval)
+        let autoplayInterval = setInterval(nextSlide, 5000);
+
+        // Pause autoplay on hover
+        const carouselContainer = document.querySelector(".carousel-container");
+        carouselContainer.addEventListener("mouseenter", () => {
+          clearInterval(autoplayInterval);
+        });
+        carouselContainer.addEventListener("mouseleave", () => {
+          autoplayInterval = setInterval(nextSlide, 5000);
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const carousel = document.querySelector(".carousel");
+
+        carousel.addEventListener("touchstart", (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener("touchend", (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        });
+
+        function handleSwipe() {
+          if (touchStartX - touchEndX > 50) {
+            nextSlide();
+          } else if (touchEndX - touchStartX > 50) {
+            prevSlide();
+          }
+        }
+      })();
     </script>
   </body>
 </html>

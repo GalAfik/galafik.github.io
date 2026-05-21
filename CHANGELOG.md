@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Job Search Tracker updated to version 0.1.9
 - Added version 0.1.7 to older versions download section
+- Screenshots section converted to interactive carousel with navigation controls and auto-play
 
 ---
 
