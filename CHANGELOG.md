@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- Job Search Tracker updated to version 0.1.9
+- Added version 0.1.7 to older versions download section
+
+---
+
 ## [2.1.0] - 2026-03-27
 
 ### Added
