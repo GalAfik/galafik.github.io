@@ -2949,6 +2949,54 @@
           class="proj-card fade-up"
           data-cat="systems"
           style="
+            --pc: #1a3a6b;
+            border: 2px solid #1a3a6b;
+            box-shadow: 0 0 30px rgba(26, 58, 107, 0.2);
+          "
+        >
+          <div
+            class="proj-banner"
+            style="
+              background: linear-gradient(
+                135deg,
+                rgba(26, 58, 107, 0.15),
+                rgba(219, 231, 251, 0.65)
+              );
+            "
+          ></div>
+          <div class="proj-body">
+            <div class="proj-cat" style="color: #1a3a6b">
+              Free Desktop App &mdash; Household Finance
+            </div>
+            <div class="proj-title">Expense Tracker</div>
+            <p class="proj-desc">
+              Free Windows desktop application for tracking monthly household
+              bills and expenses. Choose a month, add expenses, mark bills as
+              paid, and instantly see a live summary of Total Expenses, Total
+              Paid, and Still To Pay. Designed for clear, easy use with large
+              text and straightforward labels.
+            </p>
+            <div class="proj-footer">
+              <div class="proj-tags">
+                <span class="proj-tag">WPF</span
+                ><span class="proj-tag">C# / .NET 10</span
+                ><span class="proj-tag">MVVM</span
+                ><span class="proj-tag">Local JSON Storage</span>
+              </div>
+              <a
+                href="expense-tracker/"
+                class="proj-link"
+                style="color: #1a3a6b; font-weight: 600"
+                onclick="trackExpenseTrackerClick()"
+                >Download &amp; Learn More &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          class="proj-card fade-up"
+          data-cat="systems"
+          style="
             --pc: var(--cyan);
             border: 2px solid var(--cyan);
             box-shadow: 0 0 30px rgba(0, 245, 212, 0.3);
@@ -3902,6 +3950,16 @@
           gtag("event", "click", {
             event_category: "Job Search Tracker",
             event_label: "Visit Job Tracker Page",
+            value: 1,
+          });
+        }
+      }
+
+      function trackExpenseTrackerClick() {
+        if (typeof gtag !== "undefined") {
+          gtag("event", "click", {
+            event_category: "Expense Tracker",
+            event_label: "Visit Expense Tracker Page",
             value: 1,
           });
         }
