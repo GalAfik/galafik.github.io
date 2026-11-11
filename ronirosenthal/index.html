@@ -994,11 +994,13 @@
           <div class="reveal" style="transition-delay:.15s">
             <!--
               MAINTAINER NOTE:
-              Wire this form to a backend by setting action="https://formspree.io/f/YOUR_ID"
-              method="POST" on the <form> element, or replace the fetch() call in the JS below.
+              Submissions go to Netlify Forms (the site's Forms tab).
             -->
             <form class="contact-form" id="contact-form" novalidate
+                  name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field"
                   aria-label="Contact form for Dr. Roni Rosenthal">
+              <input type="hidden" name="form-name" value="contact" />
+              <p hidden><label>Leave this empty: <input name="bot-field" /></label></p>
 
               <div class="form-row">
                 <div class="form-group">
@@ -1218,13 +1220,14 @@
         btn.textContent = 'Sending…';
 
         try {
-          /*
-           * MAINTAINER NOTE: Replace this URL with your actual form backend.
-           * Example: 'https://formspree.io/f/YOUR_FORM_ID'
-           */
-          const payload = Object.fromEntries(new FormData(cForm).entries());
-          console.info('[Contact] Payload (wire to backend):', payload);
-          await new Promise(r => setTimeout(r, 750));
+          // Netlify Forms: submissions appear under the site's Forms tab in Netlify.
+          const body = new URLSearchParams(/** @type {any} */ (new FormData(cForm))).toString();
+          const res = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body,
+          });
+          if (!res.ok) throw new Error('Form submission failed: ' + res.status);
 
           showStatus('Thank you — Dr. Rosenthal will be in touch soon.', 'success');
           cForm.reset();
